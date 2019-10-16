@@ -302,5 +302,15 @@ input          TD_CLK27;            //	TV Decoder 27MHz CLK
 inout	[35:0]	GPIO_0;					//	GPIO Connection 0
 inout	[35:0]	GPIO_1;					//	GPIO Connection 1
 
-	
+	wire[31:0] PC, Instruction, BranchAddr;
+	wire freeze, Branch_taken, flush;
+	assign freeze = 1'b0;
+	assign Branch_taken = 1'b0;
+	assign flush = 1'b0;
+	assign BranchAddr = 32'b0;
+
+	IF_Stage (.clk(CLOCK_50), .rst(SW[7]), .freeze(freeze), .Branch_taken(Branch_taken), .BranchAddr(BranchAddr), .PC(PC), .Instruction(Instruction));
+	IF_Stage_Reg (.clk(CLOCK_50), .rst(SW[7]), .freeze(freeze), .flush(flush), .PC_in(PC), .Instruction_in(Instruction));
+
+
 endmodule

@@ -5,5 +5,13 @@ module EXE_Stage_Reg(
   output reg[31:0] PC
 );
 
+  always@(posedge clk, posedge rst) begin
+    if(rst) begin
+      PC <= 0;
+    end
+    else begin
+      PC <= PC_in;
+    end
+  end
 
 endmodule
