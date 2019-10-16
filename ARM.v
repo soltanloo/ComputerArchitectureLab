@@ -311,6 +311,23 @@ inout	[35:0]	GPIO_1;					//	GPIO Connection 1
 
 	IF_Stage (.clk(CLOCK_50), .rst(SW[7]), .freeze(freeze), .Branch_taken(Branch_taken), .BranchAddr(BranchAddr), .PC(PC), .Instruction(Instruction));
 	IF_Stage_Reg (.clk(CLOCK_50), .rst(SW[7]), .freeze(freeze), .flush(flush), .PC_in(PC), .Instruction_in(Instruction));
+	
+	wire ID_Stage_Reg_PC_out, ID_Stage_PC_out;
+	wire EXE_Stage_Reg_PC_out, EXE_Stage_PC_out;
+	wire MEM_Stage_Reg_PC_out, MEM_Stage_PC_out;
+	wire WB_Stage_Reg_PC_out, WB_Stage_PC_out;
+
+	ID_Stage (.clk(CLOCK_50), .rst(SW[7]), .PC_in(PC), .PC(ID_Stage_PC_out));
+	ID_Stage_Reg (.clk(CLOCK_50), .rst(SW[7]), .PC_in(ID_Stage_PC_out), .PC(ID_Stage_Reg_PC_out));
+
+	EXE_Stage (.clk(CLOCK_50), .rst(SW[7]), .PC_in(ID_Stage_Reg_PC_out), .PC(EXE_Stage_PC_out));
+	EXE_Stage_Reg (.clk(CLOCK_50), .rst(SW[7]), .PC_in(EXE_Stage_PC_out), .PC(EXE_Stage_Reg_PC_out));
+
+	MEM_Stage (.clk(CLOCK_50), .rst(SW[7]), .PC_in(EXE_Stage_Reg_PC_out), .PC(MEM_Stage_PC_out));
+	MEM_Stage_Reg (.clk(CLOCK_50), .rst(SW[7]), .PC_in(MEM_Stage_PC_out), .PC(MEM_Stage_Reg_PC_out));
+
+	WB_Stage (.clk(CLOCK_50), .rst(SW[7]), .PC_in(MEM_Stage_Reg_PC_out), .PC(WB_Stage_PC_out));
+	WB_Stage_Reg (.clk(CLOCK_50), .rst(SW[7]), .PC_in(WB_Stage_PC_out), .PC(WB_Stage_Reg_PC_out));
 
 
 endmodule
