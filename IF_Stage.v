@@ -15,9 +15,9 @@ module IF_Stage(
   assign pcMem[5] = 32'b000000_01101_01110_00000_00000000000;
 
   reg32 pc(.clk(clk), .rst(rst), .en(~freeze), .reg_in(pc_in), .reg_out(pc_out));
-  assign PC = pc_out + 4;
-  assign pc_in = Branch_taken ? BranchAddr : PC;
-  assign Instruction = freeze ? pcMem[PC] : 32'bz;
+  assign PC = pc_out + 1;
+  assign pc_in = Branch_taken ? BranchAddr : pc_out >= 32'd5 ? 0 : PC ;
+  assign Instruction = pcMem[pc_out];
   
 
 endmodule

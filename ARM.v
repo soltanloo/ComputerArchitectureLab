@@ -45,8 +45,9 @@
 //   V1.5 :| Eko    Yan        :| 12/01/30  :|      Update to version 11.1 sp1.
 // ============================================================================
 
-module MIPS
+module ARM
 	(
+		TEST_CLOCK,
 		////////////////////	Clock Input	 	////////////////////	 
 		CLOCK_27,						//	27 MHz
 		CLOCK_50,						//	50 MHz
@@ -176,6 +177,7 @@ module MIPS
 	);
 
 ////////////////////////	Clock Input	 	////////////////////////
+output TEST_CLOCK;
 input		   	CLOCK_27;				//	27 MHz
 input		   	CLOCK_50;				//	50 MHz
 input			   EXT_CLOCK;				//	External Clock
@@ -308,26 +310,7 @@ inout	[35:0]	GPIO_1;					//	GPIO Connection 1
 	assign Branch_taken = 1'b0;
 	assign flush = 1'b0;
 	assign BranchAddr = 32'b0;
+	wire test_clk;
 
-	IF_Stage (.clk(CLOCK_50), .rst(SW[7]), .freeze(freeze), .Branch_taken(Branch_taken), .BranchAddr(BranchAddr), .PC(PC), .Instruction(Instruction));
-	IF_Stage_Reg (.clk(CLOCK_50), .rst(SW[7]), .freeze(freeze), .flush(flush), .PC_in(PC), .Instruction_in(Instruction));
-	
-	wire ID_Stage_Reg_PC_out, ID_Stage_PC_out;
-	wire EXE_Stage_Reg_PC_out, EXE_Stage_PC_out;
-	wire MEM_Stage_Reg_PC_out, MEM_Stage_PC_out;
-	wire WB_Stage_Reg_PC_out, WB_Stage_PC_out;
-
-	ID_Stage (.clk(CLOCK_50), .rst(SW[7]), .PC_in(PC), .PC(ID_Stage_PC_out));
-	ID_Stage_Reg (.clk(CLOCK_50), .rst(SW[7]), .PC_in(ID_Stage_PC_out), .PC(ID_Stage_Reg_PC_out));
-
-	EXE_Stage (.clk(CLOCK_50), .rst(SW[7]), .PC_in(ID_Stage_Reg_PC_out), .PC(EXE_Stage_PC_out));
-	EXE_Stage_Reg (.clk(CLOCK_50), .rst(SW[7]), .PC_in(EXE_Stage_PC_out), .PC(EXE_Stage_Reg_PC_out));
-
-	MEM_Stage (.clk(CLOCK_50), .rst(SW[7]), .PC_in(EXE_Stage_Reg_PC_out), .PC(MEM_Stage_PC_out));
-	MEM_Stage_Reg (.clk(CLOCK_50), .rst(SW[7]), .PC_in(MEM_Stage_PC_out), .PC(MEM_Stage_Reg_PC_out));
-
-	WB_Stage (.clk(CLOCK_50), .rst(SW[7]), .PC_in(MEM_Stage_Reg_PC_out), .PC(WB_Stage_PC_out));
-	WB_Stage_Reg (.clk(CLOCK_50), .rst(SW[7]), .PC_in(WB_Stage_PC_out), .PC(WB_Stage_Reg_PC_out));
-
-
+	IF_Stage (.clk(SW[6]), .rst(SW[7]), .freeze(freeze), .Branch_taken(Branch_taken), .BranchAddr(BranchAddr), .PC(PC), .Instruction(Instruction));
 endmodule
