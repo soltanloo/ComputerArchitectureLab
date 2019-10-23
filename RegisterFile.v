@@ -7,10 +7,11 @@ module RegisterFile(
 );
 
   reg[31:0] registerFile[0:15];
-
+  
+  integer i;
   always @(negedge clk, posedge rst) begin
     if (rst) begin
-      for (i = 0; i < 15; i++) begin
+      for (i = 0; i < 15; i= i + 1) begin
         registerFile[i] <= i;
       end
     end

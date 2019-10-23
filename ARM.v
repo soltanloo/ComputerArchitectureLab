@@ -305,8 +305,6 @@ inout	[35:0]	GPIO_0;					//	GPIO Connection 0
 inout	[35:0]	GPIO_1;					//	GPIO Connection 1
 
 	wire[31:0] PC, Instruction, BranchAddr;
-	reg[31:0] tempPC;
-	wire[31:0] temppc;
 	wire out_clk;
 	wire freeze, Branch_taken, flush;
 	assign freeze = 1'b0;
@@ -314,13 +312,15 @@ inout	[35:0]	GPIO_1;					//	GPIO Connection 1
 	assign flush = 1'b0;
 	assign BranchAddr = 32'b0;
 	wire test_clk;
-	assign PC = tempPC;
-	always @(posedge SW[6], posedge SW[7]) begin
-		if (SW[7]) tempPC = 32'd0;
-		else tempPC = tempPC + 1;
-	end
+	// reg[31:0] tempPC;
+	// wire[31:0] temppc;
+	// assign PC = tempPC;
+	// always @(posedge SW[6], posedge SW[7]) begin
+	// 	if (SW[7]) tempPC = 32'd0;
+	// 	else tempPC = tempPC + 1;
+	// end
 	// assign PC = 32'd565;
 	assign LEDR = PC[17:0];
-	IF_Stage (.clk(SW[6]), .rst(SW[7]), .freeze(freeze), .Branch_taken(Branch_taken), .BranchAddr(BranchAddr), .PC(temppc), .Instruction(Instruction),
+	IF_Stage (.clk(CLOCK_50), .rst(SW[7]), .freeze(freeze), .Branch_taken(Branch_taken), .BranchAddr(BranchAddr), .PC(PC), .Instruction(Instruction),
 		.out_clk(out_clk));
 endmodule
