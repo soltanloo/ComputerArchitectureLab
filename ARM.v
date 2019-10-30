@@ -318,6 +318,10 @@ inout	[35:0]	GPIO_1;					//	GPIO Connection 1
 	wire[3:0] EXEC_CMD, Dest, src1, src2;
 	wire[31:0] Val1_Rn, Val_Rm;
 
-	IF_Stage if_sage(.clk(CLOCK_50), .rst(SW[7]), .freeze(freeze), .Branch_taken(Branch_taken), .BranchAddr(BranchAddr), .PC(PC), .Instruction(Instruction),
+	IF_Stage if_stage(.clk(CLOCK_50), .rst(SW[7]), .freeze(freeze), .Branch_taken(Branch_taken), .BranchAddr(BranchAddr), .PC(PC), .Instruction(Instruction),
 		.out_clk(out_clk));
+
+	IF_Stage_Reg if_stage_reg(.clk(CLOCK_50), .rst(SW[7]), .freeze(freeze), .flush(flush), .PC_in(PC), .Instruction_in(Instruction));
+	
+	ID_Stage id_stage(.clk(CLOCK_50), .rst(SW[7]), .Instruction(Instruction), )
 endmodule
