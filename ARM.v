@@ -376,6 +376,26 @@ inout	[35:0]	GPIO_1;					//	GPIO Connection 1
 		.WB_EN(WB_EN), .MEM_R_EN(MEM_R_EN), .MEM_W_EN(MEM_W_EN), .B(B), .S(S), .EXE_CMD(EXE_CMD), .Val_Rn(Val_Rn), .Val_Rm(Val_Rm), .imm(imm), .Shift_operand(Shift_operand), .Signed_imm_24(Signed_imm_24), .Dest(Dest), .src1(src1), .src2(src2), .Two_src(Two_src), .destAddress(destAddress), .PC(ID_Stage_PC)
 	);
 
+	ID_Stage_Reg id_stage_reg(
+		.clk(CLOCK_50), .rst(SW[7]), .flush(flush), .WB_EN_IN(WB_EN), .MEM_R_EN_IN(MEM_R_EN), .MEM_W_EN_IN(MEM_W_EN), .B_IN(B), .S_IN(S), .EXE_CMD_IN(EXE_CMD), .PC_in(ID_Stage_PC), .Val_Rn_IN(Val_Rn), .Val_Rm_IN(Val_Rm), .imm_IN(imm), .Shift_operand_IN(Shift_operand), .Signed_imm_24_IN(Signed_imm_24), .Dest_IN(Dest),
+		.WB_EN(ID_out_WB_EN), .MEM_R_EN(ID_out_MEM_R_EN), .MEM_W_EN(ID_out_MEM_W_EN), .B(ID_out_B), .S(ID_out_S), .EXE_CMD(ID_out_EXE_CMD), .Val_Rm(ID_out_Val_Rm), .Val_Rn(ID_out_Val_Rn), .imm(ID_out_imm), .Shift_operand(ID_out_Shift_operand), .Signed_imm_24(ID_out_Signed_imm_24), .Dest(ID_out_Dest), .PC(ID_out_PC)
+		, .SR_In(SR), .SR(ID_SR)
+	);
+
+	EXE_Stage exe_stage(
+		.clk(CLOCK_50), .EXE_CMD(ID_out_EXE_CMD), .MEM_R_EN(ID_out_MEM_R_EN), .MEM_W_EN(ID_out_MEM_W_EN), .PC(ID_out_PC), .Val_Rn(ID_out_Val_Rn), .Val_Rm(ID_out_Val_Rm), .imm(ID_out_imm), .Shift_operand(ID_out_imm), .Signed_imm_24(ID_out_Signed_imm_24), .SR(ID_SR),
+  	.ALU_result(ALU_result), .Br_addr(Br_addr), .status(status)
+	);
+	EXE_Stage_Reg exe_stage_reg(
+  	.clk(CLOCK_50), .rst(SW[7]), .WB_en_in(ID_out_WB_EN), .MEM_R_EN_in(ID_out_MEM_R_EN), .MEM_W_EN_in(ID_out_MEM_W_EN), .ALU_result_in(ALU_result), .ST_val_in(ID_out_Val_Rm), .Dest_in(ID_out_Dest),
+  	.WB_en(EXE_Reg_out_WB_EN), .MEM_R_EN(EXE_Reg_out_MEM_R_EN), .MEM_W_EN(EXE_Reg_out_MEM_W_EN), .ALU_result(EXE_Reg_out_ALU_result), .ST_val(EXE_Reg_out_ST_val), .Dest(EXE_Reg_out_Dest)
+	);
+
+	reg4neg SReg(
+		.clk(CLOCK_50), .rst(SW[7]), .en(S), .reg_in(status),
+		.reg_out(SR)
+	);
+
 	assign LEDR = Val_Rn;
 	assign GPIO_0 = Val_Rm;
 	assign GPIO_1 = Instruction;
@@ -396,9 +416,6 @@ inout	[35:0]	GPIO_1;					//	GPIO Connection 1
   	.WB_en(EXE_Reg_out_WB_EN), .MEM_R_EN(EXE_Reg_out_MEM_R_EN), .MEM_W_EN(EXE_Reg_out_MEM_W_EN), .ALU_result(EXE_Reg_out_ALU_result), .ST_val(EXE_Reg_out_ST_val), .Dest(EXE_Reg_out_Dest)
 	);
 
-	reg4neg SReg(
-		.clk(CLOCK_50), .rst(SW[7]), .en(S), .reg_in(status),
-		.reg_out(SR)
-	);
+
 	*/
 endmodule
