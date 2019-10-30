@@ -318,7 +318,6 @@ inout	[35:0]	GPIO_1;					//	GPIO Connection 1
 
 	// IF Stage to IF Stage Reg wires
 	wire[31:0] PC, Instruction;
-		assign LEDR = PC[17:0];
 
 	// IF Stage Reg to ID Stage wires
 	wire[31:0] IF_Reg_PC_out, IF_Reg_Ins_out;
@@ -376,6 +375,13 @@ inout	[35:0]	GPIO_1;					//	GPIO Connection 1
 		.clk(CLOCK_50), .rst(SW[7]), .Instruction(IF_Reg_Ins_out), .Result_WB(Result_WB), .writeBackEn(writeBackEn), .Dest_WB(Dest_WB), .hazard(hazard), .SR(SR), .PC_in(IF_Reg_PC_out),
 		.WB_EN(WB_EN), .MEM_R_EN(MEM_R_EN), .MEM_W_EN(MEM_W_EN), .B(B), .S(S), .EXE_CMD(EXE_CMD), .Val_Rn(Val_Rn), .Val_Rm(Val_Rm), .imm(imm), .Shift_operand(Shift_operand), .Signed_imm_24(Signed_imm_24), .Dest(Dest), .src1(src1), .src2(src2), .Two_src(Two_src), .destAddress(destAddress), .PC(ID_Stage_PC)
 	);
+
+	assign LEDR = Val_Rn;
+	assign GPIO_0 = Val_Rm;
+	assign GPIO_1 = Instruction;
+	// assign GPIO_1 = {WB_EN, MEM_R_EN, MEM_W_EN, B, S, EXE_CMD};
+
+	/*
 	ID_Stage_Reg id_stage_reg(
 		.clk(CLOCK_50), .rst(SW[7]), .flush(flush), .WB_EN_IN(WB_EN), .MEM_R_EN_IN(MEM_R_EN), .MEM_W_EN_IN(MEM_W_EN), .B_IN(B), .S_IN(S), .EXE_CMD_IN(EXE_CMD), .PC_in(ID_Stage_PC), .Val_Rn_IN(Val_Rn), .Val_Rm_IN(Val_Rm), .imm_IN(imm), .Shift_operand_IN(Shift_operand), .Signed_imm_24_IN(Signed_imm_24), .Dest_IN(Dest),
 		.WB_EN(ID_out_WB_EN), .MEM_R_EN(ID_out_MEM_R_EN), .MEM_W_EN(ID_out_MEM_W_EN), .B(ID_out_B), .S(ID_out_S), .EXE_CMD(ID_out_EXE_CMD), .Val_Rm(ID_out_Val_Rm), .Val_Rn(ID_out_Val_Rn), .imm(ID_out_imm), .Shift_operand(ID_out_Shift_operand), .Signed_imm_24(ID_out_Signed_imm_24), .Dest(ID_out_Dest), .PC(ID_out_PC)
@@ -394,4 +400,5 @@ inout	[35:0]	GPIO_1;					//	GPIO Connection 1
 		.clk(CLOCK_50), .rst(SW[7]), .en(S), .reg_in(status),
 		.reg_out(SR)
 	);
+	*/
 endmodule
