@@ -20,8 +20,8 @@ module EXE_Stage(
   ALU alu(.in1(Val_Rn), .in2(val2GenOut), .EXE_CMD(EXE_CMD), .c(SR[1]), .N(status[3]), .Z(status[2]),
           .C(status[1]), .V(status[0]), .out(ALU_result));
 
-  Val2Generate v2g(.memop(MEM_R_EN | MEM_W_EN), val_rm(Val_Rm),
-                    .imm()Signed_imm_24, .shift_operand(Shift_operand), .out(val2GenOut));
+  Val2Generate v2g(.memrw(MEM_R_EN | MEM_W_EN), .Val_Rm(Val_Rm),
+                    .Imm(Signed_imm_24), .Shift_operand(Shift_operand), .out(val2GenOut));
 
 
 endmodule
