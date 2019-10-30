@@ -6,34 +6,48 @@ module ControlUnit(
   output[3:0] EXE_CMD
 );
 
-  assign MEM_R_EN = mode == 2'b01 && s == 1'b1;
-  assign MEM_W_END = mode == 2'b01 && s == 1'b0;
+  // modes 
+  parameter ARITHMETIC = 0, MEMOP = 1, BR = 2;
+  // ALU commands
+  parameter ALU_MOV = 1, ALU_MVN = 9, ALU_ADD = 2, ALU_ADC = 3, ALU_SUB = 4,
+              ALU_SBC = 5, ALU_AND = 6, ALU_ORR= 7, ALU_EOR = 8,
+              ALU_CMP = 4, ALU_TST = 6, ALU_LDR = 2, ALU_STR = 2, ALU_B = 4'bx;
 
-  assign WB_EN = (mode == 2'b0 && (opCode != 4'b1010  && opCode != 4'b1000 )) || 
-                  (mode == 2'b01 && s == 1'b1);
+  // Opcodes
+  parameter NOP= 0, MOV = 13, MVN = 15, ADD = 4, ADC = 5, SUB = 2, SBC = 6, AND = 0, ORR= 12, EOR = 1,
+            CMP = 10, TST = 8, LDR = 4, STR = 4, B = 4'bx;
 
-  assign EXE_CMD = (mode == 2'b0) ? 
-                      opCode == 4'b1101 ? 4'd1 : 
-                      opCode == 4'b1111  ? 4'b1001:
-                      opCode == 4'b0100  ? 4'b0010:
-                      opCode == 4'b0101 ? 4'b0011  :
-                      opCode == 4'b0010  ? 4'b0100  :  //SUB
-                      opCode == 4'b0110 ? 4'b0101  :
-                      opCode == 4'b1101 ? 4'b0110  :
-                      opCode == 4'b1101 ? 4'b0111  :
-                      opCode == 4'b1101 ? 4'b1000  :
-                      opCode == 4'b1101 ? 4'b0100   :
-                      opCode == 4'b1101 ? 4'b0110    :
-                      opCode == 4'b1101 ? 4'b0010   :
-                      opCode == 4'b1101 ? 4'b0010   :
-                      opCode == 4'b1101 ? 4'bx  :
-                      ;
+  wire is_arithmetic_mode, is_memop_mode, is_branch_mode;
+  assign is_arithmetic_mode = mode == ARITHMETIC;
+  assign is_memop_mode = mode == MEMOP;
+  assign is_branch_mode = mode == BR;
 
-  assign B = (mode == 2'b10);
+  assign MEM_R_EN = is_memop_mode && s == 1'b1;
+  assign MEM_W_END = is_memop_mode && s == 1'b0;
 
-  assign S = mode== 2'b0 ? ((opCode == 4'b1010 || opCode == 4'b1000 ) ? 1'b1 : s) :
-              mode == 2'b01 ? s : 1'b0;
+  assign WB_EN = (is_arithmetic_mode && (opCode != CMP  && opCode != TST )) || 
+                  (is_memop_mode && s == 1'b1);
 
-  assign Imm = mode == 2'b0 ? i : (mode == 2'b10  ? 1'b1 : 1'b0);
+  assign EXE_CMD =  (is_arithmetic_mode) ? 
+                      opCode == MOV ? ALU_MOV : 
+                      opCode == MVN  ? ALU_MVN:
+                      opCode == ADD  ? ALU_ADD:
+                      opCode == ADC ? ALU_ADC  :
+                      opCode == SUB  ? ALU_SUB  :  
+                      opCode == SBC ? ALU_SBC  :
+                      opCode == AND ? ALU_AND  : 
+                      opCode == ORR ? ALU_ORR  :
+                      opCode == EOR ? ALU_EOR  :
+                      opCode == CMP ? ALU_CMP   :
+                      opCode == TST ? ALU_TST    : 4'bx
+                  : (is_memop_mode && opcode == LDR) ? ALU_LDR
+                  : (mode == BR) ? ALU_B : 4'bx;
+
+  assign B = (is_branch_mode);
+
+  assign S = mode== ARITHMETIC ? ((opCode == CMP || opCode == TST ) ? 1'b1 : s) :
+              is_memop_mode ? s : 1'b0;
+
+  assign Imm = is_arithmetic_mode ? i : (is_branch_mode  ? 1'b1 : 1'b0);
 
 endmodule
