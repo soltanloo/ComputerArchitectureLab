@@ -6,5 +6,7 @@ module Val2Generate(
     output[31:0] out
 );
 
+    // TODO temp
+    assign out = Val_Rm;
 
 endmodule
