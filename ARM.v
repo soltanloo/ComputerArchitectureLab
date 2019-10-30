@@ -320,6 +320,4 @@ inout	[35:0]	GPIO_1;					//	GPIO Connection 1
 
 	IF_Stage if_sage(.clk(CLOCK_50), .rst(SW[7]), .freeze(freeze), .Branch_taken(Branch_taken), .BranchAddr(BranchAddr), .PC(PC), .Instruction(Instruction),
 		.out_clk(out_clk));
-	
-	ID_Stage id_stage(.clk(CLOCK_50), .rst(SW[7]), .Instruction(Instruction), )
 endmodule
