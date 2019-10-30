@@ -396,9 +396,9 @@ inout	[35:0]	GPIO_1;					//	GPIO Connection 1
 		.reg_out(SR)
 	);
 
-	assign LEDR = Val_Rn;
-	assign GPIO_0 = Val_Rm;
-	assign GPIO_1 = Instruction;
+	assign LEDR = EXE_Reg_out_ALU_result;
+	assign GPIO_0 = EXE_Reg_out_ALU_result;
+	assign GPIO_1 = {EXE_Reg_out_WB_EN, EXE_Reg_out_MEM_R_EN, EXE_Reg_out_MEM_W_EN, EXE_Reg_out_ST_val,EXE_Reg_out_Dest};
 	// assign GPIO_1 = {WB_EN, MEM_R_EN, MEM_W_EN, B, S, EXE_CMD};
 
 	/*
