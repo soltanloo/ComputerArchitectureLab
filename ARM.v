@@ -323,5 +323,12 @@ inout	[35:0]	GPIO_1;					//	GPIO Connection 1
 
 	IF_Stage_Reg if_stage_reg(.clk(CLOCK_50), .rst(SW[7]), .freeze(freeze), .flush(flush), .PC_in(PC), .Instruction_in(Instruction));
 	
-	ID_Stage id_stage(.clk(CLOCK_50), .rst(SW[7]), .Instruction(Instruction), )
+	ID_Stage id_stage(
+		.clk(CLOCK_50), .rst(SW[7]), .Instruction(Instruction), .Result_WB(), .writeBackEn(), .Dest_WB(), .hazard(), .SR(), .PC_in()
+		.WB_EN(), .MEM_R_EN(), .MEM_W_EN(), .B(), .S(), .EXE_CMD(), .Val_Rn(), .Val_Rm(), .imm(), .Shift_operand(), .Signed_imm_24(), .Dest(), .src1(), .src2(), .Two_src(), .destAddress(), .PC()
+	);
+	ID_Stage_Reg id_stage_reg(
+		.clk(CLOCK_50), .rst(SW[7]), .flush(flush), .WB_EN_IN(WB_EN), .MEM_R_EN_IN(), .MEM_W_EN_IN(), .B_IN(), .S_IN(), .EXE_CMD_IN(), .PC_in(), .Val_Rn_IN(), .Val_Rm_IN(), .imm_IN(), .Shift_operand_IN(), .Signed_imm_24_IN(), .Dest_IN()
+		.WB_EN(), .MEM_R_EN(), .MEM_W_EN(), .B(), .S(), .EXE_CMD(), .Val_Rm(), .Val_Rn(), .imm(), .Shift_operand(), .Signed_imm_24(), .Dest(), .PC()
+	);
 endmodule
