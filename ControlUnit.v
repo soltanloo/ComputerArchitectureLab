@@ -11,11 +11,11 @@ module ControlUnit(
   // ALU commands
   parameter ALU_MOV = 1, ALU_MVN = 9, ALU_ADD = 2, ALU_ADC = 3, ALU_SUB = 4,
               ALU_SBC = 5, ALU_AND = 6, ALU_ORR= 7, ALU_EOR = 8,
-              ALU_CMP = 4, ALU_TST = 6, ALU_LDR = 2, ALU_STR = 2, ALU_B = 4'bx;
+              ALU_CMP = 4, ALU_TST = 6, ALU_LDR = 2, ALU_STR = 2, ALU_BRANCH = 4'bx;
 
   // Opcodes
   parameter NOP= 0, MOV = 13, MVN = 15, ADD = 4, ADC = 5, SUB = 2, SBC = 6, AND = 0, ORR= 12, EOR = 1,
-            CMP = 10, TST = 8, LDR = 4, STR = 4, B = 4'bx;
+            CMP = 10, TST = 8, LDR = 4, STR = 4, BRANCH = 4'bx;
 
   wire is_arithmetic_mode, is_memop_mode, is_branch_mode;
   assign is_arithmetic_mode = mode == ARITHMETIC;
@@ -40,8 +40,8 @@ module ControlUnit(
                       opCode == EOR ? ALU_EOR  :
                       opCode == CMP ? ALU_CMP   :
                       opCode == TST ? ALU_TST    : 4'bx
-                  : (is_memop_mode && opcode == LDR) ? ALU_LDR
-                  : (mode == BR) ? ALU_B : 4'bx;
+                  : (is_memop_mode && opCode == LDR) ? ALU_LDR
+                  : (mode == BR) ? ALU_BRANCH : 4'bx;
 
   assign B = (is_branch_mode);
 
