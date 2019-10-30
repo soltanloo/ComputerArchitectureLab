@@ -34,7 +34,7 @@ module ID_Stage(
   assign S = commands[0];
 
   ControlUnit CU(.s(Instruction[20]), .mode(Instruction[27:26]), .opCode(Instruction[24:21]), .WB_EN(tempCommands[8]), .MEM_R_EN(tempCommands[7]), .MEM_W_EN(tempCommands[6]), .EXE_CMD(tempCommands[5:2]), .B(tempCommands[1]), .S(tempCommands[0]));
-  ConditionCheck CC(.cond(Instruction[31:28]), .satusReg(SR), .hasCondition(hasCondition));
+  ConditionCheck CC(.cond(Instruction[31:28]), .statusReg(SR), .hasCondition(hasCondition));
   RegisterFile RF(.clk(clk), .rst(rst), .src1(Rn), .src2(MEM_W_EN ? Dest : Rm), .Dest_wb(Dest_WB), .Result_WB(Result_WB), .writeBackEn(writeBackEn), .reg1(Val_Rn), .reg2(Val_Rm));
   assign src1 = Rn;
   assign src2 = destAddress;

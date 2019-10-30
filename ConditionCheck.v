@@ -2,7 +2,7 @@ module ConditionCheck(
   input[3:0] cond, statusReg,
   output hasCondition
 );
-  wire tempHasCondition;
+  reg tempHasCondition;
   wire N, ZE, C, V;
   assign N = statusReg[3];
   assign ZE = statusReg[2];
@@ -26,7 +26,7 @@ module ConditionCheck(
       4'b1100: tempHasCondition <= ZE == 1'b0 && N == V;
       4'b1101: tempHasCondition <= ZE == 1'b1 || N != V;
       4'b1110: tempHasCondition <= 1'b1;
-      default: 
+      default: tempHasCondition <= 1'b0;
     endcase
   end
 

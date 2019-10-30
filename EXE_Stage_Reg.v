@@ -4,7 +4,7 @@ module EXE_Stage_Reg(
   input[3:0] Dest_in,
   output reg WB_en, MEM_R_EN, MEM_W_EN,
   output reg[31:0] ALU_result, ST_val,
-  output reg[3:0] Dest,
+  output reg[3:0] Dest
 );
 
   always@(posedge clk, posedge rst) begin
