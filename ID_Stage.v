@@ -15,7 +15,8 @@ module ID_Stage(
   output[23:0] Signed_imm_24,
   output[3:0] Dest, // FIXME:
   output[3:0] src1, src2 // FIXME:
-  output Two_src, destAddress, // FIXME:
+  output Two_src,
+  output[3:0] destAddress, // FIXME:
   output[31:0] PC
 );
 
