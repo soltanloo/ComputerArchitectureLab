@@ -9,7 +9,7 @@ module EXE_Stage(
   input[23:0] Signed_imm_24,
   input[3:0] SR,
   output[31:0] ALU_result, Br_addr,
-  output[3:0] status,
+  output[3:0] status
 );
 
   wire[3:0] sregIn;

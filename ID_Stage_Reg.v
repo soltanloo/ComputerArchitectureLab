@@ -21,10 +21,14 @@ module ID_Stage_Reg(
 );
 
   always@(posedge clk, posedge rst) begin
-    if(rst || flush) begin
+    if(rst) begin
       PC <= 0; Dest <= 0; Signed_imm_24 <= 0; Shift_operand <= 0; imm <= 0; Val_Rm <= 0; Val_Rn <= 0;
       EXE_CMD <= 0; WB_EN <=0; MEM_R_EN <= 0; MEM_W_EN <= 0; B <= 0; S <= 0;
     end
+	 else if (flush) begin
+		PC <= 0; Dest <= 0; Signed_imm_24 <= 0; Shift_operand <= 0; imm <= 0; Val_Rm <= 0; Val_Rn <= 0;
+      EXE_CMD <= 0; WB_EN <=0; MEM_R_EN <= 0; MEM_W_EN <= 0; B <= 0; S <= 0;
+	 end
     else begin
       PC <= PC_in; Dest <= Dest_IN; Signed_imm_24 <= Signed_imm_24_IN; Shift_operand <= Shift_operand_IN; imm <= imm_IN; Val_Rm <= Val_Rm_IN; Val_Rn <= Val_Rn_IN;
       EXE_CMD <= EXE_CMD_IN; WB_EN <=WB_EN_IN; MEM_R_EN <= MEM_R_EN_IN; MEM_W_EN <= MEM_W_EN_IN; B <= B_IN; S <= S_IN;
