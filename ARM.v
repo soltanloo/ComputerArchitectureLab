@@ -304,17 +304,8 @@ input          TD_CLK27;            //	TV Decoder 27MHz CLK
 inout	[35:0]	GPIO_0;					//	GPIO Connection 0
 inout	[35:0]	GPIO_1;					//	GPIO Connection 1
 
-
-	// Global wires
-	wire[31:0] BranchAddr;
-
-	wire freeze, Branch_taken, flush;
-	assign freeze = 1'b0;
-	assign hazard = 1'b0;
-	assign Branch_taken = 1'b0;
-	assign flush = 1'b0;
-	assign BranchAddr = 32'b0;
-
+	wire freeze, hazard;
+	assign freeze = hazard;
 
 	// IF Stage to IF Stage Reg wires
 	wire[31:0] PC, Instruction;
@@ -328,8 +319,6 @@ inout	[35:0]	GPIO_1;					//	GPIO Connection 1
 	wire[31:0] Val_Rn, Val_Rm;
 	wire[11:0] Shift_operand;
   wire[23:0] Signed_imm_24;
-
-
   wire[3:0] destAddress;
   wire[31:0] ID_Stage_PC;
 
@@ -353,6 +342,14 @@ inout	[35:0]	GPIO_1;					//	GPIO Connection 1
 	wire EXE_Reg_out_WB_EN, EXE_Reg_out_MEM_R_EN, EXE_Reg_out_MEM_W_EN;
 	wire[31:0] EXE_Reg_out_ALU_result, EXE_Reg_out_ST_val, EXE_Reg_out_Dest;
 
+	// MEM Stage to MEM Stage Reg wires
+	wire[31:0] MEM_Stage_out_MEM_result;
+
+	// MEM Stage Reg out wires
+	wire[31:0] MEM_Stage_Reg_out_ALU_result, MEM_Stage_Reg_out_MEM_read_value;
+	wire[3:0] MEM_Stage_Reg_out_Dest;
+	wire MEM_Stage_out_WB_EN, MEM_Stage_out_MEM_R_EN;
+
 	// SR out wires
 	wire[3:0] SR;
 
@@ -362,12 +359,12 @@ inout	[35:0]	GPIO_1;					//	GPIO Connection 1
   wire[3:0] Dest_WB;
 
 	IF_Stage if_stage(
-		.clk(CLOCK_50), .rst(SW[7]), .freeze(freeze), .Branch_taken(Branch_taken), .BranchAddr(BranchAddr),
+		.clk(CLOCK_50), .rst(SW[7]), .freeze(freeze), .Branch_taken(B), .BranchAddr(Br_addr),
 		.PC(PC), .Instruction(Instruction), .out_clk(out_clk)
 	);
 
 	IF_Stage_Reg if_stage_reg(
-		.clk(CLOCK_50), .rst(SW[7]), .freeze(freeze), .flush(flush), .PC_in(PC), .Instruction_in(Instruction),
+		.clk(CLOCK_50), .rst(SW[7]), .freeze(freeze), .flush(B), .PC_in(PC), .Instruction_in(Instruction),
 		.PC(IF_Reg_PC_out), .Instruction(IF_Reg_Ins_out)
 	);
 	
@@ -377,7 +374,7 @@ inout	[35:0]	GPIO_1;					//	GPIO Connection 1
 	);
 
 	ID_Stage_Reg id_stage_reg(
-		.clk(CLOCK_50), .rst(SW[7]), .flush(flush), .WB_EN_IN(WB_EN), .MEM_R_EN_IN(MEM_R_EN), .MEM_W_EN_IN(MEM_W_EN), .B_IN(B), .S_IN(S), .EXE_CMD_IN(EXE_CMD), .PC_in(ID_Stage_PC), .Val_Rn_IN(Val_Rn), .Val_Rm_IN(Val_Rm), .imm_IN(imm), .Shift_operand_IN(Shift_operand), .Signed_imm_24_IN(Signed_imm_24), .Dest_IN(Dest),
+		.clk(CLOCK_50), .rst(SW[7]), .flush(B), .WB_EN_IN(WB_EN), .MEM_R_EN_IN(MEM_R_EN), .MEM_W_EN_IN(MEM_W_EN), .B_IN(B), .S_IN(S), .EXE_CMD_IN(EXE_CMD), .PC_in(ID_Stage_PC), .Val_Rn_IN(Val_Rn), .Val_Rm_IN(Val_Rm), .imm_IN(imm), .Shift_operand_IN(Shift_operand), .Signed_imm_24_IN(Signed_imm_24), .Dest_IN(Dest),
 		.WB_EN(ID_out_WB_EN), .MEM_R_EN(ID_out_MEM_R_EN), .MEM_W_EN(ID_out_MEM_W_EN), .B(ID_out_B), .S(ID_out_S), .EXE_CMD(ID_out_EXE_CMD), .Val_Rm(ID_out_Val_Rm), .Val_Rn(ID_out_Val_Rn), .imm(ID_out_imm), .Shift_operand(ID_out_Shift_operand), .Signed_imm_24(ID_out_Signed_imm_24), .Dest(ID_out_Dest), .PC(ID_out_PC)
 		, .SR_In(SR), .SR(ID_SR)
 	);
@@ -391,6 +388,26 @@ inout	[35:0]	GPIO_1;					//	GPIO Connection 1
   	.WB_en(EXE_Reg_out_WB_EN), .MEM_R_EN(EXE_Reg_out_MEM_R_EN), .MEM_W_EN(EXE_Reg_out_MEM_W_EN), .ALU_result(EXE_Reg_out_ALU_result), .ST_val(EXE_Reg_out_ST_val), .Dest(EXE_Reg_out_Dest)
 	);
 
+	MEM_Stage mem_stage(
+		.clk(CLOCK_50), .MEMread(EXE_Reg_out_MEM_R_EN), .MEMwrite(EXE_Reg_out_MEM_W_EN), .address(EXE_Reg_out_ALU_result), .data(EXE_Reg_out_ST_val),
+		.MEM_result(MEM_Stage_out_MEM_result)
+	);
+
+	MEM_Stage_Reg mem_stage_reg(
+		.clk(CLOCK_50), .rst(SW[7]), .WB_en_in(EXE_Reg_out_WB_EN), .MEM_R_en_in(EXE_Reg_out_MEM_R_EN), .ALU_result_in(EXE_Reg_out_ALU_result), .Mem_read_value_in(MEM_Stage_out_MEM_result), .Dest_in(EXE_Reg_out_Dest),
+		.WB_en(MEM_Stage_out_WB_EN), .MEM_R_en(MEM_Stage_out_MEM_R_EN), .ALU_result(MEM_Stage_Reg_out_ALU_result), .Mem_read_value(MEM_Stage_Reg_out_MEM_read_value), .Dest(MEM_Stage_Reg_out_Dest)
+	);
+
+	WB_Stage wb_stage(
+		.ALU_result(MEM_Stage_Reg_out_ALU_result), .MEM_result(MEM_Stage_Reg_out_MEM_read_value), .MEM_R_en(MEM_Stage_out_MEM_R_EN),
+		.out(Result_WB)
+	);
+
+	Hazard_Detection_Unit hazard_detection_unit(
+		.src1(src1), .src2(src2), .Exe_Dest(ID_out_Dest), .Exe_WB_en(ID_out_WB_EN), .Two_src(Two_src), .Mem_Dest(EXE_Reg_out_Dest), .Mem_WB_EN(EXE_Reg_out_WB_EN),
+		.hazard_detected(hazard)
+	);
+
 	reg4neg SReg(
 		.clk(CLOCK_50), .rst(SW[7]), .en(S), .reg_in(status),
 		.reg_out(SR)
@@ -400,22 +417,5 @@ inout	[35:0]	GPIO_1;					//	GPIO Connection 1
 	assign GPIO_0 = EXE_Reg_out_ALU_result;
 	assign GPIO_1 = {EXE_Reg_out_WB_EN, EXE_Reg_out_MEM_R_EN, EXE_Reg_out_MEM_W_EN, EXE_Reg_out_ST_val,EXE_Reg_out_Dest};
 	// assign GPIO_1 = {WB_EN, MEM_R_EN, MEM_W_EN, B, S, EXE_CMD};
-
-	/*
-	ID_Stage_Reg id_stage_reg(
-		.clk(CLOCK_50), .rst(SW[7]), .flush(flush), .WB_EN_IN(WB_EN), .MEM_R_EN_IN(MEM_R_EN), .MEM_W_EN_IN(MEM_W_EN), .B_IN(B), .S_IN(S), .EXE_CMD_IN(EXE_CMD), .PC_in(ID_Stage_PC), .Val_Rn_IN(Val_Rn), .Val_Rm_IN(Val_Rm), .imm_IN(imm), .Shift_operand_IN(Shift_operand), .Signed_imm_24_IN(Signed_imm_24), .Dest_IN(Dest),
-		.WB_EN(ID_out_WB_EN), .MEM_R_EN(ID_out_MEM_R_EN), .MEM_W_EN(ID_out_MEM_W_EN), .B(ID_out_B), .S(ID_out_S), .EXE_CMD(ID_out_EXE_CMD), .Val_Rm(ID_out_Val_Rm), .Val_Rn(ID_out_Val_Rn), .imm(ID_out_imm), .Shift_operand(ID_out_Shift_operand), .Signed_imm_24(ID_out_Signed_imm_24), .Dest(ID_out_Dest), .PC(ID_out_PC)
-	);
-
-	EXE_Stage exe_stage(
-		.clk(CLOCK_50), .EXE_CMD(ID_out_EXE_CMD), .MEM_R_EN(ID_out_MEM_R_EN), .MEM_W_EN(ID_out_MEM_W_EN), .PC(ID_out_PC), .Val_Rn(ID_out_Val_Rn), .Val_Rm(ID_out_Val_Rm), .imm(ID_out_imm), .Shift_operand(ID_out_imm), .Signed_imm_24(ID_out_Signed_imm_24), .SR(SR),
-  	.ALU_result(ALU_result), .Br_addr(Br_addr), .status(status)
-	);
-	EXE_Stage_Reg exe_stage_reg(
-  	.clk(CLOCK_50), .rst(SW[7]), .WB_en_in(ID_out_WB_EN), .MEM_R_EN_in(ID_out_MEM_R_EN), .MEM_W_EN_in(ID_out_MEM_W_EN), .ALU_result_in(ALU_result), .ST_val_in(ID_out_Val_Rm), .Dest_in(ID_out_Dest),
-  	.WB_en(EXE_Reg_out_WB_EN), .MEM_R_EN(EXE_Reg_out_MEM_R_EN), .MEM_W_EN(EXE_Reg_out_MEM_W_EN), .ALU_result(EXE_Reg_out_ALU_result), .ST_val(EXE_Reg_out_ST_val), .Dest(EXE_Reg_out_Dest)
-	);
-
-
-	*/
+	
 endmodule
