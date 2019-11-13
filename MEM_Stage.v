@@ -7,13 +7,8 @@ module MEM_Stage(
   reg[31:0] registerFile[0:63];
   
   integer i;
-  always @(negedge clk, posedge rst) begin
-    if (rst) begin
-      for (i = 0; i < 15; i= i + 1) begin
-        registerFile[i] <= 32'b0;
-      end
-    end
-    else if (MEMwrite) begin
+  always @(posedge clk) begin // FIXME: posedge or negedge?
+    if (MEMwrite) begin
       registerFile[address] <= data;
     end
   end

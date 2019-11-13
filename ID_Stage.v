@@ -13,10 +13,10 @@ module ID_Stage(
   output imm,
   output[11:0] Shift_operand,
   output[23:0] Signed_imm_24,
-  output[3:0] Dest, // FIXME:
-  output[3:0] src1, src2, // FIXME:
+  output[3:0] Dest, // FIXME: not sure
+  output[3:0] src1, src2, // FIXME: not sure
   output Two_src,
-  output[3:0] destAddress, // FIXME:
+  output[3:0] destAddress, // FIXME: not sure
   output[31:0] PC
 );
 

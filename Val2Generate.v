@@ -1,4 +1,4 @@
-module Val2Generate(
+module Val2Generate( // FIXME: module must be double-checked
     input memrw,
     input[31:0] Val_Rm,
     input[23:0] Imm,
@@ -6,7 +6,37 @@ module Val2Generate(
     output[31:0] out
 );
 
-    // TODO temp
-    assign out = Val_Rm;
+    wire[1:0] shift_mode;
+    assign shift_mode = Shift_operand[6:5];
+    
+    reg[31:0] rotate_shift_result;
+    rotate_shift_result[7:0] = Shift_operand[7:0];
+
+    integer i;
+    initial begin
+        for (i = 0; i < (Shift_operand[11:8] << 1); i = i + 1) begin
+            rotate_shift_result = {rotate_shift_result[1:0], rotate_shift_result[31:2]};
+        end
+    end
+
+    reg[31:0] immshift_rotate_shift_result;
+    immshift_rotate_shift_result = Val_Rm;
+
+    integer j;
+    initial begin
+        for (j = 0; j < (Shift_operand[11:8] << 1); j = j + 1) begin
+            immshift_rotate_shift_result = {immshift_rotate_shift_result[0], immshift_rotate_shift_result[31:1]};
+        end
+    end
+
+    assign out = memrw ? Shift_operand : (
+        imm == 1'b1 ? rotate_shift_result : (
+            imm == 1'b0 && Shift_operand[4] == 1'b0 ? (
+                shift_mode == 2'b00 ? Val_Rm << Shift_operand[11:7] :
+                shift_mode == 2'b01 ? Val_Rm >> Shift_operand[11:7] :
+                shift_mode == 2'b10 ? Val_Rm >>> Shift_operand[11:7] : immshift_rotate_shift_result
+            ) : 32'b0;
+        )
+    );
 
 endmodule
