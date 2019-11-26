@@ -25,7 +25,7 @@ module EXE_Stage(
           .C(status[1]), .V(status[0]), .out(ALU_result));
 
   Val2Generate v2g(.memrw(MEM_R_EN | MEM_W_EN), .Val_Rm(Val_Rm),
-                    .Imm(imm), .Shift_operand(Shift_operand), .out(val2GenOut));
+                    .imm(imm), .Imm(Signed_imm_24), .Shift_operand(Shift_operand), .out(val2GenOut));
 
 
 endmodule

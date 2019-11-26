@@ -5,10 +5,14 @@ module IF_Stage_Reg(
 );
 
   always@(posedge clk, posedge rst) begin
-    if(rst || flush) begin
+    if(rst) begin
       PC <= 0;
       Instruction <= 0;
     end
+	 else if (flush) begin
+		 PC <= 0;
+      Instruction <= 0;
+	 end
     else begin
       if(~freeze) begin // FIXME: not sure
         PC <= PC_in;

@@ -30,6 +30,6 @@ module ConditionCheck(
     endcase
   end
 
-  assign hasCondition = 1'b1;
+  assign hasCondition = tempHasCondition;
 
 endmodule

@@ -9,7 +9,7 @@ module Hazard_Detection_Unit(
   output hazard_detected
 );
 
-  hazard_detected = (Exe_Dest == 1'b1 && src1 == Exe_Dest) ? 1'b1 : (
+  assign hazard_detected = (Exe_WB_en == 1'b1 && src1 == Exe_Dest) ? 1'b1 : (
     Mem_WB_EN == 1'b1 && src1 == Mem_Dest ? 1'b1 : (
       Two_src == 1'b1 && Exe_WB_en == 1'b1 && src2 == Exe_Dest ? 1'b1 : (
         Two_src == 1'b1 && Mem_WB_EN == 1'b1 && src2 == Mem_Dest ? 1'b1 : 0

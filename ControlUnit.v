@@ -23,7 +23,7 @@ module ControlUnit(
   assign is_branch_mode = mode == BR;
 
   assign MEM_R_EN = is_memop_mode && s == 1'b1;
-  assign MEM_W_END = is_memop_mode && s == 1'b0;
+  assign MEM_W_EN = is_memop_mode && s == 1'b0;
 
   assign WB_EN = (is_arithmetic_mode && (opCode != CMP  && opCode != TST )) || 
                   (is_memop_mode && s == 1'b1);

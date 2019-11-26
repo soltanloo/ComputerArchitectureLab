@@ -16,6 +16,7 @@ module ALU(input signed [31:0] in1, in2, input[3:0] EXE_CMD, input c, output N, 
         ALU_ADC: {rC, out} = in1 + in2 + c;
         ALU_SUB: {rC, out} = in1 - in2;
         ALU_SBC: {rC, out} = in1 - in2 - c;
+        ALU_EOR: out = in1 ^ in2;
         ALU_AND: out = in1 & in2;
         ALU_ORR: out = in1 | in2;
         ALU_CMP: out = in1 - in2;
@@ -26,7 +27,7 @@ module ALU(input signed [31:0] in1, in2, input[3:0] EXE_CMD, input c, output N, 
 
   assign Z = out == 16'b0 ? 1 : 0;
   assign N = out < 0 ? 1 : 0;
-  assign V = C;
+  assign V = in1[31] == (in2[31] ^ (EXE_CMD == ALU_SUB)) && out[31] != in1[31];
   assign C = rC;
 
 endmodule

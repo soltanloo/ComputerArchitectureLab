@@ -20,7 +20,7 @@ module ID_Stage(
   output[31:0] PC
 );
 
-  wire[3:0] Rd, Rn, Rm;
+  wire[3:0] Rn, Rm;
   wire hasCondition;
   assign Rm = Instruction[3:0];
   assign Rn = Instruction[19:16];
