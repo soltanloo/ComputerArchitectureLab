@@ -58,12 +58,12 @@ module SARM(
 //   wire[3:0] Dest_WB;
 
 	IF_Stage if_stage(
-		.clk(clk), .rst(rst), .freeze(freeze), .Branch_taken(B), .BranchAddr(Br_addr),
+		.clk(clk), .rst(rst), .freeze(freeze), .Branch_taken(ID_out_B), .BranchAddr(Br_addr),
 		.PC(PC), .Instruction(Instruction), .out_clk(out_clk)
 	);
 
 	IF_Stage_Reg if_stage_reg(
-		.clk(clk), .rst(rst), .freeze(freeze), .flush(B), .PC_in(PC), .Instruction_in(Instruction),
+		.clk(clk), .rst(rst), .freeze(freeze), .flush(ID_out_B), .PC_in(PC), .Instruction_in(Instruction),
 		.PC(IF_Reg_PC_out), .Instruction(IF_Reg_Ins_out)
 	);
 	
@@ -71,9 +71,9 @@ module SARM(
 		.clk(clk), .rst(rst), .Instruction(IF_Reg_Ins_out), .Result_WB(Result_WB), .writeBackEn(MEM_Stage_out_WB_EN), .Dest_WB(MEM_Stage_Reg_out_Dest), .hazard(hazard), .SR(SR), .PC_in(IF_Reg_PC_out),
 		.WB_EN(WB_EN), .MEM_R_EN(MEM_R_EN), .MEM_W_EN(MEM_W_EN), .B(B), .S(S), .EXE_CMD(EXE_CMD), .Val_Rn(Val_Rn), .Val_Rm(Val_Rm), .imm(imm), .Shift_operand(Shift_operand), .Signed_imm_24(Signed_imm_24), .Dest(Dest), .src1(src1), .src2(src2), .Two_src(Two_src), .destAddress(destAddress), .PC(ID_Stage_PC)
 	);
-
+	// TODO Flush with ID_out_B or B
 	ID_Stage_Reg id_stage_reg(
-		.clk(clk), .rst(rst), .flush(B), .WB_EN_IN(WB_EN), .MEM_R_EN_IN(MEM_R_EN), .MEM_W_EN_IN(MEM_W_EN), .B_IN(B), .S_IN(S), .EXE_CMD_IN(EXE_CMD), .PC_in(ID_Stage_PC), .Val_Rn_IN(Val_Rn), .Val_Rm_IN(Val_Rm), .imm_IN(imm), .Shift_operand_IN(Shift_operand), .Signed_imm_24_IN(Signed_imm_24), .Dest_IN(Dest),
+		.clk(clk), .rst(rst), .flush(ID_out_B), .WB_EN_IN(WB_EN), .MEM_R_EN_IN(MEM_R_EN), .MEM_W_EN_IN(MEM_W_EN), .B_IN(B), .S_IN(S), .EXE_CMD_IN(EXE_CMD), .PC_in(ID_Stage_PC), .Val_Rn_IN(Val_Rn), .Val_Rm_IN(Val_Rm), .imm_IN(imm), .Shift_operand_IN(Shift_operand), .Signed_imm_24_IN(Signed_imm_24), .Dest_IN(Dest),
 		.WB_EN(ID_out_WB_EN), .MEM_R_EN(ID_out_MEM_R_EN), .MEM_W_EN(ID_out_MEM_W_EN), .B(ID_out_B), .S(ID_out_S), .EXE_CMD(ID_out_EXE_CMD), .Val_Rm(ID_out_Val_Rm), .Val_Rn(ID_out_Val_Rn), .imm(ID_out_imm), .Shift_operand(ID_out_Shift_operand), .Signed_imm_24(ID_out_Signed_imm_24), .Dest(ID_out_Dest), .PC(ID_out_PC)
 		, .SR_In(SR), .SR(ID_SR)
 	);
