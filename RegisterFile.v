@@ -3,7 +3,8 @@ module RegisterFile(
   input[3:0] src1, src2, Dest_wb,
   input[31:0] Result_WB,
   input writeBackEn,
-  output[31:0] reg1, reg2
+  output[31:0] reg1, reg2,
+  output[31:0] sreg1, sreg2, sreg3, sreg4
 );
 
   reg[31:0] registerFile[0:15];
@@ -22,4 +23,9 @@ module RegisterFile(
 
   assign reg1 = registerFile[src1];
   assign reg2 = registerFile[src2];
+  assign sreg1 = registerFile[10];
+  assign sreg2 = registerFile[8];
+  assign sreg3 = registerFile[10];
+  assign sreg4 = registerFile[8];
+
 endmodule

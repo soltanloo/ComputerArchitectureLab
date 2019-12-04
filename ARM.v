@@ -278,6 +278,10 @@ output			VGA_SYNC;				//	VGA SYNC
 output	[9:0]	VGA_R;   				//	VGA Red[9:0]
 output	[9:0]	VGA_G;	 				//	VGA Green[9:0]
 output	[9:0]	VGA_B;   				//	VGA Blue[9:0]
+// output [31:0] sreg1;
+// output [31:0] sreg2;
+// output [31:0] sreg3;
+// output [31:0] sreg4;
 ////////////////	Ethernet Interface	////////////////////////////
 inout	[15:0]	ENET_DATA;				//	DM9000A DATA bus 16Bits
 output			ENET_CMD;				//	DM9000A Command/Data Select, 0 = Command, 1 = Data
@@ -341,7 +345,8 @@ inout	[35:0]	GPIO_1;					//	GPIO Connection 1
 
 	// EXE Stage Reg out wires
 	wire EXE_Reg_out_WB_EN, EXE_Reg_out_MEM_R_EN, EXE_Reg_out_MEM_W_EN;
-	wire[31:0] EXE_Reg_out_ALU_result, EXE_Reg_out_ST_val, EXE_Reg_out_Dest;
+	wire[31:0] EXE_Reg_out_ALU_result, EXE_Reg_out_ST_val;
+	wire[3:0] EXE_Reg_out_Dest;
 
 	// MEM Stage to MEM Stage Reg wires
 	wire[31:0] MEM_Stage_out_MEM_result;
@@ -356,32 +361,34 @@ inout	[35:0]	GPIO_1;					//	GPIO Connection 1
 
 	// WB out wires
 	wire[31:0] Result_WB;
-  wire writeBackEn;
-  wire[3:0] Dest_WB;
+//   wire writeBackEn;
+//   wire[3:0] Dest_WB;
+	wire[31:0] sreg1, sreg2, sreg3, sreg4;
 
 	IF_Stage if_stage(
-		.clk(CLOCK_50), .rst(rstSwitch), .freeze(freeze), .Branch_taken(B), .BranchAddr(Br_addr),
+		.clk(CLOCK_50), .rst(rstSwitch), .freeze(freeze), .Branch_taken(ID_out_B), .BranchAddr(Br_addr),
 		.PC(PC), .Instruction(Instruction), .out_clk(out_clk)
 	);
 
 	IF_Stage_Reg if_stage_reg(
-		.clk(CLOCK_50), .rst(rstSwitch), .freeze(freeze), .flush(B), .PC_in(PC), .Instruction_in(Instruction),
+		.clk(CLOCK_50), .rst(rstSwitch), .freeze(freeze), .flush(ID_out_B), .PC_in(PC), .Instruction_in(Instruction),
 		.PC(IF_Reg_PC_out), .Instruction(IF_Reg_Ins_out)
 	);
 	
 	ID_Stage id_stage(
-		.clk(CLOCK_50), .rst(rstSwitch), .Instruction(IF_Reg_Ins_out), .Result_WB(Result_WB), .writeBackEn(writeBackEn), .Dest_WB(Dest_WB), .hazard(hazard), .SR(SR), .PC_in(IF_Reg_PC_out),
+		.clk(CLOCK_50), .rst(rstSwitch), .Instruction(IF_Reg_Ins_out), .Result_WB(Result_WB), .writeBackEn(MEM_Stage_out_WB_EN), .Dest_WB(MEM_Stage_Reg_out_Dest), .hazard(hazard), .SR(SR), .PC_in(IF_Reg_PC_out),
 		.WB_EN(WB_EN), .MEM_R_EN(MEM_R_EN), .MEM_W_EN(MEM_W_EN), .B(B), .S(S), .EXE_CMD(EXE_CMD), .Val_Rn(Val_Rn), .Val_Rm(Val_Rm), .imm(imm), .Shift_operand(Shift_operand), .Signed_imm_24(Signed_imm_24), .Dest(Dest), .src1(src1), .src2(src2), .Two_src(Two_src), .destAddress(destAddress), .PC(ID_Stage_PC)
+		, .sreg1(sreg1), .sreg2(sreg2), .sreg3(sreg3), .sreg4(sreg4)
 	);
-
+	// TODO Flush with ID_out_B or B
 	ID_Stage_Reg id_stage_reg(
-		.clk(CLOCK_50), .rst(rstSwitch), .flush(B), .WB_EN_IN(WB_EN), .MEM_R_EN_IN(MEM_R_EN), .MEM_W_EN_IN(MEM_W_EN), .B_IN(B), .S_IN(S), .EXE_CMD_IN(EXE_CMD), .PC_in(ID_Stage_PC), .Val_Rn_IN(Val_Rn), .Val_Rm_IN(Val_Rm), .imm_IN(imm), .Shift_operand_IN(Shift_operand), .Signed_imm_24_IN(Signed_imm_24), .Dest_IN(Dest),
+		.clk(CLOCK_50), .rst(rstSwitch), .flush(ID_out_B), .WB_EN_IN(WB_EN), .MEM_R_EN_IN(MEM_R_EN), .MEM_W_EN_IN(MEM_W_EN), .B_IN(B), .S_IN(S), .EXE_CMD_IN(EXE_CMD), .PC_in(ID_Stage_PC), .Val_Rn_IN(Val_Rn), .Val_Rm_IN(Val_Rm), .imm_IN(imm), .Shift_operand_IN(Shift_operand), .Signed_imm_24_IN(Signed_imm_24), .Dest_IN(Dest),
 		.WB_EN(ID_out_WB_EN), .MEM_R_EN(ID_out_MEM_R_EN), .MEM_W_EN(ID_out_MEM_W_EN), .B(ID_out_B), .S(ID_out_S), .EXE_CMD(ID_out_EXE_CMD), .Val_Rm(ID_out_Val_Rm), .Val_Rn(ID_out_Val_Rn), .imm(ID_out_imm), .Shift_operand(ID_out_Shift_operand), .Signed_imm_24(ID_out_Signed_imm_24), .Dest(ID_out_Dest), .PC(ID_out_PC)
 		, .SR_In(SR), .SR(ID_SR)
 	);
 
 	EXE_Stage exe_stage(
-		.clk(CLOCK_50), .EXE_CMD(ID_out_EXE_CMD), .MEM_R_EN(ID_out_MEM_R_EN), .MEM_W_EN(ID_out_MEM_W_EN), .PC(ID_out_PC), .Val_Rn(ID_out_Val_Rn), .Val_Rm(ID_out_Val_Rm), .imm(ID_out_imm), .Shift_operand(ID_out_imm), .Signed_imm_24(ID_out_Signed_imm_24), .SR(ID_SR),
+		.clk(CLOCK_50), .EXE_CMD(ID_out_EXE_CMD), .MEM_R_EN(ID_out_MEM_R_EN), .MEM_W_EN(ID_out_MEM_W_EN), .PC(ID_out_PC), .Val_Rn(ID_out_Val_Rn), .Val_Rm(ID_out_Val_Rm), .imm(ID_out_imm), .Shift_operand(ID_out_Shift_operand), .Signed_imm_24(ID_out_Signed_imm_24), .SR(SR),
   	.ALU_result(ALU_result), .Br_addr(Br_addr), .status(status)
 	);
 	EXE_Stage_Reg exe_stage_reg(
@@ -410,13 +417,14 @@ inout	[35:0]	GPIO_1;					//	GPIO Connection 1
 	);
 
 	reg4neg SReg(
-		.clk(CLOCK_50), .rst(rstSwitch), .en(S), .reg_in(status),
+		.clk(CLOCK_50), .rst(rstSwitch), .en(ID_out_S), .reg_in(status),
 		.reg_out(SR)
 	);
 
-	// assign LEDR = EXE_Reg_out_ALU_result;
-	// assign GPIO_0 = EXE_Reg_out_ALU_result;
-	// assign GPIO_1 = {EXE_Reg_out_WB_EN, EXE_Reg_out_MEM_R_EN, EXE_Reg_out_MEM_W_EN, EXE_Reg_out_ST_val,EXE_Reg_out_Dest};
-	// assign GPIO_1 = {WB_EN, MEM_R_EN, MEM_W_EN, B, S, EXE_CMD};
+// Signed_imm_24[23] == 1'b1 ? {8'b11111111, Signed_imm_24} : {8'b0, Signed_imm_24};
+	assign GPIO_0 = sreg1[31] == 1'b1 ? {4'b1111, sreg1} : {4'b0, sreg1};
+	assign GPIO_1 = sreg2[31] == 1'b1 ? {4'b1111, sreg2} : {4'b0, sreg2};
+	assign LEDG = sreg3;
+	assign LEDR = sreg4;
 	
 endmodule

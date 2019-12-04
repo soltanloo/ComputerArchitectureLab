@@ -14,6 +14,6 @@ end
   rst    = 0;
   #5 rst = 1;
   #10 rst = 0;
-  #1000 $stop;
+  #100000 $stop;
   end
 endmodule

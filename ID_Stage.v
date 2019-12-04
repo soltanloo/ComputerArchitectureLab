@@ -17,7 +17,8 @@ module ID_Stage(
   output[3:0] src1, src2, // FIXME: not sure
   output Two_src,
   output[3:0] destAddress, // FIXME: not sure
-  output[31:0] PC
+  output[31:0] PC,
+  output [31:0] sreg1, sreg2, sreg3, sreg4
 );
 
   wire[3:0] Rn, Rm;
@@ -35,7 +36,9 @@ module ID_Stage(
 
   ControlUnit CU(.s(Instruction[20]), .mode(Instruction[27:26]), .opCode(Instruction[24:21]), .WB_EN(tempCommands[8]), .MEM_R_EN(tempCommands[7]), .MEM_W_EN(tempCommands[6]), .EXE_CMD(tempCommands[5:2]), .B(tempCommands[1]), .S(tempCommands[0]));
   ConditionCheck CC(.cond(Instruction[31:28]), .statusReg(SR), .hasCondition(hasCondition));
-  RegisterFile RF(.clk(clk), .rst(rst), .src1(Rn), .src2(MEM_W_EN ? Dest : Rm), .Dest_wb(Dest_WB), .Result_WB(Result_WB), .writeBackEn(writeBackEn), .reg1(Val_Rn), .reg2(Val_Rm));
+  RegisterFile RF(.clk(clk), .rst(rst), .src1(Rn), .src2(MEM_W_EN ? Dest : Rm), .Dest_wb(Dest_WB), .Result_WB(Result_WB), .writeBackEn(writeBackEn), .reg1(Val_Rn), .reg2(Val_Rm),
+                  .sreg1(sreg1), .sreg2(sreg2), .sreg3(sreg3), .sreg4(sreg4)
+                );
   assign src1 = Rn;
   assign src2 = destAddress;
   assign Two_src = MEM_R_EN || ~Instruction[25];
