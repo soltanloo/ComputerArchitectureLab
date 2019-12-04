@@ -13,7 +13,7 @@ module SARM(
 
 	// ID Stage to ID Stage Reg wires
 	wire imm, WB_EN, MEM_R_EN, MEM_W_EN, B, S, Two_src;
-	wire[3:0] EXE_CMD, Dest, src1, src2;
+	wire[3:0] EXE_CMD, Dest, src1, src2, ID_reg_out_src1, ID_reg_out_src2;
 	wire[31:0] Val_Rn, Val_Rm;
 	wire[11:0] Shift_operand;
   wire[23:0] Signed_imm_24;
@@ -23,7 +23,7 @@ module SARM(
 	// ID Stage Reg to EXE Stage wires
 	wire ID_out_WB_EN, ID_out_MEM_R_EN, ID_out_MEM_W_EN, ID_out_B, ID_out_S;
   wire[3:0] ID_out_EXE_CMD;
-  wire[31:0] ID_out_Val_Rm, ID_out_Val_Rn;
+  wire[31:0] ID_out_Val_Rm, ID_out_Val_Rn, EXE_out_Val_Rm;
   wire ID_out_imm;
   wire[11:0] ID_out_Shift_operand;
   wire[23:0] ID_out_Signed_imm_24;
@@ -56,6 +56,9 @@ module SARM(
 	wire[31:0] Result_WB;
 //   wire writeBackEn;
 //   wire[3:0] Dest_WB;
+	wire[31:0] sreg1, sreg2, sreg3, sreg4;
+
+	wire[1:0] Sel_src1, Sel_src2;
 
 	IF_Stage if_stage(
 		.clk(clk), .rst(rst), .freeze(freeze), .Branch_taken(ID_out_B), .BranchAddr(Br_addr),
@@ -70,21 +73,31 @@ module SARM(
 	ID_Stage id_stage(
 		.clk(clk), .rst(rst), .Instruction(IF_Reg_Ins_out), .Result_WB(Result_WB), .writeBackEn(MEM_Stage_out_WB_EN), .Dest_WB(MEM_Stage_Reg_out_Dest), .hazard(hazard), .SR(SR), .PC_in(IF_Reg_PC_out),
 		.WB_EN(WB_EN), .MEM_R_EN(MEM_R_EN), .MEM_W_EN(MEM_W_EN), .B(B), .S(S), .EXE_CMD(EXE_CMD), .Val_Rn(Val_Rn), .Val_Rm(Val_Rm), .imm(imm), .Shift_operand(Shift_operand), .Signed_imm_24(Signed_imm_24), .Dest(Dest), .src1(src1), .src2(src2), .Two_src(Two_src), .destAddress(destAddress), .PC(ID_Stage_PC)
+		, .sreg1(sreg1), .sreg2(sreg2), .sreg3(sreg3), .sreg4(sreg4)
 	);
 	// TODO Flush with ID_out_B or B
 	ID_Stage_Reg id_stage_reg(
 		.clk(clk), .rst(rst), .flush(ID_out_B), .WB_EN_IN(WB_EN), .MEM_R_EN_IN(MEM_R_EN), .MEM_W_EN_IN(MEM_W_EN), .B_IN(B), .S_IN(S), .EXE_CMD_IN(EXE_CMD), .PC_in(ID_Stage_PC), .Val_Rn_IN(Val_Rn), .Val_Rm_IN(Val_Rm), .imm_IN(imm), .Shift_operand_IN(Shift_operand), .Signed_imm_24_IN(Signed_imm_24), .Dest_IN(Dest),
 		.WB_EN(ID_out_WB_EN), .MEM_R_EN(ID_out_MEM_R_EN), .MEM_W_EN(ID_out_MEM_W_EN), .B(ID_out_B), .S(ID_out_S), .EXE_CMD(ID_out_EXE_CMD), .Val_Rm(ID_out_Val_Rm), .Val_Rn(ID_out_Val_Rn), .imm(ID_out_imm), .Shift_operand(ID_out_Shift_operand), .Signed_imm_24(ID_out_Signed_imm_24), .Dest(ID_out_Dest), .PC(ID_out_PC)
-		, .SR_In(SR), .SR(ID_SR)
+		, .SR_In(SR), .SR(ID_SR),
+		.src1(src1), .src2(src2),
+		.ID_reg_out_src1(ID_reg_out_src1), .ID_reg_out_src2(ID_reg_out_src2)
 	);
 
 	EXE_Stage exe_stage(
-		.clk(clk), .EXE_CMD(ID_out_EXE_CMD), .MEM_R_EN(ID_out_MEM_R_EN), .MEM_W_EN(ID_out_MEM_W_EN), .PC(ID_out_PC), .Val_Rn(ID_out_Val_Rn), .Val_Rm(ID_out_Val_Rm), .imm(ID_out_imm), .Shift_operand(ID_out_Shift_operand), .Signed_imm_24(ID_out_Signed_imm_24), .SR(SR),
-  	.ALU_result(ALU_result), .Br_addr(Br_addr), .status(status)
+		.clk(clk), .EXE_CMD(ID_out_EXE_CMD), .MEM_R_EN(ID_out_MEM_R_EN), .MEM_W_EN(ID_out_MEM_W_EN),
+		.PC(ID_out_PC), .Val_Rn(ID_out_Val_Rn), .Val_Rm(ID_out_Val_Rm), .imm(ID_out_imm),
+		.Shift_operand(ID_out_Shift_operand), .Signed_imm_24(ID_out_Signed_imm_24), .SR(SR),
+  		.ALU_result(ALU_result), .Br_addr(Br_addr), .status(status), .EXE_out_Val_Rm(EXE_out_Val_Rm),
+		.sel_src1(Sel_src1), .sel_src2(Sel_src2)
 	);
 	EXE_Stage_Reg exe_stage_reg(
-  	.clk(clk), .rst(rst), .WB_en_in(ID_out_WB_EN), .MEM_R_EN_in(ID_out_MEM_R_EN), .MEM_W_EN_in(ID_out_MEM_W_EN), .ALU_result_in(ALU_result), .ST_val_in(ID_out_Val_Rm), .Dest_in(ID_out_Dest),
-  	.WB_en(EXE_Reg_out_WB_EN), .MEM_R_EN(EXE_Reg_out_MEM_R_EN), .MEM_W_EN(EXE_Reg_out_MEM_W_EN), .ALU_result(EXE_Reg_out_ALU_result), .ST_val(EXE_Reg_out_ST_val), .Dest(EXE_Reg_out_Dest)
+  	.clk(clk), .rst(rst), .WB_en_in(ID_out_WB_EN), .MEM_R_EN_in(ID_out_MEM_R_EN),
+	.MEM_W_EN_in(ID_out_MEM_W_EN), .ALU_result_in(ALU_result),
+	.ST_val_in(EXE_out_Val_Rm), .Dest_in(ID_out_Dest),
+  	.WB_en(EXE_Reg_out_WB_EN), .MEM_R_EN(EXE_Reg_out_MEM_R_EN),
+	.MEM_W_EN(EXE_Reg_out_MEM_W_EN), .ALU_result(EXE_Reg_out_ALU_result),
+	.ST_val(EXE_Reg_out_ST_val), .Dest(EXE_Reg_out_Dest)
 	);
 
 	MEM_Stage mem_stage(
@@ -93,12 +106,17 @@ module SARM(
 	);
 
 	MEM_Stage_Reg mem_stage_reg(
-		.clk(clk), .rst(rst), .WB_en_in(EXE_Reg_out_WB_EN), .MEM_R_en_in(EXE_Reg_out_MEM_R_EN), .ALU_result_in(EXE_Reg_out_ALU_result), .Mem_read_value_in(MEM_Stage_out_MEM_result), .Dest_in(EXE_Reg_out_Dest),
-		.WB_en(MEM_Stage_out_WB_EN), .MEM_R_en(MEM_Stage_out_MEM_R_EN), .ALU_result(MEM_Stage_Reg_out_ALU_result), .Mem_read_value(MEM_Stage_Reg_out_MEM_read_value), .Dest(MEM_Stage_Reg_out_Dest)
+		.clk(clk), .rst(rst), .WB_en_in(EXE_Reg_out_WB_EN),
+		.MEM_R_en_in(EXE_Reg_out_MEM_R_EN), .ALU_result_in(EXE_Reg_out_ALU_result),
+		.Mem_read_value_in(MEM_Stage_out_MEM_result), .Dest_in(EXE_Reg_out_Dest),
+		.WB_en(MEM_Stage_out_WB_EN), .MEM_R_en(MEM_Stage_out_MEM_R_EN), 
+		.ALU_result(MEM_Stage_Reg_out_ALU_result), .Mem_read_value(MEM_Stage_Reg_out_MEM_read_value),
+		 .Dest(MEM_Stage_Reg_out_Dest)
 	);
 
 	WB_Stage wb_stage(
-		.ALU_result(MEM_Stage_Reg_out_ALU_result), .MEM_result(MEM_Stage_Reg_out_MEM_read_value), .MEM_R_en(MEM_Stage_out_MEM_R_EN),
+		.ALU_result(MEM_Stage_Reg_out_ALU_result), .MEM_result(MEM_Stage_Reg_out_MEM_read_value),
+		 .MEM_R_en(MEM_Stage_out_MEM_R_EN),
 		.out(Result_WB)
 	);
 
@@ -107,14 +125,21 @@ module SARM(
 		.hazard_detected(hazard)
 	);
 
+	Forwarding_Unit forwarding_unit(
+		.en(1'b1),
+		.src1(ID_reg_out_src1),
+		.src2(ID_reg_out_src2),
+		.WB_Dest(MEM_Stage_Reg_out_Dest),
+		.MEM_Dest(EXE_Reg_out_Dest),
+		.WB_WB_en(MEM_Stage_out_WB_EN),
+		.MEM_WB_en(EXE_Reg_out_WB_EN),
+		.Sel_src1(Sel_src1),
+		.Sel_src2(Sel_src2)
+	);
+
 	reg4neg SReg(
 		.clk(clk), .rst(rst), .en(ID_out_S), .reg_in(status),
 		.reg_out(SR)
 	);
 
-	// assign LEDR = EXE_Reg_out_ALU_result;
-	// assign GPIO_0 = EXE_Reg_out_ALU_result;
-	// assign GPIO_1 = {EXE_Reg_out_WB_EN, EXE_Reg_out_MEM_R_EN, EXE_Reg_out_MEM_W_EN, EXE_Reg_out_ST_val,EXE_Reg_out_Dest};
-	// assign GPIO_1 = {WB_EN, MEM_R_EN, MEM_W_EN, B, S, EXE_CMD};
-	
 endmodule
