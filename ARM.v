@@ -330,7 +330,7 @@ inout	[35:0]	GPIO_1;					//	GPIO Connection 1
 	// ID Stage Reg to EXE Stage wires
 	wire ID_out_WB_EN, ID_out_MEM_R_EN, ID_out_MEM_W_EN, ID_out_B, ID_out_S;
   wire[3:0] ID_out_EXE_CMD;
-  wire[31:0] ID_out_Val_Rm, ID_out_Val_Rn;
+  wire[31:0] ID_out_Val_Rm, ID_out_Val_Rn, EXE_out_Val_Rm;
   wire ID_out_imm;
   wire[11:0] ID_out_Shift_operand;
   wire[23:0] ID_out_Signed_imm_24;
@@ -389,10 +389,10 @@ inout	[35:0]	GPIO_1;					//	GPIO Connection 1
 
 	EXE_Stage exe_stage(
 		.clk(CLOCK_50), .EXE_CMD(ID_out_EXE_CMD), .MEM_R_EN(ID_out_MEM_R_EN), .MEM_W_EN(ID_out_MEM_W_EN), .PC(ID_out_PC), .Val_Rn(ID_out_Val_Rn), .Val_Rm(ID_out_Val_Rm), .imm(ID_out_imm), .Shift_operand(ID_out_Shift_operand), .Signed_imm_24(ID_out_Signed_imm_24), .SR(SR),
-  	.ALU_result(ALU_result), .Br_addr(Br_addr), .status(status)
+  	.ALU_result(ALU_result), .Br_addr(Br_addr), .status(status), .EXE_out_Val_Rm(EXE_out_Val_Rm)
 	);
 	EXE_Stage_Reg exe_stage_reg(
-  	.clk(CLOCK_50), .rst(rstSwitch), .WB_en_in(ID_out_WB_EN), .MEM_R_EN_in(ID_out_MEM_R_EN), .MEM_W_EN_in(ID_out_MEM_W_EN), .ALU_result_in(ALU_result), .ST_val_in(ID_out_Val_Rm), .Dest_in(ID_out_Dest),
+  	.clk(CLOCK_50), .rst(rstSwitch), .WB_en_in(ID_out_WB_EN), .MEM_R_EN_in(ID_out_MEM_R_EN), .MEM_W_EN_in(ID_out_MEM_W_EN), .ALU_result_in(ALU_result), .ST_val_in(EXE_out_Val_Rm), .Dest_in(ID_out_Dest),
   	.WB_en(EXE_Reg_out_WB_EN), .MEM_R_EN(EXE_Reg_out_MEM_R_EN), .MEM_W_EN(EXE_Reg_out_MEM_W_EN), .ALU_result(EXE_Reg_out_ALU_result), .ST_val(EXE_Reg_out_ST_val), .Dest(EXE_Reg_out_Dest)
 	);
 
