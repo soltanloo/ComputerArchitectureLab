@@ -7,6 +7,8 @@ module Hazard_Detection_Unit(
   input[3:0] Mem_Dest,
   input Mem_WB_EN,
   input forward_en,
+  input is_branch,
+  input MEM_R_EN,
   output hazard_detected
 );
 
@@ -18,6 +20,8 @@ module Hazard_Detection_Unit(
       )
     )
   );
-  assign hazard_detected = forward_en ? hazard : 0;
+  assign hazard_detected = forward_en ? hazard : (is_branch && hazard) || (hazard && MEM_R_EN);
 
 endmodule
+
+//   assign hazard_detected = ~forward_EN ? hazard : (instr_is_branch && hazard) || (MEM_R_EN_EXE && mem_has_hazard);
