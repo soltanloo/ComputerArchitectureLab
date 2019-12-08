@@ -15,8 +15,8 @@ module EXE_Stage(
   output[3:0] status
 );
 
-  wire[3:0] sregIn, aluIn1, val2GenIn;
-  wire[31:0] val2GenOut;
+  wire[3:0] sregIn, aluIn1;
+  wire[31:0] val2GenOut, val2GenIn;
 
   wire[31:0] Signed_imm_24_Sign_Extension;
 

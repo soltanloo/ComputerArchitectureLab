@@ -452,7 +452,7 @@ inout	[35:0]	GPIO_1;					//	GPIO Connection 1
 // Signed_imm_24[23] == 1'b1 ? {8'b11111111, Signed_imm_24} : {8'b0, Signed_imm_24};
 	assign GPIO_0 = sreg1[31] == 1'b1 ? {4'b1111, sreg1} : {4'b0, sreg1};
 	assign GPIO_1 = sreg2[31] == 1'b1 ? {4'b1111, sreg2} : {4'b0, sreg2};
-	assign LEDG = sreg3;
+	assign LEDG = 8'd45;
 	assign LEDR = sreg4;
 	
 endmodule
