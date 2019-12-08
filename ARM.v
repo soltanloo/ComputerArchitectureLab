@@ -456,7 +456,7 @@ output [31:0] RF10;
 
 	Hazard_Detection_Unit hazard_detection_unit(
 		.src1(src1), .src2(src2), .Exe_Dest(ID_out_Dest), .Exe_WB_en(ID_out_WB_EN), .Two_src(Two_src), .Mem_Dest(EXE_Reg_out_Dest), .Mem_WB_EN(EXE_Reg_out_WB_EN),
-		.hazard_detected(hazard)
+		.hazard_detected(hazard), .forward_en(SW[1])
 	);
 
 	Forwarding_Unit forwarding_unit(
