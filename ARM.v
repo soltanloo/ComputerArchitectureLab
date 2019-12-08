@@ -310,7 +310,7 @@ inout	[35:0]	GPIO_1;					//	GPIO Connection 1
 
 	wire freeze, hazard, rstSwitch;
 	assign freeze = hazard;
-	assign rstSwitch = SW[7];
+	assign rstSwitch = SW[0];
 
 	// IF Stage to IF Stage Reg wires
 	wire[31:0] PC, Instruction;
@@ -433,7 +433,7 @@ inout	[35:0]	GPIO_1;					//	GPIO Connection 1
 	);
 
 	Forwarding_Unit forwarding_unit(
-		.en(SW[3]),
+		.en(SW[1]),
 		.src1(ID_reg_out_src1),
 		.src2(ID_reg_out_src2),
 		.WB_Dest(MEM_Stage_Reg_out_Dest),

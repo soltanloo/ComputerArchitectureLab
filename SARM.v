@@ -126,7 +126,7 @@ module SARM(
 	);
 
 	Forwarding_Unit forwarding_unit(
-		.en(1'b1),
+		.en(1'b0),
 		.src1(ID_reg_out_src1),
 		.src2(ID_reg_out_src2),
 		.WB_Dest(MEM_Stage_Reg_out_Dest),
