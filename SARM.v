@@ -89,7 +89,8 @@ module SARM(
 		.PC(ID_out_PC), .Val_Rn(ID_out_Val_Rn), .Val_Rm(ID_out_Val_Rm), .imm(ID_out_imm),
 		.Shift_operand(ID_out_Shift_operand), .Signed_imm_24(ID_out_Signed_imm_24), .SR(SR),
   		.ALU_result(ALU_result), .Br_addr(Br_addr), .status(status), .EXE_out_Val_Rm(EXE_out_Val_Rm),
-		.sel_src1(Sel_src1), .sel_src2(Sel_src2)
+		.sel_src1(Sel_src1), .sel_src2(Sel_src2),  .ALU_result_reg(EXE_Reg_out_ALU_result)
+		, .WB_WB_DEST(Result_WB)
 	);
 	EXE_Stage_Reg exe_stage_reg(
   	.clk(clk), .rst(rst), .WB_en_in(ID_out_WB_EN), .MEM_R_EN_in(ID_out_MEM_R_EN),

@@ -15,8 +15,8 @@ module EXE_Stage(
   output[3:0] status
 );
 
-  wire[3:0] sregIn, aluIn1;
-  wire[31:0] val2GenOut, val2GenIn;
+  wire[3:0] sregIn;
+  wire[31:0] val2GenOut, val2GenIn, aluIn1;
 
   wire[31:0] Signed_imm_24_Sign_Extension;
 
@@ -29,7 +29,7 @@ module EXE_Stage(
   assign val2GenIn = sel_src2 == 2'd0 ? Val_Rm : sel_src2 == 2'd1 ? ALU_result_reg 
                   : sel_src2 == 2'd2 ? WB_WB_DEST : 32'bx;
 
-  ALU alu(.in1(Val_Rn), .in2(val2GenOut), .EXE_CMD(EXE_CMD), .c(SR[1]), .N(status[3]), .Z(status[2]),
+  ALU alu(.in1(aluIn1), .in2(val2GenOut), .EXE_CMD(EXE_CMD), .c(SR[1]), .N(status[3]), .Z(status[2]),
           .C(status[1]), .V(status[0]), .out(ALU_result));
 
   Val2Generate v2g(.memrw(MEM_R_EN | MEM_W_EN), .Val_Rm(val2GenIn),

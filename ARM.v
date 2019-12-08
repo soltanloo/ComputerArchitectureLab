@@ -47,7 +47,9 @@
 
 module ARM
 	(
-		TEST_CLOCK,
+		RF10,
+		SELSRC1,
+		SELSRC2,
 		////////////////////	Clock Input	 	////////////////////	 
 		CLOCK_27,						//	27 MHz
 		CLOCK_50,						//	50 MHz
@@ -177,7 +179,6 @@ module ARM
 	);
 
 ////////////////////////	Clock Input	 	////////////////////////
-output TEST_CLOCK;
 input		   	CLOCK_27;				//	27 MHz
 input		   	CLOCK_50;				//	50 MHz
 input			   EXT_CLOCK;				//	External Clock
@@ -307,6 +308,20 @@ input          TD_CLK27;            //	TV Decoder 27MHz CLK
 ////////////////////////	GPIO	////////////////////////////////
 inout	[35:0]	GPIO_0;					//	GPIO Connection 0
 inout	[35:0]	GPIO_1;					//	GPIO Connection 1
+output [1:0] SELSRC1;
+output [1:0] SELSRC2;
+wire [31:0] RF0;
+wire [31:0] RF1;
+wire [31:0] RF2;
+wire [31:0] RF3;
+wire [31:0] RF4;
+wire [31:0] RF5;
+wire [31:0] RF6;
+wire [31:0] RF7;
+wire [31:0] RF8;
+wire [31:0] RF9;
+output [31:0] RF10;
+
 
 	wire freeze, hazard, rstSwitch;
 	assign freeze = hazard;
@@ -380,7 +395,18 @@ inout	[35:0]	GPIO_1;					//	GPIO Connection 1
 	ID_Stage id_stage(
 		.clk(CLOCK_50), .rst(rstSwitch), .Instruction(IF_Reg_Ins_out), .Result_WB(Result_WB), .writeBackEn(MEM_Stage_out_WB_EN), .Dest_WB(MEM_Stage_Reg_out_Dest), .hazard(hazard), .SR(SR), .PC_in(IF_Reg_PC_out),
 		.WB_EN(WB_EN), .MEM_R_EN(MEM_R_EN), .MEM_W_EN(MEM_W_EN), .B(B), .S(S), .EXE_CMD(EXE_CMD), .Val_Rn(Val_Rn), .Val_Rm(Val_Rm), .imm(imm), .Shift_operand(Shift_operand), .Signed_imm_24(Signed_imm_24), .Dest(Dest), .src1(src1), .src2(src2), .Two_src(Two_src), .destAddress(destAddress), .PC(ID_Stage_PC)
-		, .sreg1(sreg1), .sreg2(sreg2), .sreg3(sreg3), .sreg4(sreg4)
+		, .sreg1(sreg1), .sreg2(sreg2), .sreg3(sreg3), .sreg4(sreg4),
+		.rf0(RF0),
+		.rf1(RF1),
+		.rf2(RF2),
+		.rf3(RF3),
+		.rf4(RF4),
+		.rf5(RF5),
+		.rf6(RF6),
+		.rf7(RF7),
+		.rf8(RF8),
+		.rf9(RF9),
+		.rf10(RF10)
 	);
 	// TODO Flush with ID_out_B or B
 	ID_Stage_Reg id_stage_reg(
@@ -396,7 +422,8 @@ inout	[35:0]	GPIO_1;					//	GPIO Connection 1
 		.PC(ID_out_PC), .Val_Rn(ID_out_Val_Rn), .Val_Rm(ID_out_Val_Rm), .imm(ID_out_imm),
 		.Shift_operand(ID_out_Shift_operand), .Signed_imm_24(ID_out_Signed_imm_24), .SR(SR),
   		.ALU_result(ALU_result), .Br_addr(Br_addr), .status(status), .EXE_out_Val_Rm(EXE_out_Val_Rm),
-		.sel_src1(Sel_src1), .sel_src2(Sel_src2)
+		.sel_src1(Sel_src1), .sel_src2(Sel_src2),  .ALU_result_reg(EXE_Reg_out_ALU_result)
+		, .WB_WB_DEST(Result_WB)
 	);
 	EXE_Stage_Reg exe_stage_reg(
   	.clk(CLOCK_50), .rst(rstSwitch), .WB_en_in(ID_out_WB_EN), .MEM_R_EN_in(ID_out_MEM_R_EN),
@@ -450,9 +477,11 @@ inout	[35:0]	GPIO_1;					//	GPIO Connection 1
 	);
 
 // Signed_imm_24[23] == 1'b1 ? {8'b11111111, Signed_imm_24} : {8'b0, Signed_imm_24};
-	assign GPIO_0 = sreg1[31] == 1'b1 ? {4'b1111, sreg1} : {4'b0, sreg1};
-	assign GPIO_1 = sreg2[31] == 1'b1 ? {4'b1111, sreg2} : {4'b0, sreg2};
-	assign LEDG = 8'd45;
-	assign LEDR = sreg4;
+	assign GPIO_0 = RF1[31] == 1'b1 ? {4'b1111, RF1} : {4'b0, RF1};
+	assign GPIO_1 = RF2[31] == 1'b1 ? {4'b1111, RF2} : {4'b0, RF2};
+	assign LEDG = RF3[15:0];
+	assign LEDR = RF4;
 	
+	assign SELSRC1 = Sel_src1;
+	assign SELSRC2 = Sel_src2;
 endmodule
