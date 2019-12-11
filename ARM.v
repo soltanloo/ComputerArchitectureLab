@@ -323,7 +323,7 @@ wire [31:0] RF9;
 output [31:0] RF10;
 
 
-	wire freeze, hazard, rstSwitch;
+	wire freeze, hazard, rstSwitch, forwardingFreeze;
 	assign freeze = hazard;
 	assign rstSwitch = SW[0];
 
@@ -383,12 +383,12 @@ output [31:0] RF10;
 	wire[1:0] Sel_src1, Sel_src2;
 
 	IF_Stage if_stage(
-		.clk(CLOCK_50), .rst(rstSwitch), .freeze(freeze), .Branch_taken(ID_out_B), .BranchAddr(Br_addr),
+		.clk(CLOCK_50), .rst(rstSwitch), .freeze(freeze | forwardingFreeze), .Branch_taken(ID_out_B), .BranchAddr(Br_addr),
 		.PC(PC), .Instruction(Instruction), .out_clk(out_clk)
 	);
 
 	IF_Stage_Reg if_stage_reg(
-		.clk(CLOCK_50), .rst(rstSwitch), .freeze(freeze), .flush(ID_out_B), .PC_in(PC), .Instruction_in(Instruction),
+		.clk(CLOCK_50), .rst(rstSwitch), .freeze(freeze | forwardingFreeze), .flush(ID_out_B), .PC_in(PC), .Instruction_in(Instruction),
 		.PC(IF_Reg_PC_out), .Instruction(IF_Reg_Ins_out)
 	);
 	
@@ -412,7 +412,7 @@ output [31:0] RF10;
 	ID_Stage_Reg id_stage_reg(
 		.clk(CLOCK_50), .rst(rstSwitch), .flush(ID_out_B), .WB_EN_IN(WB_EN), .MEM_R_EN_IN(MEM_R_EN), .MEM_W_EN_IN(MEM_W_EN), .B_IN(B), .S_IN(S), .EXE_CMD_IN(EXE_CMD), .PC_in(ID_Stage_PC), .Val_Rn_IN(Val_Rn), .Val_Rm_IN(Val_Rm), .imm_IN(imm), .Shift_operand_IN(Shift_operand), .Signed_imm_24_IN(Signed_imm_24), .Dest_IN(Dest),
 		.WB_EN(ID_out_WB_EN), .MEM_R_EN(ID_out_MEM_R_EN), .MEM_W_EN(ID_out_MEM_W_EN), .B(ID_out_B), .S(ID_out_S), .EXE_CMD(ID_out_EXE_CMD), .Val_Rm(ID_out_Val_Rm), .Val_Rn(ID_out_Val_Rn), .imm(ID_out_imm), .Shift_operand(ID_out_Shift_operand), .Signed_imm_24(ID_out_Signed_imm_24), .Dest(ID_out_Dest), .PC(ID_out_PC)
-		, .SR_In(SR), .SR(ID_SR),
+		, .SR_In(SR), .SR(ID_SR), .freeze(forwardingFreeze)
 		.src1(src1), .src2(src2),
 		.ID_reg_out_src1(ID_reg_out_src1), .ID_reg_out_src2(ID_reg_out_src2)
 	);
@@ -428,7 +428,7 @@ output [31:0] RF10;
 	EXE_Stage_Reg exe_stage_reg(
   	.clk(CLOCK_50), .rst(rstSwitch), .WB_en_in(ID_out_WB_EN), .MEM_R_EN_in(ID_out_MEM_R_EN),
 	.MEM_W_EN_in(ID_out_MEM_W_EN), .ALU_result_in(ALU_result),
-	.ST_val_in(EXE_out_Val_Rm), .Dest_in(ID_out_Dest),
+	.ST_val_in(EXE_out_Val_Rm), .Dest_in(ID_out_Dest), .freeze(forwardingFreeze)
   	.WB_en(EXE_Reg_out_WB_EN), .MEM_R_EN(EXE_Reg_out_MEM_R_EN),
 	.MEM_W_EN(EXE_Reg_out_MEM_W_EN), .ALU_result(EXE_Reg_out_ALU_result),
 	.ST_val(EXE_Reg_out_ST_val), .Dest(EXE_Reg_out_Dest)
@@ -436,16 +436,16 @@ output [31:0] RF10;
 
 	MEM_Stage mem_stage(
 		.clk(CLOCK_50), .MEMread(EXE_Reg_out_MEM_R_EN), .MEMwrite(EXE_Reg_out_MEM_W_EN), .address(EXE_Reg_out_ALU_result), .data(EXE_Reg_out_ST_val),
-		.MEM_result(MEM_Stage_out_MEM_result)
+		.MEM_result(MEM_Stage_out_MEM_result), .freeze(forwardingFreeze)
 	);
 
 	MEM_Stage_Reg mem_stage_reg(
 		.clk(CLOCK_50), .rst(rstSwitch), .WB_en_in(EXE_Reg_out_WB_EN),
 		.MEM_R_en_in(EXE_Reg_out_MEM_R_EN), .ALU_result_in(EXE_Reg_out_ALU_result),
 		.Mem_read_value_in(MEM_Stage_out_MEM_result), .Dest_in(EXE_Reg_out_Dest),
-		.WB_en(MEM_Stage_out_WB_EN), .MEM_R_en(MEM_Stage_out_MEM_R_EN), 
+		.WB_en(MEM_Stage_out_WB_EN), .MEM_R_en(MEM_Stage_out_MEM_R_EN), .freeze(forwardingFreeze)
 		.ALU_result(MEM_Stage_Reg_out_ALU_result), .Mem_read_value(MEM_Stage_Reg_out_MEM_read_value),
-		 .Dest(MEM_Stage_Reg_out_Dest)
+		.Dest(MEM_Stage_Reg_out_Dest)
 	);
 
 	WB_Stage wb_stage(

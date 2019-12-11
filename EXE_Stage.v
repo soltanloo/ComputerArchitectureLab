@@ -22,7 +22,7 @@ module EXE_Stage(
 
   assign Signed_imm_24_Sign_Extension = Signed_imm_24[23] == 1'b1 ? {8'b11111111, Signed_imm_24} : {8'b0, Signed_imm_24};
 
-  assign Br_addr = PC + (Signed_imm_24_Sign_Extension); // FIXME: +4? TODO removed << 2
+  assign Br_addr = PC + (Signed_imm_24_Sign_Extension);
 
   assign aluIn1 = sel_src1 == 2'd0 ? Val_Rn : sel_src1 == 2'd1 ? ALU_result_reg 
                   : sel_src1 == 2'd2 ? WB_WB_DEST : 32'bx;

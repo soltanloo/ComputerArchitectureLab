@@ -8,8 +8,6 @@ module IF_Stage(
   assign out_clk = clk;
   wire[31:0] pc_in, pc_out;
   reg[31:0] ins;
-  
-  
 
   always @(*) begin
     case(pc_out)

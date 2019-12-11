@@ -1,4 +1,4 @@
-module Val2Generate( // FIXME: module must be double-checked
+module Val2Generate(
     input memrw,
     input[31:0] Val_Rm,
     input[23:0] Imm,
