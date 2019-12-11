@@ -17,11 +17,13 @@ module MEM_Stage_Reg(
       Dest <= 0;
     end
     else begin
-      WB_en <= WB_en_in;
-      MEM_R_en <= MEM_R_en_in;
-      ALU_result <= ALU_result_in;
-      Mem_read_value <= Mem_read_value_in;
-      Dest <= Dest_in;
+      if(~freeze) begin
+        WB_en <= WB_en_in;
+        MEM_R_en <= MEM_R_en_in;
+        ALU_result <= ALU_result_in;
+        Mem_read_value <= Mem_read_value_in;
+        Dest <= Dest_in;
+      end
     end
   end
 

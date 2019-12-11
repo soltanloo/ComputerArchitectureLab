@@ -12,6 +12,8 @@ module MEM_Stage(
   output SRAM_OE_N
   );
 
+  wire ready;
+
   SRAM_Controller sram_controller(
     .clk(clk),
     .rst(rst),
@@ -20,7 +22,7 @@ module MEM_Stage(
     .address(address),
     .writeData(data),
     .readData(MEM_result),
-    .ready(freeze),
+    .ready(ready),
     .SRAM_DQ(SRAM_DQ),
     .SRAM_ADDR(SRAM_ADDR),
     .SRAM_UB_N(SRAM_UB_N),
@@ -29,5 +31,7 @@ module MEM_Stage(
     .SRAM_CE_N(SRAM_CE_N),
     .SRAM_OE_N(SRAM_OE_N)
   );
+
+  assign freeze = ~ready;
 
 endmodule
