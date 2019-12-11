@@ -14,7 +14,7 @@ module IF_Stage_Reg(
       Instruction <= 0;
 	 end
     else begin
-      if(~freeze) begin // FIXME: not sure
+      if(~freeze) begin
         PC <= PC_in;
         Instruction <= Instruction_in;
       end

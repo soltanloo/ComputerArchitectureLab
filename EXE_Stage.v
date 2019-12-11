@@ -19,7 +19,7 @@ module EXE_Stage(
 
   assign Signed_imm_24_Sign_Extension = Signed_imm_24[23] == 1'b1 ? {8'b11111111, Signed_imm_24} : {8'b0, Signed_imm_24};
 
-  assign Br_addr = PC + (Signed_imm_24_Sign_Extension); // FIXME: +4? TODO removed << 2
+  assign Br_addr = PC + (Signed_imm_24_Sign_Extension);
 
   ALU alu(.in1(Val_Rn), .in2(val2GenOut), .EXE_CMD(EXE_CMD), .c(SR[1]), .N(status[3]), .Z(status[2]),
           .C(status[1]), .V(status[0]), .out(ALU_result));
