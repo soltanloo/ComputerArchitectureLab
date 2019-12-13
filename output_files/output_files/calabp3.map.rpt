@@ -1,5 +1,5 @@
 Analysis & Synthesis report for calabp3
-Wed Dec 11 11:33:31 2019
+Sat Dec 14 03:07:22 2019
 Quartus II 64-Bit Version 13.0.1 Build 232 06/12/2013 Service Pack 1 SJ Web Edition
 
 
@@ -22,17 +22,18 @@ Quartus II 64-Bit Version 13.0.1 Build 232 06/12/2013 Service Pack 1 SJ Web Edit
  14. Multiplexer Restructuring Statistics (Restructuring Performed)
  15. Parameter Settings for User Entity Instance: ID_Stage:id_stage|ControlUnit:CU
  16. Parameter Settings for User Entity Instance: EXE_Stage:exe_stage|ALU:alu
- 17. Parameter Settings for Inferred Entity Instance: sld_signaltap:auto_signaltap_0
- 18. Port Connectivity Checks: "MEM_Stage:mem_stage"
- 19. Port Connectivity Checks: "ID_Stage_Reg:id_stage_reg"
- 20. Port Connectivity Checks: "ID_Stage:id_stage|ControlUnit:CU"
- 21. Port Connectivity Checks: "ID_Stage:id_stage"
- 22. Port Connectivity Checks: "IF_Stage:if_stage"
- 23. SignalTap II Logic Analyzer Settings
- 24. Elapsed Time Per Partition
- 25. Connections to In-System Debugging Instance "auto_signaltap_0"
- 26. Analysis & Synthesis Messages
- 27. Analysis & Synthesis Suppressed Messages
+ 17. Parameter Settings for User Entity Instance: MEM_Stage:mem_stage|SRAM_Controller:sram_controller
+ 18. Parameter Settings for Inferred Entity Instance: sld_signaltap:auto_signaltap_0
+ 19. Port Connectivity Checks: "MEM_Stage:mem_stage|SRAM_Controller:sram_controller|Counter3bit:counter"
+ 20. Port Connectivity Checks: "ID_Stage_Reg:id_stage_reg"
+ 21. Port Connectivity Checks: "ID_Stage:id_stage|ControlUnit:CU"
+ 22. Port Connectivity Checks: "ID_Stage:id_stage"
+ 23. Port Connectivity Checks: "IF_Stage:if_stage"
+ 24. SignalTap II Logic Analyzer Settings
+ 25. Elapsed Time Per Partition
+ 26. Connections to In-System Debugging Instance "auto_signaltap_0"
+ 27. Analysis & Synthesis Messages
+ 28. Analysis & Synthesis Suppressed Messages
 
 
 
@@ -58,15 +59,15 @@ applicable agreement for further details.
 +--------------------------------------------------------------------------------------+
 ; Analysis & Synthesis Summary                                                         ;
 +------------------------------------+-------------------------------------------------+
-; Analysis & Synthesis Status        ; Successful - Wed Dec 11 11:33:30 2019           ;
+; Analysis & Synthesis Status        ; Successful - Sat Dec 14 03:07:21 2019           ;
 ; Quartus II 64-Bit Version          ; 13.0.1 Build 232 06/12/2013 SP 1 SJ Web Edition ;
 ; Revision Name                      ; calabp3                                         ;
 ; Top-level Entity Name              ; ARM                                             ;
 ; Family                             ; Cyclone II                                      ;
-; Total logic elements               ; 4,759                                           ;
-;     Total combinational functions  ; 3,114                                           ;
-;     Dedicated logic registers      ; 2,454                                           ;
-; Total registers                    ; 2454                                            ;
+; Total logic elements               ; 4,790                                           ;
+;     Total combinational functions  ; 3,154                                           ;
+;     Dedicated logic registers      ; 2,435                                           ;
+; Total registers                    ; 2435                                            ;
 ; Total pins                         ; 454                                             ;
 ; Total virtual pins                 ; 0                                               ;
 ; Total memory bits                  ; 51,712                                          ;
@@ -182,6 +183,7 @@ applicable agreement for further details.
 +----------------------------------+-----------------+------------------------------+---------------------------------------------------------------------------------------------------+---------+
 ; File Name with User-Entered Path ; Used in Netlist ; File Type                    ; File Name with Absolute Path                                                                      ; Library ;
 +----------------------------------+-----------------+------------------------------+---------------------------------------------------------------------------------------------------+---------+
+; ../Counter.v                     ; yes             ; User Verilog HDL File        ; C:/Users/Javad/Desktop/CA-LAB/calabp2/ComputerArchitectureLab/Counter.v                           ;         ;
 ; ../WB_Stage.v                    ; yes             ; User Verilog HDL File        ; C:/Users/Javad/Desktop/CA-LAB/calabp2/ComputerArchitectureLab/WB_Stage.v                          ;         ;
 ; ../Val2Generate.v                ; yes             ; User Verilog HDL File        ; C:/Users/Javad/Desktop/CA-LAB/calabp2/ComputerArchitectureLab/Val2Generate.v                      ;         ;
 ; ../SRAM_Controller.v             ; yes             ; User Verilog HDL File        ; C:/Users/Javad/Desktop/CA-LAB/calabp2/ComputerArchitectureLab/SRAM_Controller.v                   ;         ;
@@ -259,29 +261,29 @@ applicable agreement for further details.
 +---------------------------------------------+----------+
 ; Resource                                    ; Usage    ;
 +---------------------------------------------+----------+
-; Estimated Total logic elements              ; 4,759    ;
+; Estimated Total logic elements              ; 4,790    ;
 ;                                             ;          ;
-; Total combinational functions               ; 3114     ;
+; Total combinational functions               ; 3154     ;
 ; Logic element usage by number of LUT inputs ;          ;
-;     -- 4 input functions                    ; 1970     ;
-;     -- 3 input functions                    ; 714      ;
-;     -- <=2 input functions                  ; 430      ;
+;     -- 4 input functions                    ; 1987     ;
+;     -- 3 input functions                    ; 771      ;
+;     -- <=2 input functions                  ; 396      ;
 ;                                             ;          ;
 ; Logic elements by mode                      ;          ;
-;     -- normal mode                          ; 2958     ;
-;     -- arithmetic mode                      ; 156      ;
+;     -- normal mode                          ; 2997     ;
+;     -- arithmetic mode                      ; 157      ;
 ;                                             ;          ;
-; Total registers                             ; 2454     ;
-;     -- Dedicated logic registers            ; 2454     ;
+; Total registers                             ; 2435     ;
+;     -- Dedicated logic registers            ; 2435     ;
 ;     -- I/O registers                        ; 0        ;
 ;                                             ;          ;
 ; I/O pins                                    ; 454      ;
 ; Total memory bits                           ; 51712    ;
 ; Embedded Multiplier 9-bit elements          ; 0        ;
 ; Maximum fan-out node                        ; CLOCK_50 ;
-; Maximum fan-out                             ; 1935     ;
-; Total fan-out                               ; 21224    ;
-; Average fan-out                             ; 3.46     ;
+; Maximum fan-out                             ; 1916     ;
+; Total fan-out                               ; 21390    ;
+; Average fan-out                             ; 3.48     ;
 +---------------------------------------------+----------+
 
 
@@ -290,10 +292,10 @@ applicable agreement for further details.
 +---------------------------------------------------------------------------------------------------------+-------------------+--------------+-------------+--------------+---------+-----------+------+--------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+--------------+
 ; Compilation Hierarchy Node                                                                              ; LC Combinationals ; LC Registers ; Memory Bits ; DSP Elements ; DSP 9x9 ; DSP 18x18 ; Pins ; Virtual Pins ; Full Hierarchy Name                                                                                                                                                                                                                                                                                                                        ; Library Name ;
 +---------------------------------------------------------------------------------------------------------+-------------------+--------------+-------------+--------------+---------+-----------+------+--------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+--------------+
-; |ARM                                                                                                    ; 3114 (2)          ; 2454 (0)     ; 51712       ; 0            ; 0       ; 0         ; 454  ; 0            ; |ARM                                                                                                                                                                                                                                                                                                                                       ; work         ;
-;    |EXE_Stage:exe_stage|                                                                                ; 1213 (131)        ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |ARM|EXE_Stage:exe_stage                                                                                                                                                                                                                                                                                                                   ; work         ;
-;       |ALU:alu|                                                                                         ; 299 (299)         ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |ARM|EXE_Stage:exe_stage|ALU:alu                                                                                                                                                                                                                                                                                                           ; work         ;
-;       |Val2Generate:v2g|                                                                                ; 783 (783)         ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |ARM|EXE_Stage:exe_stage|Val2Generate:v2g                                                                                                                                                                                                                                                                                                  ; work         ;
+; |ARM                                                                                                    ; 3154 (2)          ; 2435 (0)     ; 51712       ; 0            ; 0       ; 0         ; 454  ; 0            ; |ARM                                                                                                                                                                                                                                                                                                                                       ; work         ;
+;    |EXE_Stage:exe_stage|                                                                                ; 1206 (135)        ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |ARM|EXE_Stage:exe_stage                                                                                                                                                                                                                                                                                                                   ; work         ;
+;       |ALU:alu|                                                                                         ; 315 (315)         ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |ARM|EXE_Stage:exe_stage|ALU:alu                                                                                                                                                                                                                                                                                                           ; work         ;
+;       |Val2Generate:v2g|                                                                                ; 756 (756)         ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |ARM|EXE_Stage:exe_stage|Val2Generate:v2g                                                                                                                                                                                                                                                                                                  ; work         ;
 ;    |EXE_Stage_Reg:exe_stage_reg|                                                                        ; 0 (0)             ; 71 (71)      ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |ARM|EXE_Stage_Reg:exe_stage_reg                                                                                                                                                                                                                                                                                                           ; work         ;
 ;    |Forwarding_Unit:forwarding_unit|                                                                    ; 15 (15)           ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |ARM|Forwarding_Unit:forwarding_unit                                                                                                                                                                                                                                                                                                       ; work         ;
 ;    |Hazard_Detection_Unit:hazard_detection_unit|                                                        ; 19 (19)           ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |ARM|Hazard_Detection_Unit:hazard_detection_unit                                                                                                                                                                                                                                                                                           ; work         ;
@@ -305,13 +307,14 @@ applicable agreement for further details.
 ;    |IF_Stage:if_stage|                                                                                  ; 231 (199)         ; 32 (0)       ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |ARM|IF_Stage:if_stage                                                                                                                                                                                                                                                                                                                     ; work         ;
 ;       |reg32:pc|                                                                                        ; 32 (32)           ; 32 (32)      ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |ARM|IF_Stage:if_stage|reg32:pc                                                                                                                                                                                                                                                                                                            ; work         ;
 ;    |IF_Stage_Reg:if_stage_reg|                                                                          ; 62 (62)           ; 61 (61)      ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |ARM|IF_Stage_Reg:if_stage_reg                                                                                                                                                                                                                                                                                                             ; work         ;
-;    |MEM_Stage:mem_stage|                                                                                ; 53 (1)            ; 54 (0)       ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |ARM|MEM_Stage:mem_stage                                                                                                                                                                                                                                                                                                                   ; work         ;
-;       |SRAM_Controller:sram_controller|                                                                 ; 52 (52)           ; 54 (54)      ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |ARM|MEM_Stage:mem_stage|SRAM_Controller:sram_controller                                                                                                                                                                                                                                                                                   ; work         ;
-;    |MEM_Stage_Reg:mem_stage_reg|                                                                        ; 0 (0)             ; 38 (38)      ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |ARM|MEM_Stage_Reg:mem_stage_reg                                                                                                                                                                                                                                                                                                           ; work         ;
+;    |MEM_Stage:mem_stage|                                                                                ; 103 (1)           ; 3 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |ARM|MEM_Stage:mem_stage                                                                                                                                                                                                                                                                                                                   ; work         ;
+;       |SRAM_Controller:sram_controller|                                                                 ; 102 (99)          ; 3 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |ARM|MEM_Stage:mem_stage|SRAM_Controller:sram_controller                                                                                                                                                                                                                                                                                   ; work         ;
+;          |Counter3bit:counter|                                                                          ; 3 (3)             ; 3 (3)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |ARM|MEM_Stage:mem_stage|SRAM_Controller:sram_controller|Counter3bit:counter                                                                                                                                                                                                                                                               ; work         ;
+;    |MEM_Stage_Reg:mem_stage_reg|                                                                        ; 0 (0)             ; 70 (70)      ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |ARM|MEM_Stage_Reg:mem_stage_reg                                                                                                                                                                                                                                                                                                           ; work         ;
 ;    |WB_Stage:wb_stage|                                                                                  ; 32 (32)           ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |ARM|WB_Stage:wb_stage                                                                                                                                                                                                                                                                                                                     ; work         ;
 ;    |reg4neg:SReg|                                                                                       ; 0 (0)             ; 4 (4)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |ARM|reg4neg:SReg                                                                                                                                                                                                                                                                                                                          ; work         ;
-;    |sld_hub:auto_hub|                                                                                   ; 120 (1)           ; 86 (0)       ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |ARM|sld_hub:auto_hub                                                                                                                                                                                                                                                                                                                      ; work         ;
-;       |sld_jtag_hub:\jtag_hub_gen:sld_jtag_hub_inst|                                                    ; 119 (81)          ; 86 (58)      ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |ARM|sld_hub:auto_hub|sld_jtag_hub:\jtag_hub_gen:sld_jtag_hub_inst                                                                                                                                                                                                                                                                         ; work         ;
+;    |sld_hub:auto_hub|                                                                                   ; 117 (1)           ; 86 (0)       ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |ARM|sld_hub:auto_hub                                                                                                                                                                                                                                                                                                                      ; work         ;
+;       |sld_jtag_hub:\jtag_hub_gen:sld_jtag_hub_inst|                                                    ; 116 (78)          ; 86 (58)      ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |ARM|sld_hub:auto_hub|sld_jtag_hub:\jtag_hub_gen:sld_jtag_hub_inst                                                                                                                                                                                                                                                                         ; work         ;
 ;          |sld_rom_sr:hub_info_reg|                                                                      ; 21 (21)           ; 9 (9)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |ARM|sld_hub:auto_hub|sld_jtag_hub:\jtag_hub_gen:sld_jtag_hub_inst|sld_rom_sr:hub_info_reg                                                                                                                                                                                                                                                 ; work         ;
 ;          |sld_shadow_jsm:shadow_jsm|                                                                    ; 17 (17)           ; 19 (19)      ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |ARM|sld_hub:auto_hub|sld_jtag_hub:\jtag_hub_gen:sld_jtag_hub_inst|sld_shadow_jsm:shadow_jsm                                                                                                                                                                                                                                               ; work         ;
 ;    |sld_signaltap:auto_signaltap_0|                                                                     ; 572 (1)           ; 1464 (202)   ; 51712       ; 0            ; 0       ; 0         ; 0    ; 0            ; |ARM|sld_signaltap:auto_signaltap_0                                                                                                                                                                                                                                                                                                        ; work         ;
@@ -462,45 +465,112 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 +-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+------+----------------+--------------+--------------+--------------+--------------+-------+------+
 
 
-+-----------------------------------------------------------------------------------------------------------+
-; User-Specified and Inferred Latches                                                                       ;
-+-----------------------------------------------------+----------------------------+------------------------+
-; Latch Name                                          ; Latch Enable Signal        ; Free of Timing Hazards ;
-+-----------------------------------------------------+----------------------------+------------------------+
-; IF_Stage:if_stage|ins[16]                           ; IF_Stage:if_stage|WideNor0 ; yes                    ;
-; IF_Stage:if_stage|ins[17]                           ; IF_Stage:if_stage|WideNor0 ; yes                    ;
-; IF_Stage:if_stage|ins[18]                           ; IF_Stage:if_stage|WideNor0 ; yes                    ;
-; IF_Stage:if_stage|ins[19]                           ; IF_Stage:if_stage|WideNor0 ; yes                    ;
-; IF_Stage:if_stage|ins[0]                            ; IF_Stage:if_stage|WideNor0 ; yes                    ;
-; IF_Stage:if_stage|ins[12]                           ; IF_Stage:if_stage|WideNor0 ; yes                    ;
-; IF_Stage:if_stage|ins[20]                           ; IF_Stage:if_stage|WideNor0 ; yes                    ;
-; IF_Stage:if_stage|ins[27]                           ; IF_Stage:if_stage|WideNor0 ; yes                    ;
-; IF_Stage:if_stage|ins[26]                           ; IF_Stage:if_stage|WideNor0 ; yes                    ;
-; IF_Stage:if_stage|ins[1]                            ; IF_Stage:if_stage|WideNor0 ; yes                    ;
-; IF_Stage:if_stage|ins[13]                           ; IF_Stage:if_stage|WideNor0 ; yes                    ;
-; IF_Stage:if_stage|ins[2]                            ; IF_Stage:if_stage|WideNor0 ; yes                    ;
-; IF_Stage:if_stage|ins[14]                           ; IF_Stage:if_stage|WideNor0 ; yes                    ;
-; IF_Stage:if_stage|ins[3]                            ; IF_Stage:if_stage|WideNor0 ; yes                    ;
-; IF_Stage:if_stage|ins[15]                           ; IF_Stage:if_stage|WideNor0 ; yes                    ;
-; IF_Stage:if_stage|ins[24]                           ; IF_Stage:if_stage|WideNor0 ; yes                    ;
-; IF_Stage:if_stage|ins[23]                           ; IF_Stage:if_stage|WideNor0 ; yes                    ;
-; IF_Stage:if_stage|ins[22]                           ; IF_Stage:if_stage|WideNor0 ; yes                    ;
-; IF_Stage:if_stage|ins[21]                           ; IF_Stage:if_stage|WideNor0 ; yes                    ;
-; IF_Stage:if_stage|ins[25]                           ; IF_Stage:if_stage|WideNor0 ; yes                    ;
-; IF_Stage:if_stage|ins[29]                           ; IF_Stage:if_stage|WideNor0 ; yes                    ;
-; IF_Stage:if_stage|ins[28]                           ; IF_Stage:if_stage|WideNor0 ; yes                    ;
-; IF_Stage:if_stage|ins[31]                           ; IF_Stage:if_stage|WideNor0 ; yes                    ;
-; IF_Stage:if_stage|ins[30]                           ; IF_Stage:if_stage|WideNor0 ; yes                    ;
-; IF_Stage:if_stage|ins[5]                            ; IF_Stage:if_stage|WideNor0 ; yes                    ;
-; IF_Stage:if_stage|ins[11]                           ; IF_Stage:if_stage|WideNor0 ; yes                    ;
-; IF_Stage:if_stage|ins[10]                           ; IF_Stage:if_stage|WideNor0 ; yes                    ;
-; IF_Stage:if_stage|ins[9]                            ; IF_Stage:if_stage|WideNor0 ; yes                    ;
-; IF_Stage:if_stage|ins[8]                            ; IF_Stage:if_stage|WideNor0 ; yes                    ;
-; IF_Stage:if_stage|ins[7]                            ; IF_Stage:if_stage|WideNor0 ; yes                    ;
-; IF_Stage:if_stage|ins[4]                            ; IF_Stage:if_stage|WideNor0 ; yes                    ;
-; IF_Stage:if_stage|ins[6]                            ; IF_Stage:if_stage|WideNor0 ; yes                    ;
-; Number of user-specified and inferred latches = 32  ;                            ;                        ;
-+-----------------------------------------------------+----------------------------+------------------------+
++----------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; User-Specified and Inferred Latches                                                                                                                            ;
++------------------------------------------------------------------------+--------------------------------------------------------------+------------------------+
+; Latch Name                                                             ; Latch Enable Signal                                          ; Free of Timing Hazards ;
++------------------------------------------------------------------------+--------------------------------------------------------------+------------------------+
+; MEM_Stage:mem_stage|SRAM_Controller:sram_controller|SRAM_ADDR[0]       ; MEM_Stage:mem_stage|SRAM_Controller:sram_controller|Mux19    ; yes                    ;
+; MEM_Stage:mem_stage|SRAM_Controller:sram_controller|SRAM_ADDR[1]       ; MEM_Stage:mem_stage|SRAM_Controller:sram_controller|Mux19    ; yes                    ;
+; MEM_Stage:mem_stage|SRAM_Controller:sram_controller|SRAM_ADDR[2]       ; MEM_Stage:mem_stage|SRAM_Controller:sram_controller|Mux19    ; yes                    ;
+; MEM_Stage:mem_stage|SRAM_Controller:sram_controller|SRAM_ADDR[3]       ; MEM_Stage:mem_stage|SRAM_Controller:sram_controller|Mux19    ; yes                    ;
+; MEM_Stage:mem_stage|SRAM_Controller:sram_controller|SRAM_ADDR[4]       ; MEM_Stage:mem_stage|SRAM_Controller:sram_controller|Mux19    ; yes                    ;
+; MEM_Stage:mem_stage|SRAM_Controller:sram_controller|SRAM_ADDR[5]       ; MEM_Stage:mem_stage|SRAM_Controller:sram_controller|Mux19    ; yes                    ;
+; MEM_Stage:mem_stage|SRAM_Controller:sram_controller|SRAM_ADDR[6]       ; MEM_Stage:mem_stage|SRAM_Controller:sram_controller|Mux19    ; yes                    ;
+; MEM_Stage:mem_stage|SRAM_Controller:sram_controller|SRAM_ADDR[7]       ; MEM_Stage:mem_stage|SRAM_Controller:sram_controller|Mux19    ; yes                    ;
+; MEM_Stage:mem_stage|SRAM_Controller:sram_controller|SRAM_ADDR[8]       ; MEM_Stage:mem_stage|SRAM_Controller:sram_controller|Mux19    ; yes                    ;
+; MEM_Stage:mem_stage|SRAM_Controller:sram_controller|SRAM_ADDR[9]       ; MEM_Stage:mem_stage|SRAM_Controller:sram_controller|Mux19    ; yes                    ;
+; MEM_Stage:mem_stage|SRAM_Controller:sram_controller|SRAM_ADDR[10]      ; MEM_Stage:mem_stage|SRAM_Controller:sram_controller|Mux19    ; yes                    ;
+; MEM_Stage:mem_stage|SRAM_Controller:sram_controller|SRAM_ADDR[11]      ; MEM_Stage:mem_stage|SRAM_Controller:sram_controller|Mux19    ; yes                    ;
+; MEM_Stage:mem_stage|SRAM_Controller:sram_controller|SRAM_ADDR[12]      ; MEM_Stage:mem_stage|SRAM_Controller:sram_controller|Mux19    ; yes                    ;
+; MEM_Stage:mem_stage|SRAM_Controller:sram_controller|SRAM_ADDR[13]      ; MEM_Stage:mem_stage|SRAM_Controller:sram_controller|Mux19    ; yes                    ;
+; MEM_Stage:mem_stage|SRAM_Controller:sram_controller|SRAM_ADDR[14]      ; MEM_Stage:mem_stage|SRAM_Controller:sram_controller|Mux19    ; yes                    ;
+; MEM_Stage:mem_stage|SRAM_Controller:sram_controller|SRAM_ADDR[15]      ; MEM_Stage:mem_stage|SRAM_Controller:sram_controller|Mux19    ; yes                    ;
+; MEM_Stage:mem_stage|SRAM_Controller:sram_controller|SRAM_ADDR[16]      ; MEM_Stage:mem_stage|SRAM_Controller:sram_controller|Mux19    ; yes                    ;
+; MEM_Stage:mem_stage|SRAM_Controller:sram_controller|SRAM_ADDR[17]      ; MEM_Stage:mem_stage|SRAM_Controller:sram_controller|Mux19    ; yes                    ;
+; MEM_Stage:mem_stage|SRAM_Controller:sram_controller|readData[0]        ; MEM_Stage:mem_stage|SRAM_Controller:sram_controller|Decoder0 ; yes                    ;
+; MEM_Stage:mem_stage|SRAM_Controller:sram_controller|readData[1]        ; MEM_Stage:mem_stage|SRAM_Controller:sram_controller|Decoder0 ; yes                    ;
+; MEM_Stage:mem_stage|SRAM_Controller:sram_controller|readData[2]        ; MEM_Stage:mem_stage|SRAM_Controller:sram_controller|Decoder0 ; yes                    ;
+; MEM_Stage:mem_stage|SRAM_Controller:sram_controller|readData[3]        ; MEM_Stage:mem_stage|SRAM_Controller:sram_controller|Decoder0 ; yes                    ;
+; MEM_Stage:mem_stage|SRAM_Controller:sram_controller|readData[4]        ; MEM_Stage:mem_stage|SRAM_Controller:sram_controller|Decoder0 ; yes                    ;
+; MEM_Stage:mem_stage|SRAM_Controller:sram_controller|readData[5]        ; MEM_Stage:mem_stage|SRAM_Controller:sram_controller|Decoder0 ; yes                    ;
+; MEM_Stage:mem_stage|SRAM_Controller:sram_controller|readData[6]        ; MEM_Stage:mem_stage|SRAM_Controller:sram_controller|Decoder0 ; yes                    ;
+; MEM_Stage:mem_stage|SRAM_Controller:sram_controller|readData[7]        ; MEM_Stage:mem_stage|SRAM_Controller:sram_controller|Decoder0 ; yes                    ;
+; MEM_Stage:mem_stage|SRAM_Controller:sram_controller|readData[8]        ; MEM_Stage:mem_stage|SRAM_Controller:sram_controller|Decoder0 ; yes                    ;
+; MEM_Stage:mem_stage|SRAM_Controller:sram_controller|readData[9]        ; MEM_Stage:mem_stage|SRAM_Controller:sram_controller|Decoder0 ; yes                    ;
+; MEM_Stage:mem_stage|SRAM_Controller:sram_controller|readData[10]       ; MEM_Stage:mem_stage|SRAM_Controller:sram_controller|Decoder0 ; yes                    ;
+; MEM_Stage:mem_stage|SRAM_Controller:sram_controller|readData[11]       ; MEM_Stage:mem_stage|SRAM_Controller:sram_controller|Decoder0 ; yes                    ;
+; MEM_Stage:mem_stage|SRAM_Controller:sram_controller|readData[12]       ; MEM_Stage:mem_stage|SRAM_Controller:sram_controller|Decoder0 ; yes                    ;
+; MEM_Stage:mem_stage|SRAM_Controller:sram_controller|readData[13]       ; MEM_Stage:mem_stage|SRAM_Controller:sram_controller|Decoder0 ; yes                    ;
+; MEM_Stage:mem_stage|SRAM_Controller:sram_controller|readData[14]       ; MEM_Stage:mem_stage|SRAM_Controller:sram_controller|Decoder0 ; yes                    ;
+; MEM_Stage:mem_stage|SRAM_Controller:sram_controller|readData[15]       ; MEM_Stage:mem_stage|SRAM_Controller:sram_controller|Decoder0 ; yes                    ;
+; MEM_Stage:mem_stage|SRAM_Controller:sram_controller|readData[16]       ; MEM_Stage:mem_stage|SRAM_Controller:sram_controller|Decoder0 ; yes                    ;
+; MEM_Stage:mem_stage|SRAM_Controller:sram_controller|readData[17]       ; MEM_Stage:mem_stage|SRAM_Controller:sram_controller|Decoder0 ; yes                    ;
+; MEM_Stage:mem_stage|SRAM_Controller:sram_controller|readData[18]       ; MEM_Stage:mem_stage|SRAM_Controller:sram_controller|Decoder0 ; yes                    ;
+; MEM_Stage:mem_stage|SRAM_Controller:sram_controller|readData[19]       ; MEM_Stage:mem_stage|SRAM_Controller:sram_controller|Decoder0 ; yes                    ;
+; MEM_Stage:mem_stage|SRAM_Controller:sram_controller|readData[20]       ; MEM_Stage:mem_stage|SRAM_Controller:sram_controller|Decoder0 ; yes                    ;
+; MEM_Stage:mem_stage|SRAM_Controller:sram_controller|readData[21]       ; MEM_Stage:mem_stage|SRAM_Controller:sram_controller|Decoder0 ; yes                    ;
+; MEM_Stage:mem_stage|SRAM_Controller:sram_controller|readData[22]       ; MEM_Stage:mem_stage|SRAM_Controller:sram_controller|Decoder0 ; yes                    ;
+; MEM_Stage:mem_stage|SRAM_Controller:sram_controller|readData[23]       ; MEM_Stage:mem_stage|SRAM_Controller:sram_controller|Decoder0 ; yes                    ;
+; MEM_Stage:mem_stage|SRAM_Controller:sram_controller|readData[24]       ; MEM_Stage:mem_stage|SRAM_Controller:sram_controller|Decoder0 ; yes                    ;
+; MEM_Stage:mem_stage|SRAM_Controller:sram_controller|readData[25]       ; MEM_Stage:mem_stage|SRAM_Controller:sram_controller|Decoder0 ; yes                    ;
+; MEM_Stage:mem_stage|SRAM_Controller:sram_controller|readData[26]       ; MEM_Stage:mem_stage|SRAM_Controller:sram_controller|Decoder0 ; yes                    ;
+; MEM_Stage:mem_stage|SRAM_Controller:sram_controller|readData[27]       ; MEM_Stage:mem_stage|SRAM_Controller:sram_controller|Decoder0 ; yes                    ;
+; MEM_Stage:mem_stage|SRAM_Controller:sram_controller|readData[28]       ; MEM_Stage:mem_stage|SRAM_Controller:sram_controller|Decoder0 ; yes                    ;
+; MEM_Stage:mem_stage|SRAM_Controller:sram_controller|readData[29]       ; MEM_Stage:mem_stage|SRAM_Controller:sram_controller|Decoder0 ; yes                    ;
+; MEM_Stage:mem_stage|SRAM_Controller:sram_controller|readData[30]       ; MEM_Stage:mem_stage|SRAM_Controller:sram_controller|Decoder0 ; yes                    ;
+; MEM_Stage:mem_stage|SRAM_Controller:sram_controller|readData[31]       ; MEM_Stage:mem_stage|SRAM_Controller:sram_controller|Decoder0 ; yes                    ;
+; IF_Stage:if_stage|ins[16]                                              ; IF_Stage:if_stage|WideNor0                                   ; yes                    ;
+; IF_Stage:if_stage|ins[17]                                              ; IF_Stage:if_stage|WideNor0                                   ; yes                    ;
+; IF_Stage:if_stage|ins[18]                                              ; IF_Stage:if_stage|WideNor0                                   ; yes                    ;
+; IF_Stage:if_stage|ins[19]                                              ; IF_Stage:if_stage|WideNor0                                   ; yes                    ;
+; IF_Stage:if_stage|ins[0]                                               ; IF_Stage:if_stage|WideNor0                                   ; yes                    ;
+; IF_Stage:if_stage|ins[12]                                              ; IF_Stage:if_stage|WideNor0                                   ; yes                    ;
+; IF_Stage:if_stage|ins[20]                                              ; IF_Stage:if_stage|WideNor0                                   ; yes                    ;
+; IF_Stage:if_stage|ins[27]                                              ; IF_Stage:if_stage|WideNor0                                   ; yes                    ;
+; IF_Stage:if_stage|ins[26]                                              ; IF_Stage:if_stage|WideNor0                                   ; yes                    ;
+; IF_Stage:if_stage|ins[1]                                               ; IF_Stage:if_stage|WideNor0                                   ; yes                    ;
+; IF_Stage:if_stage|ins[13]                                              ; IF_Stage:if_stage|WideNor0                                   ; yes                    ;
+; IF_Stage:if_stage|ins[2]                                               ; IF_Stage:if_stage|WideNor0                                   ; yes                    ;
+; IF_Stage:if_stage|ins[14]                                              ; IF_Stage:if_stage|WideNor0                                   ; yes                    ;
+; IF_Stage:if_stage|ins[3]                                               ; IF_Stage:if_stage|WideNor0                                   ; yes                    ;
+; IF_Stage:if_stage|ins[15]                                              ; IF_Stage:if_stage|WideNor0                                   ; yes                    ;
+; IF_Stage:if_stage|ins[24]                                              ; IF_Stage:if_stage|WideNor0                                   ; yes                    ;
+; IF_Stage:if_stage|ins[23]                                              ; IF_Stage:if_stage|WideNor0                                   ; yes                    ;
+; IF_Stage:if_stage|ins[22]                                              ; IF_Stage:if_stage|WideNor0                                   ; yes                    ;
+; IF_Stage:if_stage|ins[21]                                              ; IF_Stage:if_stage|WideNor0                                   ; yes                    ;
+; IF_Stage:if_stage|ins[25]                                              ; IF_Stage:if_stage|WideNor0                                   ; yes                    ;
+; IF_Stage:if_stage|ins[29]                                              ; IF_Stage:if_stage|WideNor0                                   ; yes                    ;
+; IF_Stage:if_stage|ins[28]                                              ; IF_Stage:if_stage|WideNor0                                   ; yes                    ;
+; IF_Stage:if_stage|ins[31]                                              ; IF_Stage:if_stage|WideNor0                                   ; yes                    ;
+; IF_Stage:if_stage|ins[30]                                              ; IF_Stage:if_stage|WideNor0                                   ; yes                    ;
+; MEM_Stage:mem_stage|SRAM_Controller:sram_controller|OUT_SRAM_DQ[0]~0   ; MEM_Stage:mem_stage|SRAM_Controller:sram_controller|Mux19    ; yes                    ;
+; MEM_Stage:mem_stage|SRAM_Controller:sram_controller|OUT_SRAM_DQ[0]_708 ; MEM_Stage:mem_stage|SRAM_Controller:sram_controller|Mux19    ; yes                    ;
+; MEM_Stage:mem_stage|SRAM_Controller:sram_controller|OUT_SRAM_DQ[1]~1   ; MEM_Stage:mem_stage|SRAM_Controller:sram_controller|Mux19    ; yes                    ;
+; MEM_Stage:mem_stage|SRAM_Controller:sram_controller|OUT_SRAM_DQ[2]~2   ; MEM_Stage:mem_stage|SRAM_Controller:sram_controller|Mux19    ; yes                    ;
+; MEM_Stage:mem_stage|SRAM_Controller:sram_controller|OUT_SRAM_DQ[3]~3   ; MEM_Stage:mem_stage|SRAM_Controller:sram_controller|Mux19    ; yes                    ;
+; MEM_Stage:mem_stage|SRAM_Controller:sram_controller|OUT_SRAM_DQ[4]~4   ; MEM_Stage:mem_stage|SRAM_Controller:sram_controller|Mux19    ; yes                    ;
+; MEM_Stage:mem_stage|SRAM_Controller:sram_controller|OUT_SRAM_DQ[5]~5   ; MEM_Stage:mem_stage|SRAM_Controller:sram_controller|Mux19    ; yes                    ;
+; MEM_Stage:mem_stage|SRAM_Controller:sram_controller|OUT_SRAM_DQ[6]~6   ; MEM_Stage:mem_stage|SRAM_Controller:sram_controller|Mux19    ; yes                    ;
+; MEM_Stage:mem_stage|SRAM_Controller:sram_controller|OUT_SRAM_DQ[7]~7   ; MEM_Stage:mem_stage|SRAM_Controller:sram_controller|Mux19    ; yes                    ;
+; MEM_Stage:mem_stage|SRAM_Controller:sram_controller|OUT_SRAM_DQ[8]~8   ; MEM_Stage:mem_stage|SRAM_Controller:sram_controller|Mux19    ; yes                    ;
+; MEM_Stage:mem_stage|SRAM_Controller:sram_controller|OUT_SRAM_DQ[9]~9   ; MEM_Stage:mem_stage|SRAM_Controller:sram_controller|Mux19    ; yes                    ;
+; MEM_Stage:mem_stage|SRAM_Controller:sram_controller|OUT_SRAM_DQ[10]~10 ; MEM_Stage:mem_stage|SRAM_Controller:sram_controller|Mux19    ; yes                    ;
+; MEM_Stage:mem_stage|SRAM_Controller:sram_controller|OUT_SRAM_DQ[11]~11 ; MEM_Stage:mem_stage|SRAM_Controller:sram_controller|Mux19    ; yes                    ;
+; MEM_Stage:mem_stage|SRAM_Controller:sram_controller|OUT_SRAM_DQ[12]~12 ; MEM_Stage:mem_stage|SRAM_Controller:sram_controller|Mux19    ; yes                    ;
+; MEM_Stage:mem_stage|SRAM_Controller:sram_controller|OUT_SRAM_DQ[13]~13 ; MEM_Stage:mem_stage|SRAM_Controller:sram_controller|Mux19    ; yes                    ;
+; MEM_Stage:mem_stage|SRAM_Controller:sram_controller|OUT_SRAM_DQ[14]~14 ; MEM_Stage:mem_stage|SRAM_Controller:sram_controller|Mux19    ; yes                    ;
+; MEM_Stage:mem_stage|SRAM_Controller:sram_controller|OUT_SRAM_DQ[15]~15 ; MEM_Stage:mem_stage|SRAM_Controller:sram_controller|Mux19    ; yes                    ;
+; IF_Stage:if_stage|ins[6]                                               ; IF_Stage:if_stage|WideNor0                                   ; yes                    ;
+; IF_Stage:if_stage|ins[4]                                               ; IF_Stage:if_stage|WideNor0                                   ; yes                    ;
+; IF_Stage:if_stage|ins[11]                                              ; IF_Stage:if_stage|WideNor0                                   ; yes                    ;
+; IF_Stage:if_stage|ins[10]                                              ; IF_Stage:if_stage|WideNor0                                   ; yes                    ;
+; IF_Stage:if_stage|ins[9]                                               ; IF_Stage:if_stage|WideNor0                                   ; yes                    ;
+; IF_Stage:if_stage|ins[8]                                               ; IF_Stage:if_stage|WideNor0                                   ; yes                    ;
+; IF_Stage:if_stage|ins[5]                                               ; IF_Stage:if_stage|WideNor0                                   ; yes                    ;
+; IF_Stage:if_stage|ins[7]                                               ; IF_Stage:if_stage|WideNor0                                   ; yes                    ;
+; Number of user-specified and inferred latches = 99                     ;                                                              ;                        ;
++------------------------------------------------------------------------+--------------------------------------------------------------+------------------------+
 Note: All latches listed above may not be present at the end of synthesis due to various synthesis optimizations.
 
 
@@ -515,39 +585,38 @@ Note: All latches listed above may not be present at the end of synthesis due to
 Note: All cells listed above may not be present at the end of synthesis due to various synthesis optimizations.
 
 
-+--------------------------------------------------------------------------------------------------------------+
-; Registers Removed During Synthesis                                                                           ;
-+---------------------------------------------------+----------------------------------------------------------+
-; Register name                                     ; Reason for Removal                                       ;
-+---------------------------------------------------+----------------------------------------------------------+
-; MEM_Stage_Reg:mem_stage_reg|Mem_read_value[0..31] ; Stuck at GND due to stuck port data_in                   ;
-; ID_Stage_Reg:id_stage_reg|Signed_imm_24[15]       ; Merged with ID_Stage_Reg:id_stage_reg|Dest[3]            ;
-; ID_Stage_Reg:id_stage_reg|Signed_imm_24[14]       ; Merged with ID_Stage_Reg:id_stage_reg|Dest[2]            ;
-; ID_Stage_Reg:id_stage_reg|Signed_imm_24[13]       ; Merged with ID_Stage_Reg:id_stage_reg|Dest[1]            ;
-; ID_Stage_Reg:id_stage_reg|Signed_imm_24[12]       ; Merged with ID_Stage_Reg:id_stage_reg|Dest[0]            ;
-; ID_Stage_Reg:id_stage_reg|ID_reg_out_src1[2]      ; Merged with ID_Stage_Reg:id_stage_reg|Signed_imm_24[18]  ;
-; ID_Stage_Reg:id_stage_reg|ID_reg_out_src1[1]      ; Merged with ID_Stage_Reg:id_stage_reg|Signed_imm_24[17]  ;
-; ID_Stage_Reg:id_stage_reg|ID_reg_out_src1[0]      ; Merged with ID_Stage_Reg:id_stage_reg|Signed_imm_24[16]  ;
-; ID_Stage_Reg:id_stage_reg|Shift_operand[11]       ; Merged with ID_Stage_Reg:id_stage_reg|Signed_imm_24[11]  ;
-; ID_Stage_Reg:id_stage_reg|Shift_operand[10]       ; Merged with ID_Stage_Reg:id_stage_reg|Signed_imm_24[10]  ;
-; ID_Stage_Reg:id_stage_reg|Shift_operand[9]        ; Merged with ID_Stage_Reg:id_stage_reg|Signed_imm_24[9]   ;
-; ID_Stage_Reg:id_stage_reg|Shift_operand[8]        ; Merged with ID_Stage_Reg:id_stage_reg|Signed_imm_24[8]   ;
-; ID_Stage_Reg:id_stage_reg|Shift_operand[7]        ; Merged with ID_Stage_Reg:id_stage_reg|Signed_imm_24[7]   ;
-; ID_Stage_Reg:id_stage_reg|Shift_operand[6]        ; Merged with ID_Stage_Reg:id_stage_reg|Signed_imm_24[6]   ;
-; ID_Stage_Reg:id_stage_reg|Shift_operand[5]        ; Merged with ID_Stage_Reg:id_stage_reg|Signed_imm_24[5]   ;
-; ID_Stage_Reg:id_stage_reg|Shift_operand[4]        ; Merged with ID_Stage_Reg:id_stage_reg|Signed_imm_24[4]   ;
-; ID_Stage_Reg:id_stage_reg|Shift_operand[3]        ; Merged with ID_Stage_Reg:id_stage_reg|Signed_imm_24[3]   ;
-; ID_Stage_Reg:id_stage_reg|Shift_operand[2]        ; Merged with ID_Stage_Reg:id_stage_reg|Signed_imm_24[2]   ;
-; ID_Stage_Reg:id_stage_reg|Shift_operand[1]        ; Merged with ID_Stage_Reg:id_stage_reg|Signed_imm_24[1]   ;
-; ID_Stage_Reg:id_stage_reg|Shift_operand[0]        ; Merged with ID_Stage_Reg:id_stage_reg|Signed_imm_24[0]   ;
-; ID_Stage_Reg:id_stage_reg|Signed_imm_24[19]       ; Merged with ID_Stage_Reg:id_stage_reg|ID_reg_out_src1[3] ;
-; IF_Stage_Reg:if_stage_reg|Instruction[10]         ; Merged with IF_Stage_Reg:if_stage_reg|Instruction[27]    ;
-; IF_Stage_Reg:if_stage_reg|Instruction[7]          ; Merged with IF_Stage_Reg:if_stage_reg|Instruction[5]     ;
-; IF_Stage_Reg:if_stage_reg|Instruction[9]          ; Merged with IF_Stage_Reg:if_stage_reg|Instruction[11]    ;
-; ID_Stage_Reg:id_stage_reg|Signed_imm_24[7]        ; Merged with ID_Stage_Reg:id_stage_reg|Signed_imm_24[5]   ;
-; ID_Stage_Reg:id_stage_reg|Signed_imm_24[9]        ; Merged with ID_Stage_Reg:id_stage_reg|Signed_imm_24[11]  ;
-; Total Number of Removed Registers = 57            ;                                                          ;
-+---------------------------------------------------+----------------------------------------------------------+
++--------------------------------------------------------------------------------------------------------+
+; Registers Removed During Synthesis                                                                     ;
++----------------------------------------------+---------------------------------------------------------+
+; Register name                                ; Reason for Removal                                      ;
++----------------------------------------------+---------------------------------------------------------+
+; ID_Stage_Reg:id_stage_reg|Signed_imm_24[15]  ; Merged with ID_Stage_Reg:id_stage_reg|Dest[3]           ;
+; ID_Stage_Reg:id_stage_reg|Signed_imm_24[14]  ; Merged with ID_Stage_Reg:id_stage_reg|Dest[2]           ;
+; ID_Stage_Reg:id_stage_reg|Signed_imm_24[13]  ; Merged with ID_Stage_Reg:id_stage_reg|Dest[1]           ;
+; ID_Stage_Reg:id_stage_reg|Signed_imm_24[12]  ; Merged with ID_Stage_Reg:id_stage_reg|Dest[0]           ;
+; ID_Stage_Reg:id_stage_reg|ID_reg_out_src1[3] ; Merged with ID_Stage_Reg:id_stage_reg|Signed_imm_24[19] ;
+; ID_Stage_Reg:id_stage_reg|ID_reg_out_src1[2] ; Merged with ID_Stage_Reg:id_stage_reg|Signed_imm_24[18] ;
+; ID_Stage_Reg:id_stage_reg|ID_reg_out_src1[1] ; Merged with ID_Stage_Reg:id_stage_reg|Signed_imm_24[17] ;
+; ID_Stage_Reg:id_stage_reg|ID_reg_out_src1[0] ; Merged with ID_Stage_Reg:id_stage_reg|Signed_imm_24[16] ;
+; ID_Stage_Reg:id_stage_reg|Shift_operand[11]  ; Merged with ID_Stage_Reg:id_stage_reg|Signed_imm_24[11] ;
+; ID_Stage_Reg:id_stage_reg|Shift_operand[10]  ; Merged with ID_Stage_Reg:id_stage_reg|Signed_imm_24[10] ;
+; ID_Stage_Reg:id_stage_reg|Shift_operand[8]   ; Merged with ID_Stage_Reg:id_stage_reg|Signed_imm_24[8]  ;
+; ID_Stage_Reg:id_stage_reg|Shift_operand[7]   ; Merged with ID_Stage_Reg:id_stage_reg|Signed_imm_24[7]  ;
+; ID_Stage_Reg:id_stage_reg|Shift_operand[6]   ; Merged with ID_Stage_Reg:id_stage_reg|Signed_imm_24[6]  ;
+; ID_Stage_Reg:id_stage_reg|Shift_operand[5]   ; Merged with ID_Stage_Reg:id_stage_reg|Signed_imm_24[5]  ;
+; ID_Stage_Reg:id_stage_reg|Shift_operand[4]   ; Merged with ID_Stage_Reg:id_stage_reg|Signed_imm_24[4]  ;
+; ID_Stage_Reg:id_stage_reg|Shift_operand[3]   ; Merged with ID_Stage_Reg:id_stage_reg|Signed_imm_24[3]  ;
+; ID_Stage_Reg:id_stage_reg|Shift_operand[2]   ; Merged with ID_Stage_Reg:id_stage_reg|Signed_imm_24[2]  ;
+; ID_Stage_Reg:id_stage_reg|Shift_operand[1]   ; Merged with ID_Stage_Reg:id_stage_reg|Signed_imm_24[1]  ;
+; ID_Stage_Reg:id_stage_reg|Shift_operand[0]   ; Merged with ID_Stage_Reg:id_stage_reg|Signed_imm_24[0]  ;
+; ID_Stage_Reg:id_stage_reg|Shift_operand[9]   ; Merged with ID_Stage_Reg:id_stage_reg|Signed_imm_24[9]  ;
+; IF_Stage_Reg:if_stage_reg|Instruction[10]    ; Merged with IF_Stage_Reg:if_stage_reg|Instruction[27]   ;
+; IF_Stage_Reg:if_stage_reg|Instruction[9]     ; Merged with IF_Stage_Reg:if_stage_reg|Instruction[11]   ;
+; IF_Stage_Reg:if_stage_reg|Instruction[7]     ; Merged with IF_Stage_Reg:if_stage_reg|Instruction[5]    ;
+; ID_Stage_Reg:id_stage_reg|Signed_imm_24[9]   ; Merged with ID_Stage_Reg:id_stage_reg|Signed_imm_24[11] ;
+; ID_Stage_Reg:id_stage_reg|Signed_imm_24[7]   ; Merged with ID_Stage_Reg:id_stage_reg|Signed_imm_24[5]  ;
+; Total Number of Removed Registers = 25       ;                                                         ;
++----------------------------------------------+---------------------------------------------------------+
 
 
 +------------------------------------------------------+
@@ -555,12 +624,12 @@ Note: All cells listed above may not be present at the end of synthesis due to v
 +----------------------------------------------+-------+
 ; Statistic                                    ; Value ;
 +----------------------------------------------+-------+
-; Total registers                              ; 2454  ;
+; Total registers                              ; 2435  ;
 ; Number of registers using Synchronous Clear  ; 80    ;
-; Number of registers using Synchronous Load   ; 65    ;
-; Number of registers using Asynchronous Clear ; 1374  ;
+; Number of registers using Synchronous Load   ; 64    ;
+; Number of registers using Asynchronous Clear ; 1409  ;
 ; Number of registers using Asynchronous Load  ; 0     ;
-; Number of registers using Clock Enable       ; 1430  ;
+; Number of registers using Clock Enable       ; 1414  ;
 ; Number of registers using Preset             ; 0     ;
 +----------------------------------------------+-------+
 
@@ -575,26 +644,27 @@ Note: All cells listed above may not be present at the end of synthesis due to v
 ; ID_Stage:id_stage|RegisterFile:RF|registerFile[3][0]                                                                                                                          ; 4       ;
 ; ID_Stage:id_stage|RegisterFile:RF|registerFile[3][1]                                                                                                                          ; 4       ;
 ; ID_Stage:id_stage|RegisterFile:RF|registerFile[4][2]                                                                                                                          ; 4       ;
+; MEM_Stage:mem_stage|SRAM_Controller:sram_controller|Counter3bit:counter|cout[1]                                                                                               ; 8       ;
 ; ID_Stage:id_stage|RegisterFile:RF|registerFile[1][0]                                                                                                                          ; 3       ;
 ; ID_Stage:id_stage|RegisterFile:RF|registerFile[2][1]                                                                                                                          ; 3       ;
 ; ID_Stage:id_stage|RegisterFile:RF|registerFile[5][2]                                                                                                                          ; 2       ;
-; ID_Stage:id_stage|RegisterFile:RF|registerFile[13][2]                                                                                                                         ; 2       ;
 ; ID_Stage:id_stage|RegisterFile:RF|registerFile[6][2]                                                                                                                          ; 2       ;
+; ID_Stage:id_stage|RegisterFile:RF|registerFile[7][2]                                                                                                                          ; 2       ;
+; ID_Stage:id_stage|RegisterFile:RF|registerFile[13][2]                                                                                                                         ; 2       ;
 ; ID_Stage:id_stage|RegisterFile:RF|registerFile[14][2]                                                                                                                         ; 2       ;
 ; ID_Stage:id_stage|RegisterFile:RF|registerFile[12][2]                                                                                                                         ; 2       ;
-; ID_Stage:id_stage|RegisterFile:RF|registerFile[7][2]                                                                                                                          ; 2       ;
+; ID_Stage:id_stage|RegisterFile:RF|registerFile[5][0]                                                                                                                          ; 2       ;
+; ID_Stage:id_stage|RegisterFile:RF|registerFile[7][0]                                                                                                                          ; 2       ;
+; ID_Stage:id_stage|RegisterFile:RF|registerFile[9][0]                                                                                                                          ; 2       ;
+; ID_Stage:id_stage|RegisterFile:RF|registerFile[11][0]                                                                                                                         ; 2       ;
+; ID_Stage:id_stage|RegisterFile:RF|registerFile[13][0]                                                                                                                         ; 2       ;
+; ID_Stage:id_stage|RegisterFile:RF|registerFile[11][1]                                                                                                                         ; 2       ;
 ; ID_Stage:id_stage|RegisterFile:RF|registerFile[6][1]                                                                                                                          ; 2       ;
 ; ID_Stage:id_stage|RegisterFile:RF|registerFile[7][1]                                                                                                                          ; 2       ;
-; ID_Stage:id_stage|RegisterFile:RF|registerFile[11][1]                                                                                                                         ; 2       ;
 ; ID_Stage:id_stage|RegisterFile:RF|registerFile[14][1]                                                                                                                         ; 2       ;
-; ID_Stage:id_stage|RegisterFile:RF|registerFile[5][0]                                                                                                                          ; 2       ;
-; ID_Stage:id_stage|RegisterFile:RF|registerFile[9][0]                                                                                                                          ; 2       ;
-; ID_Stage:id_stage|RegisterFile:RF|registerFile[13][0]                                                                                                                         ; 2       ;
-; ID_Stage:id_stage|RegisterFile:RF|registerFile[7][0]                                                                                                                          ; 2       ;
-; ID_Stage:id_stage|RegisterFile:RF|registerFile[11][0]                                                                                                                         ; 2       ;
+; ID_Stage:id_stage|RegisterFile:RF|registerFile[14][3]                                                                                                                         ; 2       ;
 ; ID_Stage:id_stage|RegisterFile:RF|registerFile[9][3]                                                                                                                          ; 2       ;
 ; ID_Stage:id_stage|RegisterFile:RF|registerFile[13][3]                                                                                                                         ; 2       ;
-; ID_Stage:id_stage|RegisterFile:RF|registerFile[14][3]                                                                                                                         ; 2       ;
 ; ID_Stage:id_stage|RegisterFile:RF|registerFile[8][3]                                                                                                                          ; 2       ;
 ; ID_Stage:id_stage|RegisterFile:RF|registerFile[12][3]                                                                                                                         ; 2       ;
 ; ID_Stage:id_stage|RegisterFile:RF|registerFile[11][3]                                                                                                                         ; 2       ;
@@ -612,7 +682,7 @@ Note: All cells listed above may not be present at the end of synthesis due to v
 ; sld_signaltap:auto_signaltap_0|sld_signaltap_impl:sld_signaltap_body|sld_signaltap_implb:sld_signaltap_body|sld_buffer_manager:sld_buffer_manager_inst|modified_post_count[7] ; 1       ;
 ; sld_signaltap:auto_signaltap_0|sld_signaltap_impl:sld_signaltap_body|sld_signaltap_implb:sld_signaltap_body|trigger_out_mode_ff                                               ; 2       ;
 ; sld_signaltap:auto_signaltap_0|sld_signaltap_impl:sld_signaltap_body|sld_signaltap_implb:sld_signaltap_body|sld_buffer_manager:sld_buffer_manager_inst|modified_post_count[0] ; 1       ;
-; Total number of inverted registers = 42                                                                                                                                       ;         ;
+; Total number of inverted registers = 43                                                                                                                                       ;         ;
 +-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------+
 
 
@@ -621,39 +691,38 @@ Note: All cells listed above may not be present at the end of synthesis due to v
 +--------------------+-----------+---------------+----------------------+------------------------+------------+------------------------------------------------------------------------------------------------------------+
 ; Multiplexer Inputs ; Bus Width ; Baseline Area ; Area if Restructured ; Saving if Restructured ; Registered ; Example Multiplexer Output                                                                                 ;
 +--------------------+-----------+---------------+----------------------+------------------------+------------+------------------------------------------------------------------------------------------------------------+
-; 3:1                ; 64 bits   ; 128 LEs       ; 64 LEs               ; 64 LEs                 ; Yes        ; |ARM|ID_Stage_Reg:id_stage_reg|ID_reg_out_src2[2]                                                          ;
-; 3:1                ; 64 bits   ; 128 LEs       ; 64 LEs               ; 64 LEs                 ; Yes        ; |ARM|IF_Stage_Reg:if_stage_reg|Instruction[9]                                                              ;
-; 4:1                ; 3 bits    ; 6 LEs         ; 3 LEs                ; 3 LEs                  ; Yes        ; |ARM|MEM_Stage:mem_stage|SRAM_Controller:sram_controller|count[0]                                          ;
-; 4:1                ; 17 bits   ; 34 LEs        ; 0 LEs                ; 34 LEs                 ; Yes        ; |ARM|MEM_Stage:mem_stage|SRAM_Controller:sram_controller|_SRAM_ADDR[12]                                    ;
-; 18:1               ; 32 bits   ; 384 LEs       ; 352 LEs              ; 32 LEs                 ; Yes        ; |ARM|ID_Stage_Reg:id_stage_reg|Val_Rn[23]                                                                  ;
-; 18:1               ; 32 bits   ; 384 LEs       ; 352 LEs              ; 32 LEs                 ; Yes        ; |ARM|ID_Stage_Reg:id_stage_reg|Val_Rm[3]                                                                   ;
+; 3:1                ; 64 bits   ; 128 LEs       ; 64 LEs               ; 64 LEs                 ; Yes        ; |ARM|ID_Stage_Reg:id_stage_reg|ID_reg_out_src2[1]                                                          ;
+; 3:1                ; 64 bits   ; 128 LEs       ; 64 LEs               ; 64 LEs                 ; Yes        ; |ARM|IF_Stage_Reg:if_stage_reg|PC[15]                                                                      ;
+; 18:1               ; 32 bits   ; 384 LEs       ; 352 LEs              ; 32 LEs                 ; Yes        ; |ARM|ID_Stage_Reg:id_stage_reg|Val_Rn[27]                                                                  ;
+; 18:1               ; 32 bits   ; 384 LEs       ; 352 LEs              ; 32 LEs                 ; Yes        ; |ARM|ID_Stage_Reg:id_stage_reg|Val_Rm[13]                                                                  ;
 ; 20:1               ; 2 bits    ; 26 LEs        ; 12 LEs               ; 14 LEs                 ; Yes        ; |ARM|ID_Stage_Reg:id_stage_reg|EXE_CMD[2]                                                                  ;
-; 3:1                ; 32 bits   ; 64 LEs        ; 64 LEs               ; 0 LEs                  ; No         ; |ARM|EXE_Stage:exe_stage|val2GenIn[12]                                                                     ;
-; 3:1                ; 32 bits   ; 64 LEs        ; 64 LEs               ; 0 LEs                  ; No         ; |ARM|EXE_Stage:exe_stage|aluIn1[3]                                                                         ;
+; 1:1                ; 17 bits   ; 0 LEs         ; 0 LEs                ; 0 LEs                  ; No         ; |ARM|MEM_Stage:mem_stage|SRAM_Controller:sram_controller|Mux6                                              ;
+; 3:1                ; 32 bits   ; 64 LEs        ; 64 LEs               ; 0 LEs                  ; No         ; |ARM|EXE_Stage:exe_stage|val2GenIn[30]                                                                     ;
+; 3:1                ; 32 bits   ; 64 LEs        ; 64 LEs               ; 0 LEs                  ; No         ; |ARM|EXE_Stage:exe_stage|aluIn1[5]                                                                         ;
 ; 4:1                ; 31 bits   ; 62 LEs        ; 0 LEs                ; 62 LEs                 ; No         ; |ARM|EXE_Stage:exe_stage|ALU:alu|Add0                                                                      ;
-; 10:1               ; 32 bits   ; 192 LEs       ; 192 LEs              ; 0 LEs                  ; No         ; |ARM|EXE_Stage:exe_stage|ALU:alu|Mux30                                                                     ;
+; 10:1               ; 32 bits   ; 192 LEs       ; 192 LEs              ; 0 LEs                  ; No         ; |ARM|EXE_Stage:exe_stage|ALU:alu|Mux10                                                                     ;
 ; 4:1                ; 32 bits   ; 64 LEs        ; 32 LEs               ; 32 LEs                 ; No         ; |ARM|EXE_Stage:exe_stage|ALU:alu|Add0                                                                      ;
 ; 28:1               ; 2 bits    ; 36 LEs        ; 34 LEs               ; 2 LEs                  ; No         ; |ARM|EXE_Stage:exe_stage|Val2Generate:v2g|out[9]                                                           ;
 ; 29:1               ; 2 bits    ; 38 LEs        ; 34 LEs               ; 4 LEs                  ; No         ; |ARM|EXE_Stage:exe_stage|Val2Generate:v2g|out[10]                                                          ;
-; 30:1               ; 2 bits    ; 40 LEs        ; 36 LEs               ; 4 LEs                  ; No         ; |ARM|EXE_Stage:exe_stage|Val2Generate:v2g|out[13]                                                          ;
-; 31:1               ; 2 bits    ; 40 LEs        ; 36 LEs               ; 4 LEs                  ; No         ; |ARM|EXE_Stage:exe_stage|Val2Generate:v2g|out[14]                                                          ;
-; 32:1               ; 2 bits    ; 42 LEs        ; 36 LEs               ; 6 LEs                  ; No         ; |ARM|EXE_Stage:exe_stage|Val2Generate:v2g|out[16]                                                          ;
-; 33:1               ; 2 bits    ; 44 LEs        ; 36 LEs               ; 8 LEs                  ; No         ; |ARM|EXE_Stage:exe_stage|Val2Generate:v2g|out[18]                                                          ;
-; 34:1               ; 2 bits    ; 44 LEs        ; 36 LEs               ; 8 LEs                  ; No         ; |ARM|EXE_Stage:exe_stage|Val2Generate:v2g|out[20]                                                          ;
-; 35:1               ; 2 bits    ; 46 LEs        ; 36 LEs               ; 10 LEs                 ; No         ; |ARM|EXE_Stage:exe_stage|Val2Generate:v2g|out[22]                                                          ;
-; 37:1               ; 2 bits    ; 48 LEs        ; 36 LEs               ; 12 LEs                 ; No         ; |ARM|EXE_Stage:exe_stage|Val2Generate:v2g|out[24]                                                          ;
-; 38:1               ; 2 bits    ; 50 LEs        ; 36 LEs               ; 14 LEs                 ; No         ; |ARM|EXE_Stage:exe_stage|Val2Generate:v2g|out[26]                                                          ;
-; 40:1               ; 2 bits    ; 52 LEs        ; 34 LEs               ; 18 LEs                 ; No         ; |ARM|EXE_Stage:exe_stage|Val2Generate:v2g|out[6]                                                           ;
+; 30:1               ; 2 bits    ; 40 LEs        ; 36 LEs               ; 4 LEs                  ; No         ; |ARM|EXE_Stage:exe_stage|Val2Generate:v2g|out[12]                                                          ;
+; 31:1               ; 2 bits    ; 40 LEs        ; 36 LEs               ; 4 LEs                  ; No         ; |ARM|EXE_Stage:exe_stage|Val2Generate:v2g|out[15]                                                          ;
+; 32:1               ; 2 bits    ; 42 LEs        ; 36 LEs               ; 6 LEs                  ; No         ; |ARM|EXE_Stage:exe_stage|Val2Generate:v2g|out[17]                                                          ;
+; 33:1               ; 2 bits    ; 44 LEs        ; 36 LEs               ; 8 LEs                  ; No         ; |ARM|EXE_Stage:exe_stage|Val2Generate:v2g|out[19]                                                          ;
+; 34:1               ; 2 bits    ; 44 LEs        ; 36 LEs               ; 8 LEs                  ; No         ; |ARM|EXE_Stage:exe_stage|Val2Generate:v2g|out[21]                                                          ;
+; 35:1               ; 2 bits    ; 46 LEs        ; 36 LEs               ; 10 LEs                 ; No         ; |ARM|EXE_Stage:exe_stage|Val2Generate:v2g|out[23]                                                          ;
+; 37:1               ; 2 bits    ; 48 LEs        ; 36 LEs               ; 12 LEs                 ; No         ; |ARM|EXE_Stage:exe_stage|Val2Generate:v2g|out[25]                                                          ;
+; 38:1               ; 2 bits    ; 50 LEs        ; 36 LEs               ; 14 LEs                 ; No         ; |ARM|EXE_Stage:exe_stage|Val2Generate:v2g|out[27]                                                          ;
+; 40:1               ; 2 bits    ; 52 LEs        ; 34 LEs               ; 18 LEs                 ; No         ; |ARM|EXE_Stage:exe_stage|Val2Generate:v2g|out[7]                                                           ;
 ; 40:1               ; 2 bits    ; 52 LEs        ; 34 LEs               ; 18 LEs                 ; No         ; |ARM|EXE_Stage:exe_stage|Val2Generate:v2g|out[5]                                                           ;
-; 40:1               ; 2 bits    ; 52 LEs        ; 38 LEs               ; 14 LEs                 ; No         ; |ARM|EXE_Stage:exe_stage|Val2Generate:v2g|out[28]                                                          ;
-; 41:1               ; 2 bits    ; 54 LEs        ; 36 LEs               ; 18 LEs                 ; No         ; |ARM|EXE_Stage:exe_stage|Val2Generate:v2g|out[2]                                                           ;
-; 42:1               ; 2 bits    ; 56 LEs        ; 36 LEs               ; 20 LEs                 ; No         ; |ARM|EXE_Stage:exe_stage|Val2Generate:v2g|out[0]                                                           ;
-; 42:1               ; 2 bits    ; 56 LEs        ; 38 LEs               ; 18 LEs                 ; No         ; |ARM|EXE_Stage:exe_stage|Val2Generate:v2g|out[30]                                                          ;
+; 40:1               ; 2 bits    ; 52 LEs        ; 38 LEs               ; 14 LEs                 ; No         ; |ARM|EXE_Stage:exe_stage|Val2Generate:v2g|out[29]                                                          ;
+; 41:1               ; 2 bits    ; 54 LEs        ; 36 LEs               ; 18 LEs                 ; No         ; |ARM|EXE_Stage:exe_stage|Val2Generate:v2g|out[3]                                                           ;
+; 42:1               ; 2 bits    ; 56 LEs        ; 34 LEs               ; 22 LEs                 ; No         ; |ARM|EXE_Stage:exe_stage|Val2Generate:v2g|out[1]                                                           ;
+; 42:1               ; 2 bits    ; 56 LEs        ; 38 LEs               ; 18 LEs                 ; No         ; |ARM|EXE_Stage:exe_stage|Val2Generate:v2g|out[31]                                                          ;
 ; 3:1                ; 4 bits    ; 8 LEs         ; 4 LEs                ; 4 LEs                  ; Yes        ; |ARM|sld_hub:auto_hub|sld_jtag_hub:\jtag_hub_gen:sld_jtag_hub_inst|hub_minor_ver_reg[0]                    ;
 ; 4:1                ; 5 bits    ; 10 LEs        ; 5 LEs                ; 5 LEs                  ; Yes        ; |ARM|sld_hub:auto_hub|sld_jtag_hub:\jtag_hub_gen:sld_jtag_hub_inst|mixer_addr_reg[4]                       ;
 ; 5:1                ; 5 bits    ; 15 LEs        ; 5 LEs                ; 10 LEs                 ; Yes        ; |ARM|sld_hub:auto_hub|sld_jtag_hub:\jtag_hub_gen:sld_jtag_hub_inst|sld_rom_sr:hub_info_reg|word_counter[0] ;
 ; 6:1                ; 7 bits    ; 28 LEs        ; 7 LEs                ; 21 LEs                 ; Yes        ; |ARM|sld_hub:auto_hub|sld_jtag_hub:\jtag_hub_gen:sld_jtag_hub_inst|irsr_reg[2]                             ;
-; 34:1               ; 4 bits    ; 88 LEs        ; 60 LEs               ; 28 LEs                 ; Yes        ; |ARM|sld_hub:auto_hub|sld_jtag_hub:\jtag_hub_gen:sld_jtag_hub_inst|design_hash_reg[3]                      ;
+; 34:1               ; 4 bits    ; 88 LEs        ; 52 LEs               ; 36 LEs                 ; Yes        ; |ARM|sld_hub:auto_hub|sld_jtag_hub:\jtag_hub_gen:sld_jtag_hub_inst|design_hash_reg[3]                      ;
 ; 20:1               ; 4 bits    ; 52 LEs        ; 36 LEs               ; 16 LEs                 ; Yes        ; |ARM|sld_hub:auto_hub|sld_jtag_hub:\jtag_hub_gen:sld_jtag_hub_inst|sld_rom_sr:hub_info_reg|WORD_SR[0]      ;
 +--------------------+-----------+---------------+----------------------+------------------------+------------+------------------------------------------------------------------------------------------------------------+
 
@@ -722,6 +791,16 @@ Note: In order to hide this table in the UI and the text report file, please set
 Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
 
 
++--------------------------------------------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: MEM_Stage:mem_stage|SRAM_Controller:sram_controller ;
++----------------+-------+-------------------------------------------------------------------------+
+; Parameter Name ; Value ; Type                                                                    ;
++----------------+-------+-------------------------------------------------------------------------+
+; COUNT_LOAD     ; 010   ; Unsigned Binary                                                         ;
++----------------+-------+-------------------------------------------------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
 +-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 ; Parameter Settings for Inferred Entity Instance: sld_signaltap:auto_signaltap_0                                                                                                                                                                                                                                                                                                                           ;
 +-------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+----------------+
@@ -782,13 +861,16 @@ Note: In order to hide this table in the UI and the text report file, please set
 Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
 
 
-+------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-; Port Connectivity Checks: "MEM_Stage:mem_stage"                                                                                                                        ;
-+------+-------+----------+----------------------------------------------------------------------------------------------------------------------------------------------+
-; Port ; Type  ; Severity ; Details                                                                                                                                      ;
-+------+-------+----------+----------------------------------------------------------------------------------------------------------------------------------------------+
-; rst  ; Input ; Warning  ; Declared by entity but not connected by instance. If a default value exists, it will be used.  Otherwise, the port will be connected to GND. ;
-+------+-------+----------+----------------------------------------------------------------------------------------------------------------------------------------------+
++-----------------------------------------------------------------------------------------------------------------+
+; Port Connectivity Checks: "MEM_Stage:mem_stage|SRAM_Controller:sram_controller|Counter3bit:counter"             ;
++-------+--------+----------+-------------------------------------------------------------------------------------+
+; Port  ; Type   ; Severity ; Details                                                                             ;
++-------+--------+----------+-------------------------------------------------------------------------------------+
+; ld[2] ; Input  ; Info     ; Stuck at GND                                                                        ;
+; ld[1] ; Input  ; Info     ; Stuck at VCC                                                                        ;
+; ld[0] ; Input  ; Info     ; Stuck at GND                                                                        ;
+; c     ; Output ; Info     ; Connected to dangling logic. Logic that only feeds a dangling port will be removed. ;
++-------+--------+----------+-------------------------------------------------------------------------------------+
 
 
 +--------------------------------------------------------------------------------------------------------------------------------------------------+
@@ -855,7 +937,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 +------------------+--------------+
 ; Partition Name   ; Elapsed Time ;
 +------------------+--------------+
-; Top              ; 00:00:12     ;
+; Top              ; 00:00:11     ;
 ; sld_hub:auto_hub ; 00:00:00     ;
 +------------------+--------------+
 
@@ -1077,9 +1159,11 @@ Note: In order to hide this table in the UI and the text report file, please set
 Info: *******************************************************************
 Info: Running Quartus II 64-Bit Analysis & Synthesis
     Info: Version 13.0.1 Build 232 06/12/2013 Service Pack 1 SJ Web Edition
-    Info: Processing started: Wed Dec 11 11:33:10 2019
+    Info: Processing started: Sat Dec 14 03:06:57 2019
 Info: Command: quartus_map --read_settings_files=on --write_settings_files=off calabp3 -c calabp3
 Info (11104): Parallel Compilation has detected 8 hyper-threaded processors. However, the extra hyper-threaded processors will not be used by default. Parallel Compilation will use 4 of the 4 physical processors detected instead.
+Info (12021): Found 1 design units, including 1 entities, in source file /users/javad/desktop/ca-lab/calabp2/computerarchitecturelab/counter.v
+    Info (12023): Found entity 1: Counter3bit
 Info (12021): Found 1 design units, including 1 entities, in source file /users/javad/desktop/ca-lab/calabp2/computerarchitecturelab/wb_stage.v
     Info (12023): Found entity 1: WB_Stage
 Info (12021): Found 1 design units, including 1 entities, in source file /users/javad/desktop/ca-lab/calabp2/computerarchitecturelab/val2generate.v
@@ -1127,25 +1211,13 @@ Info (12021): Found 1 design units, including 1 entities, in source file /users/
 Info (12021): Found 2 design units, including 2 entities, in source file /users/javad/desktop/ca-lab/calabp2/computerarchitecturelab/alu.v
     Info (12023): Found entity 1: ALU
     Info (12023): Found entity 2: ALUTB
-Warning (10236): Verilog HDL Implicit Net warning at SARM.v(66): created implicit net for "forwardingFreeze"
-Warning (10236): Verilog HDL Implicit Net warning at SARM.v(67): created implicit net for "out_clk"
-Warning (10236): Verilog HDL Implicit Net warning at SARM.v(79): created implicit net for "RF0"
-Warning (10236): Verilog HDL Implicit Net warning at SARM.v(80): created implicit net for "RF1"
-Warning (10236): Verilog HDL Implicit Net warning at SARM.v(81): created implicit net for "RF2"
-Warning (10236): Verilog HDL Implicit Net warning at SARM.v(82): created implicit net for "RF3"
-Warning (10236): Verilog HDL Implicit Net warning at SARM.v(83): created implicit net for "RF4"
-Warning (10236): Verilog HDL Implicit Net warning at SARM.v(84): created implicit net for "RF5"
-Warning (10236): Verilog HDL Implicit Net warning at SARM.v(85): created implicit net for "RF6"
-Warning (10236): Verilog HDL Implicit Net warning at SARM.v(86): created implicit net for "RF7"
-Warning (10236): Verilog HDL Implicit Net warning at SARM.v(87): created implicit net for "RF8"
-Warning (10236): Verilog HDL Implicit Net warning at SARM.v(88): created implicit net for "RF9"
-Warning (10236): Verilog HDL Implicit Net warning at SARM.v(89): created implicit net for "RF10"
-Warning (10236): Verilog HDL Implicit Net warning at SARM.v(95): created implicit net for "ID_SR"
-Warning (10236): Verilog HDL Implicit Net warning at ARM.v(387): created implicit net for "out_clk"
-Warning (10236): Verilog HDL Implicit Net warning at ARM.v(415): created implicit net for "ID_SR"
+Warning (10236): Verilog HDL Implicit Net warning at SARM.v(79): created implicit net for "out_clk"
+Warning (10236): Verilog HDL Implicit Net warning at SARM.v(157): created implicit net for "ID_SR"
+Warning (10236): Verilog HDL Implicit Net warning at ARM.v(394): created implicit net for "out_clk"
+Warning (10236): Verilog HDL Implicit Net warning at ARM.v(483): created implicit net for "ID_SR"
 Info (12127): Elaborating entity "ARM" for the top level hierarchy
-Warning (10230): Verilog HDL assignment warning at ARM.v(491): truncated value with size 16 to match size of target (9)
-Warning (10230): Verilog HDL assignment warning at ARM.v(492): truncated value with size 32 to match size of target (18)
+Warning (10230): Verilog HDL assignment warning at ARM.v(609): truncated value with size 16 to match size of target (9)
+Warning (10230): Verilog HDL assignment warning at ARM.v(610): truncated value with size 32 to match size of target (18)
 Warning (10034): Output port "HEX0" at ARM.v(190) has no driver
 Warning (10034): Output port "HEX1" at ARM.v(191) has no driver
 Warning (10034): Output port "HEX2" at ARM.v(192) has no driver
@@ -1260,15 +1332,79 @@ Info (12128): Elaborating entity "Val2Generate" for hierarchy "EXE_Stage:exe_sta
 Info (12128): Elaborating entity "EXE_Stage_Reg" for hierarchy "EXE_Stage_Reg:exe_stage_reg"
 Info (12128): Elaborating entity "MEM_Stage" for hierarchy "MEM_Stage:mem_stage"
 Info (12128): Elaborating entity "SRAM_Controller" for hierarchy "MEM_Stage:mem_stage|SRAM_Controller:sram_controller"
-Warning (10036): Verilog HDL or VHDL warning at SRAM_Controller.v(22): object "readDataBuffer" assigned a value but never read
-Warning (10230): Verilog HDL assignment warning at SRAM_Controller.v(39): truncated value with size 32 to match size of target (18)
-Warning (10230): Verilog HDL assignment warning at SRAM_Controller.v(42): truncated value with size 32 to match size of target (18)
-Info (10264): Verilog HDL Case Statement information at SRAM_Controller.v(37): all case item expressions in this case statement are onehot
-Warning (10230): Verilog HDL assignment warning at SRAM_Controller.v(46): truncated value with size 32 to match size of target (3)
-Warning (10230): Verilog HDL assignment warning at SRAM_Controller.v(52): truncated value with size 32 to match size of target (18)
-Warning (10230): Verilog HDL assignment warning at SRAM_Controller.v(55): truncated value with size 32 to match size of target (18)
-Warning (10230): Verilog HDL assignment warning at SRAM_Controller.v(62): truncated value with size 32 to match size of target (3)
-Warning (10034): Output port "readData" at SRAM_Controller.v(8) has no driver
+Warning (10230): Verilog HDL assignment warning at SRAM_Controller.v(40): truncated value with size 32 to match size of target (18)
+Warning (10230): Verilog HDL assignment warning at SRAM_Controller.v(45): truncated value with size 32 to match size of target (18)
+Warning (10230): Verilog HDL assignment warning at SRAM_Controller.v(56): truncated value with size 32 to match size of target (18)
+Warning (10240): Verilog HDL Always Construct warning at SRAM_Controller.v(37): inferring latch(es) for variable "OUT_SRAM_DQ", which holds its previous value in one or more paths through the always construct
+Warning (10240): Verilog HDL Always Construct warning at SRAM_Controller.v(37): inferring latch(es) for variable "SRAM_ADDR", which holds its previous value in one or more paths through the always construct
+Warning (10240): Verilog HDL Always Construct warning at SRAM_Controller.v(37): inferring latch(es) for variable "readData", which holds its previous value in one or more paths through the always construct
+Info (10041): Inferred latch for "readData[0]" at SRAM_Controller.v(37)
+Info (10041): Inferred latch for "readData[1]" at SRAM_Controller.v(37)
+Info (10041): Inferred latch for "readData[2]" at SRAM_Controller.v(37)
+Info (10041): Inferred latch for "readData[3]" at SRAM_Controller.v(37)
+Info (10041): Inferred latch for "readData[4]" at SRAM_Controller.v(37)
+Info (10041): Inferred latch for "readData[5]" at SRAM_Controller.v(37)
+Info (10041): Inferred latch for "readData[6]" at SRAM_Controller.v(37)
+Info (10041): Inferred latch for "readData[7]" at SRAM_Controller.v(37)
+Info (10041): Inferred latch for "readData[8]" at SRAM_Controller.v(37)
+Info (10041): Inferred latch for "readData[9]" at SRAM_Controller.v(37)
+Info (10041): Inferred latch for "readData[10]" at SRAM_Controller.v(37)
+Info (10041): Inferred latch for "readData[11]" at SRAM_Controller.v(37)
+Info (10041): Inferred latch for "readData[12]" at SRAM_Controller.v(37)
+Info (10041): Inferred latch for "readData[13]" at SRAM_Controller.v(37)
+Info (10041): Inferred latch for "readData[14]" at SRAM_Controller.v(37)
+Info (10041): Inferred latch for "readData[15]" at SRAM_Controller.v(37)
+Info (10041): Inferred latch for "readData[16]" at SRAM_Controller.v(37)
+Info (10041): Inferred latch for "readData[17]" at SRAM_Controller.v(37)
+Info (10041): Inferred latch for "readData[18]" at SRAM_Controller.v(37)
+Info (10041): Inferred latch for "readData[19]" at SRAM_Controller.v(37)
+Info (10041): Inferred latch for "readData[20]" at SRAM_Controller.v(37)
+Info (10041): Inferred latch for "readData[21]" at SRAM_Controller.v(37)
+Info (10041): Inferred latch for "readData[22]" at SRAM_Controller.v(37)
+Info (10041): Inferred latch for "readData[23]" at SRAM_Controller.v(37)
+Info (10041): Inferred latch for "readData[24]" at SRAM_Controller.v(37)
+Info (10041): Inferred latch for "readData[25]" at SRAM_Controller.v(37)
+Info (10041): Inferred latch for "readData[26]" at SRAM_Controller.v(37)
+Info (10041): Inferred latch for "readData[27]" at SRAM_Controller.v(37)
+Info (10041): Inferred latch for "readData[28]" at SRAM_Controller.v(37)
+Info (10041): Inferred latch for "readData[29]" at SRAM_Controller.v(37)
+Info (10041): Inferred latch for "readData[30]" at SRAM_Controller.v(37)
+Info (10041): Inferred latch for "readData[31]" at SRAM_Controller.v(37)
+Info (10041): Inferred latch for "SRAM_ADDR[0]" at SRAM_Controller.v(37)
+Info (10041): Inferred latch for "SRAM_ADDR[1]" at SRAM_Controller.v(37)
+Info (10041): Inferred latch for "SRAM_ADDR[2]" at SRAM_Controller.v(37)
+Info (10041): Inferred latch for "SRAM_ADDR[3]" at SRAM_Controller.v(37)
+Info (10041): Inferred latch for "SRAM_ADDR[4]" at SRAM_Controller.v(37)
+Info (10041): Inferred latch for "SRAM_ADDR[5]" at SRAM_Controller.v(37)
+Info (10041): Inferred latch for "SRAM_ADDR[6]" at SRAM_Controller.v(37)
+Info (10041): Inferred latch for "SRAM_ADDR[7]" at SRAM_Controller.v(37)
+Info (10041): Inferred latch for "SRAM_ADDR[8]" at SRAM_Controller.v(37)
+Info (10041): Inferred latch for "SRAM_ADDR[9]" at SRAM_Controller.v(37)
+Info (10041): Inferred latch for "SRAM_ADDR[10]" at SRAM_Controller.v(37)
+Info (10041): Inferred latch for "SRAM_ADDR[11]" at SRAM_Controller.v(37)
+Info (10041): Inferred latch for "SRAM_ADDR[12]" at SRAM_Controller.v(37)
+Info (10041): Inferred latch for "SRAM_ADDR[13]" at SRAM_Controller.v(37)
+Info (10041): Inferred latch for "SRAM_ADDR[14]" at SRAM_Controller.v(37)
+Info (10041): Inferred latch for "SRAM_ADDR[15]" at SRAM_Controller.v(37)
+Info (10041): Inferred latch for "SRAM_ADDR[16]" at SRAM_Controller.v(37)
+Info (10041): Inferred latch for "SRAM_ADDR[17]" at SRAM_Controller.v(37)
+Info (10041): Inferred latch for "OUT_SRAM_DQ[0]" at SRAM_Controller.v(37)
+Info (10041): Inferred latch for "OUT_SRAM_DQ[1]" at SRAM_Controller.v(37)
+Info (10041): Inferred latch for "OUT_SRAM_DQ[2]" at SRAM_Controller.v(37)
+Info (10041): Inferred latch for "OUT_SRAM_DQ[3]" at SRAM_Controller.v(37)
+Info (10041): Inferred latch for "OUT_SRAM_DQ[4]" at SRAM_Controller.v(37)
+Info (10041): Inferred latch for "OUT_SRAM_DQ[5]" at SRAM_Controller.v(37)
+Info (10041): Inferred latch for "OUT_SRAM_DQ[6]" at SRAM_Controller.v(37)
+Info (10041): Inferred latch for "OUT_SRAM_DQ[7]" at SRAM_Controller.v(37)
+Info (10041): Inferred latch for "OUT_SRAM_DQ[8]" at SRAM_Controller.v(37)
+Info (10041): Inferred latch for "OUT_SRAM_DQ[9]" at SRAM_Controller.v(37)
+Info (10041): Inferred latch for "OUT_SRAM_DQ[10]" at SRAM_Controller.v(37)
+Info (10041): Inferred latch for "OUT_SRAM_DQ[11]" at SRAM_Controller.v(37)
+Info (10041): Inferred latch for "OUT_SRAM_DQ[12]" at SRAM_Controller.v(37)
+Info (10041): Inferred latch for "OUT_SRAM_DQ[13]" at SRAM_Controller.v(37)
+Info (10041): Inferred latch for "OUT_SRAM_DQ[14]" at SRAM_Controller.v(37)
+Info (10041): Inferred latch for "OUT_SRAM_DQ[15]" at SRAM_Controller.v(37)
+Info (12128): Elaborating entity "Counter3bit" for hierarchy "MEM_Stage:mem_stage|SRAM_Controller:sram_controller|Counter3bit:counter"
 Info (12128): Elaborating entity "MEM_Stage_Reg" for hierarchy "MEM_Stage_Reg:mem_stage_reg"
 Info (12128): Elaborating entity "WB_Stage" for hierarchy "WB_Stage:wb_stage"
 Info (12128): Elaborating entity "Hazard_Detection_Unit" for hierarchy "Hazard_Detection_Unit:hazard_detection_unit"
@@ -1298,7 +1434,7 @@ Info (12021): Found 1 design units, including 1 entities, in source file db/cntr
 Info (12021): Found 1 design units, including 1 entities, in source file db/cmpr_5cc.tdf
     Info (12023): Found entity 1: cmpr_5cc
 Info (12033): Analysis and Synthesis generated SignalTap II or debug node instance "auto_signaltap_0"
-Warning (12241): 3 hierarchies have connectivity warnings - see the Connectivity Checks report folder
+Warning (12241): 2 hierarchies have connectivity warnings - see the Connectivity Checks report folder
 Warning (13034): The following nodes have both tri-state and non-tri-state drivers
     Warning (13035): Inserted always-enabled tri-state buffer between "GPIO_0[0]" and its non-tri-state driver.
     Warning (13035): Inserted always-enabled tri-state buffer between "GPIO_0[1]" and its non-tri-state driver.
@@ -1443,8 +1579,10 @@ Warning (13039): The following bidir pins have no drivers
     Warning (13040): Bidir "AUD_BCLK" has no driver
 Info (13025): Duplicate LATCH primitives merged into single LATCH primitive
     Info (13026): Duplicate LATCH primitive "IF_Stage:if_stage|ins[10]" merged with LATCH primitive "IF_Stage:if_stage|ins[27]"
-    Info (13026): Duplicate LATCH primitive "IF_Stage:if_stage|ins[7]" merged with LATCH primitive "IF_Stage:if_stage|ins[5]"
     Info (13026): Duplicate LATCH primitive "IF_Stage:if_stage|ins[9]" merged with LATCH primitive "IF_Stage:if_stage|ins[11]"
+    Info (13026): Duplicate LATCH primitive "IF_Stage:if_stage|ins[7]" merged with LATCH primitive "IF_Stage:if_stage|ins[5]"
+Warning (13012): Latch MEM_Stage:mem_stage|SRAM_Controller:sram_controller|SRAM_ADDR[0] has unsafe behavior
+    Warning (13013): Ports D and ENA on the latch are fed by the same signal MEM_Stage:mem_stage|SRAM_Controller:sram_controller|Counter3bit:counter|cout[0]
 Warning (13012): Latch IF_Stage:if_stage|ins[16] has unsafe behavior
     Warning (13013): Ports D and ENA on the latch are fed by the same signal IF_Stage:if_stage|reg32:pc|reg_out[0]
 Warning (13012): Latch IF_Stage:if_stage|ins[17] has unsafe behavior
@@ -1493,15 +1631,49 @@ Warning (13012): Latch IF_Stage:if_stage|ins[31] has unsafe behavior
     Warning (13013): Ports D and ENA on the latch are fed by the same signal IF_Stage:if_stage|reg32:pc|reg_out[0]
 Warning (13012): Latch IF_Stage:if_stage|ins[30] has unsafe behavior
     Warning (13013): Ports D and ENA on the latch are fed by the same signal IF_Stage:if_stage|reg32:pc|reg_out[0]
-Warning (13012): Latch IF_Stage:if_stage|ins[5] has unsafe behavior
+Warning (13012): Latch MEM_Stage:mem_stage|SRAM_Controller:sram_controller|OUT_SRAM_DQ[0]~0 has unsafe behavior
+    Warning (13013): Ports D and ENA on the latch are fed by the same signal MEM_Stage:mem_stage|SRAM_Controller:sram_controller|Counter3bit:counter|cout[0]
+Warning (13012): Latch MEM_Stage:mem_stage|SRAM_Controller:sram_controller|OUT_SRAM_DQ[0]_708 has unsafe behavior
+    Warning (13013): Ports D and ENA on the latch are fed by the same signal MEM_Stage:mem_stage|SRAM_Controller:sram_controller|Counter3bit:counter|cout[0]
+Warning (13012): Latch MEM_Stage:mem_stage|SRAM_Controller:sram_controller|OUT_SRAM_DQ[1]~1 has unsafe behavior
+    Warning (13013): Ports D and ENA on the latch are fed by the same signal MEM_Stage:mem_stage|SRAM_Controller:sram_controller|Counter3bit:counter|cout[0]
+Warning (13012): Latch MEM_Stage:mem_stage|SRAM_Controller:sram_controller|OUT_SRAM_DQ[2]~2 has unsafe behavior
+    Warning (13013): Ports D and ENA on the latch are fed by the same signal MEM_Stage:mem_stage|SRAM_Controller:sram_controller|Counter3bit:counter|cout[0]
+Warning (13012): Latch MEM_Stage:mem_stage|SRAM_Controller:sram_controller|OUT_SRAM_DQ[3]~3 has unsafe behavior
+    Warning (13013): Ports D and ENA on the latch are fed by the same signal MEM_Stage:mem_stage|SRAM_Controller:sram_controller|Counter3bit:counter|cout[0]
+Warning (13012): Latch MEM_Stage:mem_stage|SRAM_Controller:sram_controller|OUT_SRAM_DQ[4]~4 has unsafe behavior
+    Warning (13013): Ports D and ENA on the latch are fed by the same signal MEM_Stage:mem_stage|SRAM_Controller:sram_controller|Counter3bit:counter|cout[0]
+Warning (13012): Latch MEM_Stage:mem_stage|SRAM_Controller:sram_controller|OUT_SRAM_DQ[5]~5 has unsafe behavior
+    Warning (13013): Ports D and ENA on the latch are fed by the same signal MEM_Stage:mem_stage|SRAM_Controller:sram_controller|Counter3bit:counter|cout[0]
+Warning (13012): Latch MEM_Stage:mem_stage|SRAM_Controller:sram_controller|OUT_SRAM_DQ[6]~6 has unsafe behavior
+    Warning (13013): Ports D and ENA on the latch are fed by the same signal MEM_Stage:mem_stage|SRAM_Controller:sram_controller|Counter3bit:counter|cout[0]
+Warning (13012): Latch MEM_Stage:mem_stage|SRAM_Controller:sram_controller|OUT_SRAM_DQ[7]~7 has unsafe behavior
+    Warning (13013): Ports D and ENA on the latch are fed by the same signal MEM_Stage:mem_stage|SRAM_Controller:sram_controller|Counter3bit:counter|cout[0]
+Warning (13012): Latch MEM_Stage:mem_stage|SRAM_Controller:sram_controller|OUT_SRAM_DQ[8]~8 has unsafe behavior
+    Warning (13013): Ports D and ENA on the latch are fed by the same signal MEM_Stage:mem_stage|SRAM_Controller:sram_controller|Counter3bit:counter|cout[0]
+Warning (13012): Latch MEM_Stage:mem_stage|SRAM_Controller:sram_controller|OUT_SRAM_DQ[9]~9 has unsafe behavior
+    Warning (13013): Ports D and ENA on the latch are fed by the same signal MEM_Stage:mem_stage|SRAM_Controller:sram_controller|Counter3bit:counter|cout[0]
+Warning (13012): Latch MEM_Stage:mem_stage|SRAM_Controller:sram_controller|OUT_SRAM_DQ[10]~10 has unsafe behavior
+    Warning (13013): Ports D and ENA on the latch are fed by the same signal MEM_Stage:mem_stage|SRAM_Controller:sram_controller|Counter3bit:counter|cout[0]
+Warning (13012): Latch MEM_Stage:mem_stage|SRAM_Controller:sram_controller|OUT_SRAM_DQ[11]~11 has unsafe behavior
+    Warning (13013): Ports D and ENA on the latch are fed by the same signal MEM_Stage:mem_stage|SRAM_Controller:sram_controller|Counter3bit:counter|cout[0]
+Warning (13012): Latch MEM_Stage:mem_stage|SRAM_Controller:sram_controller|OUT_SRAM_DQ[12]~12 has unsafe behavior
+    Warning (13013): Ports D and ENA on the latch are fed by the same signal MEM_Stage:mem_stage|SRAM_Controller:sram_controller|Counter3bit:counter|cout[0]
+Warning (13012): Latch MEM_Stage:mem_stage|SRAM_Controller:sram_controller|OUT_SRAM_DQ[13]~13 has unsafe behavior
+    Warning (13013): Ports D and ENA on the latch are fed by the same signal MEM_Stage:mem_stage|SRAM_Controller:sram_controller|Counter3bit:counter|cout[0]
+Warning (13012): Latch MEM_Stage:mem_stage|SRAM_Controller:sram_controller|OUT_SRAM_DQ[14]~14 has unsafe behavior
+    Warning (13013): Ports D and ENA on the latch are fed by the same signal MEM_Stage:mem_stage|SRAM_Controller:sram_controller|Counter3bit:counter|cout[0]
+Warning (13012): Latch MEM_Stage:mem_stage|SRAM_Controller:sram_controller|OUT_SRAM_DQ[15]~15 has unsafe behavior
+    Warning (13013): Ports D and ENA on the latch are fed by the same signal MEM_Stage:mem_stage|SRAM_Controller:sram_controller|Counter3bit:counter|cout[0]
+Warning (13012): Latch IF_Stage:if_stage|ins[6] has unsafe behavior
+    Warning (13013): Ports D and ENA on the latch are fed by the same signal IF_Stage:if_stage|reg32:pc|reg_out[0]
+Warning (13012): Latch IF_Stage:if_stage|ins[4] has unsafe behavior
     Warning (13013): Ports D and ENA on the latch are fed by the same signal IF_Stage:if_stage|reg32:pc|reg_out[0]
 Warning (13012): Latch IF_Stage:if_stage|ins[11] has unsafe behavior
     Warning (13013): Ports D and ENA on the latch are fed by the same signal IF_Stage:if_stage|reg32:pc|reg_out[0]
 Warning (13012): Latch IF_Stage:if_stage|ins[8] has unsafe behavior
     Warning (13013): Ports D and ENA on the latch are fed by the same signal IF_Stage:if_stage|reg32:pc|reg_out[0]
-Warning (13012): Latch IF_Stage:if_stage|ins[4] has unsafe behavior
-    Warning (13013): Ports D and ENA on the latch are fed by the same signal IF_Stage:if_stage|reg32:pc|reg_out[0]
-Warning (13012): Latch IF_Stage:if_stage|ins[6] has unsafe behavior
+Warning (13012): Latch IF_Stage:if_stage|ins[5] has unsafe behavior
     Warning (13013): Ports D and ENA on the latch are fed by the same signal IF_Stage:if_stage|reg32:pc|reg_out[0]
 Info (13000): Registers with preset signals will power-up high
 Info (13003): DEV_CLRn pin will set, and not reset, register with preset signal due to NOT Gate Push-Back
@@ -1801,17 +1973,17 @@ Warning (21074): Design contains 44 input pin(s) that do not drive logic
     Warning (15610): No output dependent on input pin "TD_HS"
     Warning (15610): No output dependent on input pin "TD_VS"
     Warning (15610): No output dependent on input pin "TD_CLK27"
-Info (21057): Implemented 5430 device resources after synthesis - the final resource count might be different
+Info (21057): Implemented 5495 device resources after synthesis - the final resource count might be different
     Info (21058): Implemented 50 input pins
     Info (21059): Implemented 252 output pins
     Info (21060): Implemented 156 bidirectional pins
-    Info (21061): Implemented 4870 logic cells
+    Info (21061): Implemented 4935 logic cells
     Info (21064): Implemented 101 RAM segments
-Info: Quartus II 64-Bit Analysis & Synthesis was successful. 0 errors, 586 warnings
-    Info: Peak virtual memory: 4721 megabytes
-    Info: Processing ended: Wed Dec 11 11:33:31 2019
-    Info: Elapsed time: 00:00:21
-    Info: Total CPU time (on all processors): 00:00:20
+Info: Quartus II 64-Bit Analysis & Synthesis was successful. 0 errors, 608 warnings
+    Info: Peak virtual memory: 4718 megabytes
+    Info: Processing ended: Sat Dec 14 03:07:22 2019
+    Info: Elapsed time: 00:00:25
+    Info: Total CPU time (on all processors): 00:00:18
 
 
 +------------------------------------------+
