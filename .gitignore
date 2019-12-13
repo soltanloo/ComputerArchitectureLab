@@ -1,2 +1,2 @@
 *.bak
-/output_files
+output_files/
