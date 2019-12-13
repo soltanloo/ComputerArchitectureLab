@@ -1,0 +1,14 @@
+Analysis & Synthesis Status : Successful - Wed Dec 11 11:33:30 2019
+Quartus II 64-Bit Version : 13.0.1 Build 232 06/12/2013 SP 1 SJ Web Edition
+Revision Name : calabp3
+Top-level Entity Name : ARM
+Family : Cyclone II
+Total logic elements : 4,759
+    Total combinational functions : 3,114
+    Dedicated logic registers : 2,454
+Total registers : 2454
+Total pins : 454
+Total virtual pins : 0
+Total memory bits : 51,712
+Embedded Multiplier 9-bit elements : 0
+Total PLLs : 0

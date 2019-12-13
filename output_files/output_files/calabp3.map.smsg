@@ -1,0 +1,14 @@
+Info (10281): Verilog HDL Declaration information at Val2Generate.v(4): object "Imm" differs only in case from object "imm" in the same scope
+Warning (10273): Verilog HDL warning at SRAM_Controller.v(49): extended using "x" or "z"
+Info (10281): Verilog HDL Declaration information at IF_Stage.v(4): object "PC" differs only in case from object "pc" in the same scope
+Warning (10273): Verilog HDL warning at EXE_Stage.v(28): extended using "x" or "z"
+Warning (10273): Verilog HDL warning at EXE_Stage.v(30): extended using "x" or "z"
+Warning (10273): Verilog HDL warning at ControlUnit.v(14): extended using "x" or "z"
+Warning (10273): Verilog HDL warning at ControlUnit.v(18): extended using "x" or "z"
+Warning (10273): Verilog HDL warning at ControlUnit.v(42): extended using "x" or "z"
+Warning (10273): Verilog HDL warning at ControlUnit.v(44): extended using "x" or "z"
+Info (10281): Verilog HDL Declaration information at ControlUnit.v(2): object "s" differs only in case from object "S" in the same scope
+Warning (10273): Verilog HDL warning at ALU.v(6): extended using "x" or "z"
+Info (10281): Verilog HDL Declaration information at ALU.v(1): object "c" differs only in case from object "C" in the same scope
+Warning (10273): Verilog HDL warning at ALU.v(44): extended using "x" or "z"
+Info (10281): Verilog HDL Declaration information at ALU.v(38): object "c" differs only in case from object "C" in the same scope
