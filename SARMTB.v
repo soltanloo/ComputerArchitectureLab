@@ -1,10 +1,24 @@
 module SARMTB();
 reg clk = 0;
 reg rst = 0;
+wire SRAM_WE_N;
+wire[17:0] SRAM_ADDR;
+wire[15:0] _SRAM_DQ;
 
 SARM arm(
   .clk(clk),
-  .rst(rst)
+  .rst(rst),
+  .SRAM_DQ(_SRAM_DQ),						//	SRAM Data bus 16 Bits
+  .SRAM_ADDR(SRAM_ADDR),						//	SRAM Address bus 18 Bits
+  .SRAM_WE_N(SRAM_WE_N)						//	SRAM Write Enable
+);
+
+ExternalMem exmem (
+    .SRAM_DQ(_SRAM_DQ),						//	SRAM Data bus 16 Bits
+		.SRAM_ADDR(SRAM_ADDR),						//	SRAM Address bus 18 Bits
+		.SRAM_WE_N(SRAM_WE_N),						//	SRAM Write Enable
+    .clk(clk),
+    .rst(rst)
 );
 
 always begin

@@ -1,9 +1,17 @@
 
 module SARM(
-    input clk, rst
+    input clk, rst,
+	inout[15:0] SRAM_DQ,
+	output[17:0] SRAM_ADDR,
+	output SRAM_UB_N,
+	output SRAM_LB_N,
+	output SRAM_WE_N,
+	output SRAM_CE_N,
+	output SRAM_OE_N
 );
-	wire freeze, hazard;
-	assign freeze = hazard;
+
+	wire freeze, hazard, memFreeze;
+	assign freeze = hazard | memFreeze;
 
 	// IF Stage to IF Stage Reg wires
 	wire[31:0] PC, Instruction;
@@ -82,6 +90,7 @@ module SARM(
 		, .SR_In(SR), .SR(ID_SR),
 		.src1(src1), .src2(src2),
 		.ID_reg_out_src1(ID_reg_out_src1), .ID_reg_out_src2(ID_reg_out_src2)
+		, .freeze(memFreeze)
 	);
 
 	EXE_Stage exe_stage(
@@ -99,11 +108,21 @@ module SARM(
   	.WB_en(EXE_Reg_out_WB_EN), .MEM_R_EN(EXE_Reg_out_MEM_R_EN),
 	.MEM_W_EN(EXE_Reg_out_MEM_W_EN), .ALU_result(EXE_Reg_out_ALU_result),
 	.ST_val(EXE_Reg_out_ST_val), .Dest(EXE_Reg_out_Dest)
+	, .freeze(memFreeze)
 	);
 
 	MEM_Stage mem_stage(
 		.clk(clk), .MEMread(EXE_Reg_out_MEM_R_EN), .MEMwrite(EXE_Reg_out_MEM_W_EN), .address(EXE_Reg_out_ALU_result), .data(EXE_Reg_out_ST_val),
-		.MEM_result(MEM_Stage_out_MEM_result)
+		.MEM_result(MEM_Stage_out_MEM_result),
+		.rst(rst),
+		.SRAM_DQ(SRAM_DQ),
+		.SRAM_ADDR(SRAM_ADDR),
+		.SRAM_UB_N(SRAM_UB_N),
+		.SRAM_LB_N(SRAM_LB_N),
+		.SRAM_WE_N(SRAM_WE_N),
+		.SRAM_CE_N(SRAM_CE_N),
+		.SRAM_OE_N(SRAM_OE_N),
+		.freeze(memFreeze)
 	);
 
 	MEM_Stage_Reg mem_stage_reg(
@@ -113,6 +132,7 @@ module SARM(
 		.WB_en(MEM_Stage_out_WB_EN), .MEM_R_en(MEM_Stage_out_MEM_R_EN), 
 		.ALU_result(MEM_Stage_Reg_out_ALU_result), .Mem_read_value(MEM_Stage_Reg_out_MEM_read_value),
 		 .Dest(MEM_Stage_Reg_out_Dest)
+		 , .freeze(memFreeze)
 	);
 
 	WB_Stage wb_stage(
