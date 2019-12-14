@@ -47,9 +47,11 @@
 
 module ARM
 	(
-		RF10,
+		GPIO_3,
 		SELSRC1,
 		SELSRC2,
+		outFreeze,
+		outMemFreeze,
 		////////////////////	Clock Input	 	////////////////////	 
 		CLOCK_27,						//	27 MHz
 		CLOCK_50,						//	50 MHz
@@ -310,6 +312,9 @@ inout	[35:0]	GPIO_0;					//	GPIO Connection 0
 inout	[35:0]	GPIO_1;					//	GPIO Connection 1
 output [1:0] SELSRC1;
 output [1:0] SELSRC2;
+output [31:0] GPIO_3;
+output outFreeze;
+output outMemFreeze;
 wire [31:0] RF0;
 wire [31:0] RF1;
 wire [31:0] RF2;
@@ -320,14 +325,15 @@ wire [31:0] RF6;
 wire [31:0] RF7;
 wire [31:0] RF8;
 wire [31:0] RF9;
-output [31:0] RF10;
-
+wire [31:0] RF10;
+	
 
 	wire freeze, hazard, memFreeze,
 			rstSwitch;	// TODO wtf was forwardingFreeze ?
 	assign freeze = hazard | memFreeze;
 	assign rstSwitch = SW[0];
-
+	assign outFreeze = freeze;
+	assign outMemFreeze = memFreeze;
 	// IF Stage to IF Stage Reg wires
 	wire[31:0] PC, Instruction;
 
@@ -606,6 +612,7 @@ output [31:0] RF10;
 // Signed_imm_24[23] == 1'b1 ? {8'b11111111, Signed_imm_24} : {8'b0, Signed_imm_24};
 	assign GPIO_0 = RF1[31] == 1'b1 ? {4'b1111, RF1} : {4'b0, RF1};
 	assign GPIO_1 = RF2[31] == 1'b1 ? {4'b1111, RF2} : {4'b0, RF2};
+	assign GPIO_3 = IF_Reg_PC_out; 
 	assign LEDG = RF3[15:0];
 	assign LEDR = RF4;
 	
