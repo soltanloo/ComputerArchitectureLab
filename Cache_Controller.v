@@ -42,7 +42,7 @@ module Cache_Controller(
     wire[INDEX_LENGTH-1: 0] addressIndex;
     wire[TAG_LENGTH-1: 0] addressTag;
 
-    parameter ADDRESS_INDEX_OFFSET = 31 - TAG_LENGTH - 1;
+    parameter ADDRESS_INDEX_OFFSET = 31 - TAG_LENGTH;
     assign addressTag = address[31: ADDRESS_INDEX_OFFSET + 1];
     assign addressIndex = 
         address[ADDRESS_INDEX_OFFSET: ADDRESS_INDEX_OFFSET - INDEX_LENGTH - 1];
@@ -55,11 +55,14 @@ module Cache_Controller(
     wire[DATA_LENGTH-1:0] way1Data, way2Data;
     wire way1Valid, way2Valid;
 
+    // parameter T = WAY2_DATA_INDEX_OFFSET;
+    // parameter TT = WAY2_DATA_INDEX_OFFSET - DATA_LENGTH - 1;
+
     assign setLRUBit = currentSet[LRU_INDEX_OFFSET];
     assign way1Tag = currentSet[WAY1_TAG_INDEX_OFFSET: WAY1_TAG_INDEX_OFFSET - TAG_LENGTH - 1];
     assign way2Tag = currentSet[WAY2_TAG_INDEX_OFFSET: WAY2_TAG_INDEX_OFFSET - TAG_LENGTH - 1];
-    assign way1Data = currentSet[WAY1_DATA_INDEX_OFFSET: WAY1_DATA_INDEX_OFFSET - INDEX_LENGTH - 1];
-    assign way2Data = currentSet[WAY2_DATA_INDEX_OFFSET: WAY2_DATA_INDEX_OFFSET - INDEX_LENGTH - 1];
+    assign way1Data = currentSet[WAY1_DATA_INDEX_OFFSET: WAY1_DATA_INDEX_OFFSET - DATA_LENGTH - 1];
+    assign way2Data = currentSet[WAY2_DATA_INDEX_OFFSET: WAY2_DATA_INDEX_OFFSET - (DATA_LENGTH - 1)];
     assign way1Valid = currentSet[WAY1_VALID_INDEX_OFFSET];
     assign way2Valid = currentSet[WAY1_VALID_INDEX_OFFSET];
 
@@ -74,7 +77,7 @@ module Cache_Controller(
 
     wire cacheFreeze, memReady;
     reg cacheReady;
-    assign cacheFreeze = ~hit || ~memReady || ~cacheReady;
+    assign cacheFreeze = ~memReady || ~cacheReady;  // TODO hit ?
     assign ready = ~cacheFreeze;
 
     wire sram_write, sram_read;
@@ -83,7 +86,7 @@ module Cache_Controller(
     
     integer i;
     always @(posedge rst) begin
-        for (i = 0; i < 63; i= i + 1) begin
+        for (i = 0; i <= 63; i= i + 1) begin
             cache[i] <= 0;
         end
     end
