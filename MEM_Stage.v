@@ -17,7 +17,7 @@ module MEM_Stage(
   Cache_Controller CacheController (
     .clk(clk),
     .rst(rst),
-    .address(address),
+    ._address(address),
     .wdata(data),
     .MEM_R_EN(MEMread),
     .MEM_W_EN(MEMwrite),

@@ -1,6 +1,6 @@
 module Cache_Controller(
     input clk, rst,
-    input[31:0] address, wdata,
+    input[31:0] _address, wdata,
     input MEM_R_EN, MEM_W_EN,
     output [31:0] rdata, 
     output ready,
@@ -14,6 +14,9 @@ module Cache_Controller(
     output SRAM_OE_N
 
 );
+
+    wire[18:0] address;
+    assign address = _address[18:0]; 
 
     parameter NUM_OF_SETS = 64;
     parameter CACHE_SIZE_KB = 1024;
@@ -42,8 +45,8 @@ module Cache_Controller(
     wire[INDEX_LENGTH-1: 0] addressIndex;
     wire[TAG_LENGTH-1: 0] addressTag;
 
-    parameter ADDRESS_INDEX_OFFSET = 31 - TAG_LENGTH;
-    assign addressTag = address[31: ADDRESS_INDEX_OFFSET + 1];
+    parameter ADDRESS_INDEX_OFFSET = 18 - TAG_LENGTH;
+    assign addressTag = address[18: ADDRESS_INDEX_OFFSET + 1];
     assign addressIndex = 
         address[ADDRESS_INDEX_OFFSET: ADDRESS_INDEX_OFFSET - INDEX_LENGTH - 1];
 
@@ -77,7 +80,7 @@ module Cache_Controller(
 
     wire cacheFreeze, memReady;
     reg cacheReady;
-    assign cacheFreeze = ~memReady || ~cacheReady;  // TODO hit ?
+    assign cacheFreeze = ~memReady;  // TODO hit ?
     assign ready = ~cacheFreeze;
 
     wire sram_write, sram_read;
@@ -85,12 +88,14 @@ module Cache_Controller(
     assign sram_write = MEM_W_EN;   // TODO not sure
     
     integer i;
-    always @(posedge rst) begin
-        for (i = 0; i <= 63; i= i + 1) begin
-            cache[i] <= 0;
+
+    always @(posedge clk, posedge rst) begin
+        if (rst) begin
+            for (i = 0; i <= 63; i= i + 1) begin
+                cache[i] <= 0;
+            end
         end
-    end
-    always @(posedge clk) begin
+        else begin
         cacheReady = 1;
         if (MEM_R_EN) begin
             if (hit) begin
@@ -121,7 +126,7 @@ module Cache_Controller(
                             <= addressTag;
                         cache
                             [addressIndex]
-                            [WAY2_DATA_INDEX_OFFSET: WAY2_DATA_INDEX_OFFSET - DATA_LENGTH - 1]
+                            [WAY2_DATA_INDEX_OFFSET: WAY2_DATA_INDEX_OFFSET - (DATA_LENGTH - 1)]
                             <= sramReadData;
                         cache
                         [addressIndex]
@@ -137,30 +142,34 @@ module Cache_Controller(
                 if (way1Hit) begin
                     cache
                         [addressIndex]
-                        [WAY1_DATA_INDEX_OFFSET: WAY1_DATA_INDEX_OFFSET - DATA_LENGTH - 1]
+                        [WAY1_DATA_INDEX_OFFSET: WAY1_DATA_INDEX_OFFSET - (DATA_LENGTH - 1)]
                         <= wdata;
+
                 end
                 else begin
                     cache
                         [addressIndex]
-                        [WAY2_DATA_INDEX_OFFSET: WAY2_DATA_INDEX_OFFSET - DATA_LENGTH - 1]
+                        [WAY2_DATA_INDEX_OFFSET: WAY2_DATA_INDEX_OFFSET - (DATA_LENGTH - 1)]
                         <= wdata;
-                end
+                end               
+                $display("Writing %d to address %d in cache", $signed(wdata), addressIndex);
+
             end
             else begin
                 // TODO now what ?
             end
         end
+        end
     end
 
 
 
- SRAM_Controller_Sim sram_controller(
+ SRAM_Controller sram_controller(
     .clk(clk),
     .rst(rst),
     .wr_en(sram_write),
     .rd_en(sram_read),
-    .address(address),
+    .address(_address),
     .writeData(wdata),
     .readData(sramReadData),
     .ready(memReady),
