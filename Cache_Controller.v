@@ -61,9 +61,9 @@ module Cache_Controller(
     assign way1Data = currentSet[WAY1_DATA_INDEX_OFFSET: WAY1_DATA_INDEX_OFFSET - INDEX_LENGTH - 1];
     assign way2Data = currentSet[WAY2_DATA_INDEX_OFFSET: WAY2_DATA_INDEX_OFFSET - INDEX_LENGTH - 1];
     assign way1Valid = currentSet[WAY1_VALID_INDEX_OFFSET];
-    assign way1Valid = currentSet[WAY1_VALID_INDEX_OFFSET];
+    assign way2Valid = currentSet[WAY1_VALID_INDEX_OFFSET];
 
-    wire way1Hit, way2Hit, hit;
+    wire way1Hit, way2Hit, hit, boolWay1Hit, boolWay2Hit;
     assign way1Hit = (way1Tag == addressTag) && way1Valid == 1'b1;
     assign way2Hit = (way2Tag == addressTag) && way2Valid == 1'b1;
     assign hit = way1Hit || way2Hit;
@@ -81,6 +81,12 @@ module Cache_Controller(
     assign sram_read = MEM_R_EN && ~hit;
     assign sram_write = MEM_W_EN;   // TODO not sure
     
+    integer i;
+    always @(posedge rst) begin
+        for (i = 0; i < 63; i= i + 1) begin
+            cache[i] <= 0;
+        end
+    end
     always @(posedge clk) begin
         cacheReady = 1;
         if (MEM_R_EN) begin
