@@ -14,32 +14,14 @@ module MEM_Stage(
 
   wire ready;
 
-  // Cache_Controller CacheController (
-  //   .clk(clk),
-  //   .rst(rst),
-  //   .address(address),
-  //   .wdata(MEM_result),
-  //   .MEM_R_EN(MEMread),
-  //   .MEM_W_EN(MEMwrite),
-  //   .rdata(data),
-  //   .ready(ready),
-  //   .SRAM_DQ(SRAM_DQ),
-  //   .SRAM_ADDR(SRAM_ADDR),
-  //   .SRAM_UB_N(SRAM_UB_N),
-  //   .SRAM_LB_N(SRAM_LB_N),
-  //   .SRAM_WE_N(SRAM_WE_N),
-  //   .SRAM_CE_N(SRAM_CE_N),
-  //   .SRAM_OE_N(SRAM_OE_N)
-  // );
-
-  SRAM_Controller_Sim sram_controller(
+  Cache_Controller CacheController (
     .clk(clk),
     .rst(rst),
-    .wr_en(MEMwrite),
-    .rd_en(MEMread),
     .address(address),
-    .writeData(data),
-    .readData(MEM_result),
+    .wdata(MEM_result),
+    .MEM_R_EN(MEMread),
+    .MEM_W_EN(MEMwrite),
+    .rdata(data),
     .ready(ready),
     .SRAM_DQ(SRAM_DQ),
     .SRAM_ADDR(SRAM_ADDR),
@@ -49,6 +31,24 @@ module MEM_Stage(
     .SRAM_CE_N(SRAM_CE_N),
     .SRAM_OE_N(SRAM_OE_N)
   );
+
+  // SRAM_Controller_Sim sram_controller(
+  //   .clk(clk),
+  //   .rst(rst),
+  //   .wr_en(MEMwrite),
+  //   .rd_en(MEMread),
+  //   .address(address),
+  //   .writeData(data),
+  //   .readData(MEM_result),
+  //   .ready(ready),
+  //   .SRAM_DQ(SRAM_DQ),
+  //   .SRAM_ADDR(SRAM_ADDR),
+  //   .SRAM_UB_N(SRAM_UB_N),
+  //   .SRAM_LB_N(SRAM_LB_N),
+  //   .SRAM_WE_N(SRAM_WE_N),
+  //   .SRAM_CE_N(SRAM_CE_N),
+  //   .SRAM_OE_N(SRAM_OE_N)
+  // );
 
   assign freeze = ~ready;
 

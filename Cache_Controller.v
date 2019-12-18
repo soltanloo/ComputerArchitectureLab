@@ -88,7 +88,6 @@ module Cache_Controller(
                 cache[addressIndex][LRU_INDEX_OFFSET] <= way2Hit;
             end
             else begin
-                sram_read = 1;
                 cacheReady = 0;
                 if (memReady) begin
                     if (cache[addressIndex][LRU_INDEX_OFFSET] == 1'b1) begin
@@ -130,13 +129,13 @@ module Cache_Controller(
                     cache
                         [addressIndex]
                         [WAY1_DATA_INDEX_OFFSET: WAY1_DATA_INDEX_OFFSET - DATA_LENGTH - 1]
-                        <= writeData;
+                        <= wdata;
                 end
                 else begin
                     cache
                         [addressIndex]
                         [WAY2_DATA_INDEX_OFFSET: WAY2_DATA_INDEX_OFFSET - DATA_LENGTH - 1]
-                        <= writeData;
+                        <= wdata;
                 end
             end
             else begin
@@ -147,7 +146,7 @@ module Cache_Controller(
 
 
 
- SRAM_Controller sram_controller(
+ SRAM_Controller_Sim sram_controller(
     .clk(clk),
     .rst(rst),
     .wr_en(sram_write),
