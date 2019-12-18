@@ -54,7 +54,7 @@ module Cache_Controller(
     assign currentSet = cache[addressIndex];
     
     wire setLRUBit;
-    wire[TAG_LENGTH-1:0] way1Tag, wa2Tag;
+    wire[TAG_LENGTH-1:0] way1Tag, way2Tag;
     wire[DATA_LENGTH-1:0] way1Data, way2Data;
     wire way1Valid, way2Valid;
 
@@ -80,7 +80,7 @@ module Cache_Controller(
 
     wire cacheFreeze, memReady;
     reg cacheReady;
-    assign cacheFreeze = ~memReady;  // TODO hit ?
+    assign cacheFreeze = ~memReady && ~hit;  // TODO hit ?
     assign ready = ~cacheFreeze;
 
     wire sram_write, sram_read;
@@ -90,6 +90,7 @@ module Cache_Controller(
     integer i;
 
     always @(posedge clk, posedge rst) begin
+
         if (rst) begin
             for (i = 0; i <= 63; i= i + 1) begin
                 cache[i] <= 0;
@@ -107,7 +108,7 @@ module Cache_Controller(
                     if (cache[addressIndex][LRU_INDEX_OFFSET] == 1'b1) begin
                         cache
                             [addressIndex]
-                            [WAY1_TAG_INDEX_OFFSET: WAY1_TAG_INDEX_OFFSET - INDEX_LENGTH - 1]
+                            [WAY1_TAG_INDEX_OFFSET: WAY1_TAG_INDEX_OFFSET - TAG_LENGTH - 1]
                             <= addressTag;
                         cache
                             [addressIndex]
@@ -120,9 +121,12 @@ module Cache_Controller(
 
                     end
                     else begin
+                        // $display("Writing on way2, address: %d, tag offset is %d,%d", address,
+                        //     WAY2_TAG_INDEX_OFFSET, 
+                        // );
                         cache
                             [addressIndex]
-                            [WAY2_TAG_INDEX_OFFSET: WAY2_TAG_INDEX_OFFSET - INDEX_LENGTH - 1]
+                            [WAY2_TAG_INDEX_OFFSET: WAY2_TAG_INDEX_OFFSET - TAG_LENGTH - 1]
                             <= addressTag;
                         cache
                             [addressIndex]
@@ -151,8 +155,8 @@ module Cache_Controller(
                         [addressIndex]
                         [WAY2_DATA_INDEX_OFFSET: WAY2_DATA_INDEX_OFFSET - (DATA_LENGTH - 1)]
                         <= wdata;
+                    $display("Writing %d to address %d in cache", $signed(wdata), addressIndex);
                 end               
-                $display("Writing %d to address %d in cache", $signed(wdata), addressIndex);
 
             end
             else begin
@@ -164,7 +168,7 @@ module Cache_Controller(
 
 
 
- SRAM_Controller sram_controller(
+ SRAM_Controller_Sim sram_controller(
     .clk(clk),
     .rst(rst),
     .wr_en(sram_write),
