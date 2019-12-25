@@ -7,7 +7,7 @@ wire[15:0] _SRAM_DQ;
 
 ARM arm(
   .CLOCK_50(clk),
-  .SW({5'b0, 1'b0, rst}),
+  .SW({4'b0, 1'b0, 1'b0, rst}),
   .SRAM_DQ(_SRAM_DQ),						//	SRAM Data bus 16 Bits
   .SRAM_ADDR(SRAM_ADDR),						//	SRAM Address bus 18 Bits
   .SRAM_WE_N(SRAM_WE_N)						//	SRAM Write Enable

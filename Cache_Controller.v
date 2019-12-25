@@ -1,5 +1,5 @@
 module Cache_Controller(
-    input clk, rst,
+    input clk, rst, en,
     input[31:0] _address, wdata,
     input MEM_R_EN, MEM_W_EN,
     output [31:0] rdata, 
@@ -62,25 +62,24 @@ module Cache_Controller(
     // parameter TT = WAY2_DATA_INDEX_OFFSET - DATA_LENGTH - 1;
 
     assign setLRUBit = currentSet[LRU_INDEX_OFFSET];
-    assign way1Tag = currentSet[WAY1_TAG_INDEX_OFFSET: WAY1_TAG_INDEX_OFFSET - TAG_LENGTH - 1];
-    assign way2Tag = currentSet[WAY2_TAG_INDEX_OFFSET: WAY2_TAG_INDEX_OFFSET - TAG_LENGTH - 1];
-    assign way1Data = currentSet[WAY1_DATA_INDEX_OFFSET: WAY1_DATA_INDEX_OFFSET - DATA_LENGTH - 1];
+    assign way1Tag = currentSet[WAY1_TAG_INDEX_OFFSET: WAY1_TAG_INDEX_OFFSET - (TAG_LENGTH - 1)];
+    assign way2Tag = currentSet[WAY2_TAG_INDEX_OFFSET: WAY2_TAG_INDEX_OFFSET - (TAG_LENGTH - 1)];
+    assign way1Data = currentSet[WAY1_DATA_INDEX_OFFSET: WAY1_DATA_INDEX_OFFSET - (DATA_LENGTH - 1)];
     assign way2Data = currentSet[WAY2_DATA_INDEX_OFFSET: WAY2_DATA_INDEX_OFFSET - (DATA_LENGTH - 1)];
     assign way1Valid = currentSet[WAY1_VALID_INDEX_OFFSET];
-    assign way2Valid = currentSet[WAY1_VALID_INDEX_OFFSET];
+    assign way2Valid = currentSet[WAY2_VALID_INDEX_OFFSET];
 
     wire way1Hit, way2Hit, hit, boolWay1Hit, boolWay2Hit;
     assign way1Hit = (way1Tag == addressTag) && way1Valid == 1'b1;
     assign way2Hit = (way2Tag == addressTag) && way2Valid == 1'b1;
-    assign hit = way1Hit || way2Hit;
+    assign hit = en && (way1Hit || way2Hit);
 
     wire[31:0] cacheReadData;
     assign cacheReadData = way1Hit ? way1Data : way2Data;
     assign rdata = hit ? cacheReadData : sramReadData;
 
     wire cacheFreeze, memReady;
-    reg cacheReady;
-    assign cacheFreeze = ~memReady && ~hit;  // TODO hit ?
+    assign cacheFreeze = ~memReady && ~(MEM_R_EN && hit);  // TODO hit ?
     assign ready = ~cacheFreeze;
 
     wire sram_write, sram_read;
@@ -97,22 +96,27 @@ module Cache_Controller(
             end
         end
         else begin
-        cacheReady = 1;
         if (MEM_R_EN) begin
+            // $display("trying to read: %d", address);
             if (hit) begin
+                // $display("hit: %d", address);
                 cache[addressIndex][LRU_INDEX_OFFSET] <= way2Hit;
             end
             else begin
-                cacheReady = 0;
+                // $display("miss: %d", address);
                 if (memReady) begin
                     if (cache[addressIndex][LRU_INDEX_OFFSET] == 1'b1) begin
+                        // $display("Writing on way1, tag: %d, address: %d, tag offset is %d,%d", addressTag,
+                        //     address,
+                        //     WAY1_TAG_INDEX_OFFSET,  WAY1_TAG_INDEX_OFFSET - TAG_LENGTH - 1
+                        // );
                         cache
                             [addressIndex]
-                            [WAY1_TAG_INDEX_OFFSET: WAY1_TAG_INDEX_OFFSET - TAG_LENGTH - 1]
+                            [WAY1_TAG_INDEX_OFFSET: WAY1_TAG_INDEX_OFFSET - (TAG_LENGTH - 1)]
                             <= addressTag;
                         cache
                             [addressIndex]
-                            [WAY1_DATA_INDEX_OFFSET: WAY1_DATA_INDEX_OFFSET - DATA_LENGTH - 1]
+                            [WAY1_DATA_INDEX_OFFSET: WAY1_DATA_INDEX_OFFSET - (DATA_LENGTH - 1)]
                             <= sramReadData;
                         cache
                         [addressIndex]
@@ -121,12 +125,18 @@ module Cache_Controller(
 
                     end
                     else begin
-                        // $display("Writing on way2, address: %d, tag offset is %d,%d", address,
-                        //     WAY2_TAG_INDEX_OFFSET, 
+                        // $display("Writing on way2, tag: %d, address: %d, tag offset is %d,%d", addressTag,
+                        //     address,
+                        //     WAY2_TAG_INDEX_OFFSET,  WAY2_TAG_INDEX_OFFSET - TAG_LENGTH - 1
+                        // );
+                        // $display("way offsets: %d-%d , %d-%d , %d-%d",
+                        //     WAY2_TAG_INDEX_OFFSET, WAY2_TAG_INDEX_OFFSET - TAG_LENGTH - 1,
+                        //     WAY2_DATA_INDEX_OFFSET, WAY2_DATA_INDEX_OFFSET - (DATA_LENGTH - 1),
+                        //     WAY2_VALID_INDEX_OFFSET, WAY2_VALID_INDEX_OFFSET
                         // );
                         cache
                             [addressIndex]
-                            [WAY2_TAG_INDEX_OFFSET: WAY2_TAG_INDEX_OFFSET - TAG_LENGTH - 1]
+                            [WAY2_TAG_INDEX_OFFSET: WAY2_TAG_INDEX_OFFSET - (TAG_LENGTH - 1)]
                             <= addressTag;
                         cache
                             [addressIndex]
@@ -137,7 +147,6 @@ module Cache_Controller(
                             [WAY2_VALID_INDEX_OFFSET] <= 1'b1;
                         cache[addressIndex][LRU_INDEX_OFFSET] <= 1'b1; // TODO Update on miss ?
                     end
-                    cacheReady = 1;
                 end
             end
         end
@@ -168,7 +177,7 @@ module Cache_Controller(
 
 
 
- SRAM_Controller_Sim sram_controller(
+ SRAM_Controller sram_controller(
     .clk(clk),
     .rst(rst),
     .wr_en(sram_write),

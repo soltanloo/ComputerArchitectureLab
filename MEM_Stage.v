@@ -1,5 +1,5 @@
 module MEM_Stage(
-  input clk, rst, MEMread, MEMwrite,
+  input clk, rst, MEMread, MEMwrite, cacheEnable,
   input[31:0] address, data,
   output[31:0] MEM_result,
   output freeze, // TODO: connect to other stages and registers
@@ -17,6 +17,7 @@ module MEM_Stage(
   Cache_Controller CacheController (
     .clk(clk),
     .rst(rst),
+    .en(cacheEnable),
     ._address(address),
     .wdata(data),
     .MEM_R_EN(MEMread),

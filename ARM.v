@@ -537,6 +537,7 @@ wire [31:0] RF10;
 	MEM_Stage mem_stage(
 		.clk(CLOCK_50),
 		.rst(rstSwitch),
+		.cacheEnable(~SW[2]),
 		.MEMread(EXE_Reg_out_MEM_R_EN),
 		.MEMwrite(EXE_Reg_out_MEM_W_EN),
 		.address(EXE_Reg_out_ALU_result),
