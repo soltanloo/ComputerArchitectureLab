@@ -1,5 +1,5 @@
 module Cache_Controller(
-    input clk, rst, en,
+    input clk, rst, en, 
     input[31:0] _address, wdata,
     input MEM_R_EN, MEM_W_EN,
     output [31:0] rdata, 
@@ -11,7 +11,8 @@ module Cache_Controller(
     output SRAM_LB_N,
     output SRAM_WE_N,
     output SRAM_CE_N,
-    output SRAM_OE_N
+    output SRAM_OE_N,
+    output hit
 
 );
 
@@ -69,7 +70,7 @@ module Cache_Controller(
     assign way1Valid = currentSet[WAY1_VALID_INDEX_OFFSET];
     assign way2Valid = currentSet[WAY2_VALID_INDEX_OFFSET];
 
-    wire way1Hit, way2Hit, hit, boolWay1Hit, boolWay2Hit;
+    wire way1Hit, way2Hit, boolWay1Hit, boolWay2Hit;
     assign way1Hit = (way1Tag == addressTag) && way1Valid == 1'b1;
     assign way2Hit = (way2Tag == addressTag) && way2Valid == 1'b1;
     assign hit = en && (way1Hit || way2Hit);

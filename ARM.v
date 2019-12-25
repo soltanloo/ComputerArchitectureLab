@@ -52,6 +52,7 @@ module ARM
 		SELSRC2,
 		outFreeze,
 		outMemFreeze,
+		hit,
 		////////////////////	Clock Input	 	////////////////////	 
 		CLOCK_27,						//	27 MHz
 		CLOCK_50,						//	50 MHz
@@ -315,6 +316,7 @@ output [1:0] SELSRC2;
 output [31:0] GPIO_3;
 output outFreeze;
 output outMemFreeze;
+output hit;
 wire [31:0] RF0;
 wire [31:0] RF1;
 wire [31:0] RF2;
@@ -550,7 +552,8 @@ wire [31:0] RF10;
 		.SRAM_WE_N(SRAM_WE_N),
 		.SRAM_CE_N(SRAM_CE_N),
 		.SRAM_OE_N(SRAM_OE_N),
-		.freeze(memFreeze)
+		.freeze(memFreeze),
+		.hit(hit)
 	);
 
 	MEM_Stage_Reg mem_stage_reg(

@@ -9,7 +9,8 @@ module MEM_Stage(
   output SRAM_LB_N,
   output SRAM_WE_N,
   output SRAM_CE_N,
-  output SRAM_OE_N
+  output SRAM_OE_N,
+  output hit
   );
 
   wire ready;
@@ -30,7 +31,8 @@ module MEM_Stage(
     .SRAM_LB_N(SRAM_LB_N),
     .SRAM_WE_N(SRAM_WE_N),
     .SRAM_CE_N(SRAM_CE_N),
-    .SRAM_OE_N(SRAM_OE_N)
+    .SRAM_OE_N(SRAM_OE_N),
+    .hit(hit)
   );
 
   // SRAM_Controller_Sim sram_controller(
